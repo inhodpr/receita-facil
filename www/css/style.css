@@ -1,0 +1,259 @@
+/*
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+body {
+  font-family: sans-serif;
+}
+ul {
+  list-style: none;
+  padding: 0px; 
+}
+.receitaItem span {
+  padding-right: 0.2em;
+  vertical-align: top;
+}
+.receitaItem textarea {
+  position: relative;
+  top: 0;
+  left: 25px;
+  max-width: 98%;
+  font-size: 12pt;
+}
+.main-column {
+  width: 60%;
+  margin: 2px;
+  float: left;
+}
+.right-column {
+  width: 30%;
+  float: right;
+  background-color: lightgreen;
+}
+div.specialPrescriptionToggle {
+  padding-bottom: 10px;  
+}
+div.specialPrescriptionToggle span.specialPrescriptionLabel {
+  position: relative;
+  top: 1em;
+  left: 4px;  
+}
+.signature {
+  height: 1.05em;
+  border-bottom: 1px black solid;
+  margin: 0px 4px;
+}
+.signature.fullline {
+  display: inline-block;
+  overflow: hidden;
+  width: 100%;
+}
+.signature.inline {
+  display: block;
+  overflow: hidden;
+}
+.label {
+  padding-top: 3px;
+  float: left;
+}
+
+/* SIMPLE PRESCRIPTION HEADERS */
+.simple-prescription-form > div {
+  border: 0.5px black solid;
+  padding: 2px;
+  margin: -1px 0px;
+}
+.simple-prescription-form div#header-top {
+  height: 4em;
+}
+.simple-prescription-form #header-top img {
+  max-height: 100%;
+  max-width: 20%;
+}
+.simple-prescription-form #header-top span {
+  height: 100%;
+  width: 60%;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.simple-prescription-form #header-title {
+  text-align: center;
+}
+.simple-prescription-form #header-unidade input {
+  display: block;
+  width: 50%;
+}
+.simple-prescription-form #header-medico .medico {
+  width: 51%;
+}
+.simple-prescription-form #header-telefones div {
+  display: flex;
+}
+.simple-prescription-form #header-telefones span {
+  text-align: center;
+  flex: 1;
+  font-size: 10pt;
+}
+.simple-prescription-form h2 {
+  font-size: 1em;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* SPECIAL PRESCRIPTION HEADERS */
+input[name='emitente-name'] {
+  width: 70%;
+}
+input[name='emitente-uf'] {
+  width: 2em;
+}
+/* Make Usuário and Endereço fields take the remaining width. */
+div#header-usuario, div#header-endereco {
+  display: flex;
+  flex-direction: row;
+}
+div#header-usuario input, div#header-endereco input {
+  flex: 2;
+}
+
+.special-prescription-form #header-top {
+  height: 4em;
+}
+.special-prescription-form #header-top img {
+  /*max-height: 100%;*/
+  max-width: 20%;
+}
+.special-prescription-form #header-top div {
+  display: inline-block;
+  width: 79%;
+}
+.special-prescription-form #header-top div span {
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+.special-prescription-form h1 {
+  text-align: center;
+}
+.special-prescription-form #header-emitente .gap {
+  width: 19%;
+  display: inline-block;
+  vertical-align: top;
+}
+.special-prescription-form #header-emitente .gap span {
+  width: 100%;
+  display: block;
+  margin-bottom: 2em;
+}
+
+.special-prescription-form #header-emitente #emitente {
+  display: inline-block;
+  width: 60%;
+  border: 1px solid black;
+  padding-bottom: 3px; 
+}
+#emitente h2 {
+  margin: 0;
+  width: 100%;
+  display: block;
+  border-bottom: 1px solid black;
+  text-align: center;
+  margin-bottom: 1em;
+}
+#header-usuario, #header-endereco {
+  padding: 1em 2px 0 2px; 
+}
+#header-prescricao {
+  min-height: 5em;
+}
+#header-infos {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+#header-infos #info-usuario, #header-infos #info-dispensador {
+  width: 47%;
+  margin: 5px 0;
+  border: 1px solid black;
+}
+#header-infos h3 {
+  margin: 0 0 12px 0;
+  padding: 5px 0;
+  font-size: 1.07em;
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+#header-infos fieldset {
+  border: none;
+  margin: 0;
+  padding: 0 0 3px 0;
+  display: flex;
+  flex-direction: column;
+}
+#header-infos div.line {
+  height: 1.3em;
+  padding: 0 3px;
+  display: flex;
+  flex-direction: row;
+}
+#header-infos div.line span.gap {
+  flex: 2;
+  display: inline-block;
+  border-bottom: 1px solid black;
+  padding-top: 3px;
+}
+
+/* DATE AND SIGNATURE LINE*/
+#date-and-signature > div {
+  display: inline-block;
+  vertical-align: top;
+}
+#date-and-signature > span {
+  margin-left: 70%;
+  margin-right: 3em;
+  padding-bottom: 10px;
+}
+#date-and-signature #prescription-date {
+  width: 69%;
+}
+#date-and-signature #signature {
+  width: 29%
+}
+#signature > div {
+  text-align: center;
+}
+
+/* General organization */
+div.collapsed {
+  display: none;
+}
+
+@media print {
+  #drogas-form, button {
+    display: none;
+  }
+  .main-column {
+    width: 100%;
+    page-break-after: always;
+    page-break-before: always;
+    page-break-inside: avoid;
+  }
+  textarea, input {
+    border: none;
+  }
+}
