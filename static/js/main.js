@@ -27,6 +27,13 @@ var DrugsForm = function(_app) {
   this.counter = 1;
   this.drugPosition = {};
 
+  this.createHandler = function(method, captures) {
+    var targetObj = this;
+    return function(e) {
+      method.apply(targetObj, [captures, e]);
+    };
+  };
+
   this.buildDrugField = function(idx, drugData, drugDiv) {
     var drugDiv = document.createElement('div');
     var input_id = document.createElement('input');
@@ -114,6 +121,23 @@ var DrugsForm = function(_app) {
     }
   };
 
+  this.resetPrescription = function() {
+    // reset inner state;
+    this.routeMap = {};
+    this.drugPosition = [];
+    this.routeSelector.value = 'Uso oral';
+    // Unselect all drugs.
+    for (idx in this.drugSelections) {
+      this.drugSelections[idx].checked = false;
+    }
+    // Clear copy if it exists.
+    var allclones = document.querySelectorAll('.clone');
+    allclones.forEach(function (clone) {
+      clone.remove();
+    })
+    this.app.generatePrescription();
+  }
+
   this.buildSpecialPrescriptionToggle = function() {
     var toggleDiv = document.createElement('div');
     toggleDiv.className = 'specialPrescriptionToggle';
@@ -161,21 +185,27 @@ var DrugsForm = function(_app) {
     expandAll.appendChild(document.createTextNode('expandir'));
     expandAll.setAttribute('id', 'expand-all');
     expandAll.setAttribute('href', '#');
-    expandAll.addEventListener('click', function() {
-      APP.drugsHandler.expandAll();
-    });
+    expandAll.addEventListener('click',
+      this.createHandler(this.expandAll));
 
     var collapseAll = document.createElement('a');
     collapseAll.appendChild(document.createTextNode('colapsar'));
     collapseAll.setAttribute('id', 'collapse-all');
     collapseAll.setAttribute('style', 'display: none');
     collapseAll.setAttribute('href', '#');
-    collapseAll.addEventListener('click', function() {
-      APP.drugsHandler.collapseAll();
-    });
-    
+    collapseAll.addEventListener('click',
+      this.createHandler(this.collapseAll));
+
+    var resetDrugs = document.createElement('a');
+    resetDrugs.id = 'resetDrugs';
+    resetDrugs.href = '#';
+    resetDrugs.innerText = 'Desmarcar todas';
+    resetDrugs.addEventListener('click',
+      this.createHandler(this.resetPrescription));
+
     this.drugsForm.appendChild(expandAll);
     this.drugsForm.appendChild(collapseAll);
+    this.drugsForm.appendChild(resetDrugs);
     this.buildSpecialPrescriptionToggle();
     this.buildRouteSelector();
 
@@ -184,6 +214,7 @@ var DrugsForm = function(_app) {
     this.drugsForm.appendChild(printBtn);
     printBtn.addEventListener('click', function(e){
       var cloned = document.getElementsByClassName('main-column')[0].cloneNode(true);
+      cloned.classList.add('clone');
       var parent = document.getElementsByClassName('content')[0];
       parent.appendChild(cloned);
     });
@@ -243,17 +274,30 @@ var ReceitaDiv = function(_app) {
   this.switchPrescriptionMode = function(enableSpecialPrescription) {
     if (this.prescriptionDiv) {
       this.prescriptionDiv.innerHTML = "";
-      this.currentDrugIds = [];
+      this.currentDrugPositions = [];
+      this.currentPositionToIds = {};
     }
 
+    var simplePrescription = document.querySelector('.simple-prescription-form');
+    var specialPrescription = document.querySelector('.special-prescription-form');
+    var show = function(element) {
+      element.hidden = false;
+      element.classList.add('enabled');
+      element.classList.remove('disabled');
+    };
+    var hide = function(element) {
+      element.hidden = true;
+      element.classList.add('disabled');
+      element.classList.remove('enabled');
+    };
     if (enableSpecialPrescription) {
       this.prescriptionDiv = document.querySelector('#receita-especial');
-      document.querySelector('.simple-prescription-form').hidden = true;
-      document.querySelector('.special-prescription-form').hidden = false;
+      hide(simplePrescription);
+      show(specialPrescription);
     } else {
       this.prescriptionDiv = document.querySelector('#receita-simples');
-      document.querySelector('.simple-prescription-form').hidden = false;
-      document.querySelector('.special-prescription-form').hidden = true;
+      show(simplePrescription);
+      hide(specialPrescription);
     }
   };
 
@@ -292,6 +336,36 @@ var ReceitaDiv = function(_app) {
     return tmpl;
   };
 
+  this.buildIconsPanel = function() {
+    var numCols = 2;
+    var icons = ['pro-coffee.svg',
+                 'pro-sun.svg',
+                 'pro-moon.svg'];
+    var iconsDiv = document.createElement('div');
+    iconsDiv.classList = ['drug-icons'];
+
+    for (var i = 0; i < icons.length; i += 1) {
+      var newIcon = document.createElement('img');
+      newIcon.src = '/static/images/icons/' + icons[i];
+      newIcon.classList = ['unchecked'];
+      iconsDiv.appendChild(newIcon);
+
+      newIcon.addEventListener('click', function(e) {
+        var eventSrc = e.currentTarget;
+        var isChecked = eventSrc.classList.contains('checked');
+        if (isChecked) {
+          eventSrc.classList.add('unchecked');
+          eventSrc.classList.remove('checked');
+        } else {
+          eventSrc.classList.add('checked');
+          eventSrc.classList.remove('unchecked');
+        }
+      });
+    }
+
+    return iconsDiv;
+  };
+
   this.addDrug = function(drugData) {
     var drugText = this.getTextForDrug(drugData);
     var listItem = document.createElement('li');
@@ -302,6 +376,7 @@ var ReceitaDiv = function(_app) {
     textarea.setAttribute('cols', 60);
     textarea.value = drugText;
     listItem.appendChild(posSpan);
+    listItem.appendChild(this.buildIconsPanel());
     listItem.appendChild(textarea);
     this.prescriptionDiv.appendChild(listItem);
 
@@ -309,12 +384,17 @@ var ReceitaDiv = function(_app) {
     textarea.style.height = '';
     textarea.style.width = '';
     textarea.style.height = textarea.scrollHeight + 3 + 'px';
-    textarea.style.width = textarea.scrollWidth + 3 + 'px';  // 10% increase
-  }
+    textarea.style.width = textarea.scrollWidth + 3 + 'px';
+  };
 
   this.removeDrugWithId = function(drugId) {
     var drugNode = document.getElementById('drug' + drugId);
-    drugNode.remove();
+    if (drugNode) {
+      drugNode.remove();
+    } else {
+      console.log("Error: trying to remove drug with id 'drug" + drugId + "' " +
+                  "but it was not found in the DOM.");
+    }
   }
 
   this.renderDrugs = function(selectedDrugs) {
@@ -405,10 +485,10 @@ var ReceitaApp = function() {
   this.prescriptionHandler = null;
   this.drugsHandler = null;
 
-
   this.loadDrugsList = async function() {
+    var DRUGS_JSON_URL = '/drugs'
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/www/js/drugs.json", false);  // synchronous request
+    xhr.open("GET", DRUGS_JSON_URL, false);  // synchronous request
     xhr.send(null);
     var contents = xhr.responseText;
     DRUGS_LIST = JSON.parse(contents);
@@ -420,9 +500,19 @@ var ReceitaApp = function() {
   };
   
   this.toggleSpecialPrescription = function(enableSpecialPrescription) {
+    // Gather patient name.
+    var patientField = document.querySelector(
+      'div.prescription-form.enabled input[name="patient-name"]');
+    var patientName = patientField.value;
+
     this.prescriptionHandler.switchPrescriptionMode(enableSpecialPrescription);
     var selectedDrugs = this.drugsHandler.getSelectedDrugs();
     this.prescriptionHandler.renderDrugs(selectedDrugs);
+
+    // Restore patient name in new patient field.
+    var patientField = document.querySelector(
+      'div.prescription-form.enabled input[name="patient-name"]');
+    patientField.value = patientName;
   };
 
   this.start = function() {

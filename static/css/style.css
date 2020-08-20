@@ -16,6 +16,7 @@
 
 body {
   font-family: sans-serif;
+  background: lightblue;
 }
 ul {
   list-style: none;
@@ -28,19 +29,26 @@ ul {
 .receitaItem textarea {
   position: relative;
   top: 0;
-  left: 25px;
+  left: 10px;
   max-width: 98%;
   font-size: 12pt;
 }
 .main-column {
-  width: 60%;
+  background: white;
+  padding: 5px;
+  width: 70%;
   margin: 2px;
   float: left;
 }
 .right-column {
-  width: 30%;
+  width: 25%;
   float: right;
+  padding: 3px;
+  border: 1px solid white;
   background-color: lightgreen;
+}
+#resetDrugs {
+  margin-left: 2em;
 }
 div.specialPrescriptionToggle {
   padding-bottom: 10px;  
@@ -238,22 +246,61 @@ div#header-usuario input, div#header-endereco input {
   text-align: center;
 }
 
+/* DRUG ICONS PANEL */
+.drug-icons {
+  width: 150px;
+  vertical-align: top;
+  display: inline-block;
+  position: relative;
+  left: 10px;
+}
+.drug-icons img {
+  vertical-align: middle;
+  margin: 0 4px;
+  max-width: 40px;
+  max-height: 40px;
+}
+
+.drug-icons img.unchecked {
+  filter: grayscale(100%);
+  opacity: 0.25;
+}
+
 /* General organization */
 div.collapsed {
   display: none;
 }
+.attribution, .attribution a {
+  color: lightgrey;
+  font-size: small;
+}
 
 @media print {
-  #drogas-form, button {
-    display: none;
-  }
+  body { background: white; }
   .main-column {
     width: 100%;
     page-break-after: always;
     page-break-before: always;
     page-break-inside: avoid;
   }
+  #drogas-form, .attribution, button {
+    display: none;
+  }
   textarea, input {
     border: none;
+  }
+  .receitaItem {
+    margin-bottom: 1.4em;
+  }
+  .drug-icons {
+    width: 50px;
+  }
+  .drug-icons img {
+    max-width: 40px;
+    max-height: 40px;
+    filter: grayscale();
+  }
+  img.unchecked {
+    display: none;
   }
 }

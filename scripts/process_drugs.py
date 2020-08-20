@@ -14,15 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-﻿#encoding: utf-8
-# Run as:
-# cat <list with drugs> | python process_drugs.py > <output>
-
-import json
-import sys
-from collections import namedtuple
-
-
 class DrugListReader:
     def __init__(self):
         self.drugId = 1;
@@ -58,6 +49,8 @@ class DrugListReader:
         self.currentDrug['name'] = line[2:]
 
     def appendDescription(self, line):
+        if not self.currentDrug:
+            return
         if not 'instructions' in self.currentDrug:
             self.currentDrug['instructions'] = ''
         else:
@@ -65,9 +58,9 @@ class DrugListReader:
         self.currentDrug['instructions'] += line
 
 
-    def process_drugs(self):
-        for line in sys.stdin:
-            line = line.strip()
+    def process_drugs(self, input_file):
+        for line in input_file:
+            line = line.decode(encoding='utf-8').strip()
             if not line:
                 continue
             if line.startswith('## '):
@@ -89,7 +82,3 @@ class DrugListReader:
                 self.appendDescription(line)
         self.addDrug()  # don't forget to add the last drug
         return self.allDrugs
-
-processor = DrugListReader()
-all_drugs = processor.process_drugs()
-print(json.dumps(all_drugs, indent=4))

@@ -17,18 +17,18 @@
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Receita Fácil</title>
-    <link rel="stylesheet" type="text/css" href="/www/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/www/css/toggle.css">
-	<script src="/www/js/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/toggle.css">
+	<script src="/static/js/main.js"></script>
   </head>
   <body>
   		<div class="content">
   			<div class="main-column">
-  				<div class='simple-prescription-form'>
+  				<div class='prescription-form simple-prescription-form'>
 	  				<div id='header-top'>
-	  					<img src="/www/images/logo_prefeitura.png">
+	  					<img src="/static/images/logo_prefeitura.png">
 	  					<span>SECRETARIA MUNICIPAL DE SAÚDE</span>
-	  					<img src="/www/images/logo_sus.png">
+	  					<img src="/static/images/logo_sus.png">
 	  				</div>
 	  				<div id='header-title'>
 	  					<h1>RECEITUÁRIO</h1>
@@ -39,7 +39,7 @@
 	  				</div>
 	  				<div id='header-medico'>
 	  					<span>Nome:</span>
-	  					<input class='medico' type='text' value=''>
+	  					<input class='medico' name='patient-name' type='text' value=''>
 	  					<span>Registro nº:</span>
 	  					<input type='text' value='_______'>
 	  				</div>
@@ -108,9 +108,9 @@
 						</div>
 					</div>
 				</div>
-				<div class='special-prescription-form' hidden='true'>
+				<div class='prescription-form special-prescription-form' hidden='true'>
 					<div id="header-top">
-						<img src="/www/images/logo_prefeitura.png">
+						<img src="/static/images/logo_prefeitura.png">
 						<div>
 							<span>SECRETARIA MUNICIPAL DE SAÚDE</span>
 							<span>DIRETORIA DE VIGILÂNCIA EM SAÚDE</span>
@@ -144,7 +144,7 @@
 					</div>
 					<div id='header-usuario'>
 						<label for='usuario'>USUÁRIO:</label>
-						<input type='text' name='usuario'></span>
+						<input type='text' name='patient-name'></span>
 					</div>
 					<div id='header-endereco'>
 						<label for='usuario'>ENDEREÇO:</label>
@@ -230,10 +230,16 @@
 						favor solicitar uma nova ao prescritor.
 					</div>
 				</div>
+				<div class='attribution'>
+					Icons made by <a href="https://www.flaticon.com/authors/google" title="Google">Google</a> and
+					<a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from
+					<a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+				</div>
   			</div>
   			<div class="right-column">
   				<div id='drogas-form'></div>
   			</div>
+
   		</div>
   </body>
 </html>
