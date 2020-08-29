@@ -55,11 +55,12 @@ def home():
 
 @app.route('/drugs')
 def fetch_drugs():
-	client = storage.Client()
-	bucket = client.bucket(BUCKET_NAME)
-	blob = bucket.blob(BLOB_NAME)
-	contents = blob.download_as_string()	
-	return Response(contents, mimetype='application/json')
+  print(request)
+  client = storage.Client()
+  bucket = client.bucket(BUCKET_NAME)
+  blob = bucket.blob(BLOB_NAME)
+  contents = blob.download_as_string()	
+  return Response(contents, mimetype='application/json')
 
 
 @app.route('/upload', methods=['GET', 'POST'])

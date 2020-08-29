@@ -315,7 +315,7 @@ var ReceitaDiv = function(_app) {
       }  
     };  
 
-    var colWidth = 60;
+    var colWidth = 55;
     var numDashes = 0;
     if ('quantity' in drugData) {
       numDashes = colWidth - 2 - drugData['name'].length - drugData['quantity'].length;
@@ -370,14 +370,27 @@ var ReceitaDiv = function(_app) {
     var drugText = this.getTextForDrug(drugData);
     var listItem = document.createElement('li');
     var posSpan = document.createElement('span');
+    var drugTextWrapper = document.createElement('div');
     var textarea = document.createElement('textarea');
+    var printableText = document.createElement('div');
+    
+    listItem.classList = ['receitaItem'];
+    drugTextWrapper.classList = ['drug-text-wrapper'];
+    printableText.classList = ['printable-drug-text']
+
     listItem.setAttribute('id', 'drug' + drugData['id']);
-    listItem.className = 'receitaItem';
     textarea.setAttribute('cols', 60);
+    
     textarea.value = drugText;
+    printableText.innerText = drugText;
+    textarea.addEventListener('change', function() {
+      printableText.innerText = textarea.value;
+    });
     listItem.appendChild(posSpan);
     listItem.appendChild(this.buildIconsPanel());
-    listItem.appendChild(textarea);
+    drugTextWrapper.appendChild(textarea);
+    drugTextWrapper.appendChild(printableText);
+    listItem.appendChild(drugTextWrapper);
     this.prescriptionDiv.appendChild(listItem);
 
     // Need to do this after the textarea is appended to the doc.

@@ -22,17 +22,6 @@ ul {
   list-style: none;
   padding: 0px; 
 }
-.receitaItem span {
-  padding-right: 0.2em;
-  vertical-align: top;
-}
-.receitaItem textarea {
-  position: relative;
-  top: 0;
-  left: 10px;
-  max-width: 98%;
-  font-size: 12pt;
-}
 .main-column {
   background: white;
   padding: 5px;
@@ -246,19 +235,28 @@ div#header-usuario input, div#header-endereco input {
   text-align: center;
 }
 
+/* Receita Items */
+.receitaItem {
+  display: flex;
+  flex-direction: row;
+}
+.receitaItem .printable-drug-text {
+  font-family: monospace;
+  font-size: 12pt;
+  display: none;
+}
+.receitaItem .drug-text-wrapper {
+  flex: 2;
+}
+
 /* DRUG ICONS PANEL */
 .drug-icons {
-  width: 150px;
-  vertical-align: top;
-  display: inline-block;
-  position: relative;
-  left: 10px;
+  padding: 0px 4px;
 }
 .drug-icons img {
-  vertical-align: middle;
-  margin: 0 4px;
-  max-width: 40px;
-  max-height: 40px;
+  margin: 4px;
+  max-width: 35px;
+  max-height: 35px;
 }
 
 .drug-icons img.unchecked {
@@ -283,24 +281,20 @@ div.collapsed {
     page-break-before: always;
     page-break-inside: avoid;
   }
-  #drogas-form, .attribution, button {
+  #drogas-form,
+  .attribution,
+  button,
+  textarea,
+  img.unchecked {
     display: none;
   }
-  textarea, input {
+  input {
     border: none;
   }
   .receitaItem {
     margin-bottom: 1.4em;
   }
-  .drug-icons {
-    width: 50px;
-  }
-  .drug-icons img {
-    max-width: 40px;
-    max-height: 40px;
-    filter: grayscale();
-  }
-  img.unchecked {
-    display: none;
+  .receitaItem .printable-drug-text {
+    display: block;
   }
 }
