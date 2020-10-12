@@ -13,17 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-body {
-  font-family: sans-serif;
-  background: lightblue;
-}
-ul {
-  list-style: none;
-  padding: 0px; 
-}
 .main-column {
-  background: white;
   padding: 5px;
   width: 70%;
   margin: 2px;
@@ -33,8 +23,6 @@ ul {
   width: 25%;
   float: right;
   padding: 3px;
-  border: 1px solid white;
-  background-color: lightgreen;
 }
 #resetDrugs {
   margin-left: 2em;
@@ -269,12 +257,10 @@ div.collapsed {
   display: none;
 }
 .attribution, .attribution a {
-  color: lightgrey;
   font-size: small;
 }
 
 @media print {
-  body { background: white; }
   .main-column {
     width: 100%;
     page-break-after: always;

@@ -17,7 +17,7 @@ import os
 
 from flask import Flask, request, redirect, Response
 from google.cloud import storage
-from scripts import process_drugs
+from scripts import knowledge_base, process_drugs
 
 ALLOWED_EXTENSIONS = ['txt']
 BUCKET_NAME = 'receita-facil-drugs-storage'
@@ -36,7 +36,6 @@ def process_upload_contents(file):
 	# Parse contents
 	parser = process_drugs.DrugListReader()
 	parsed_drugs = parser.process_drugs(file)
-	print(parsed_drugs[:10])
 	parsed_drugs_json = json.dumps(parsed_drugs, indent=4)
 
 	# Now upload JSON to storage bucket.
@@ -55,7 +54,6 @@ def home():
 
 @app.route('/drugs')
 def fetch_drugs():
-  print(request)
   client = storage.Client()
   bucket = client.bucket(BUCKET_NAME)
   blob = bucket.blob(BLOB_NAME)
@@ -88,6 +86,21 @@ def upload_drugs():
       <input type=submit value=Upload>
     </form>
     '''
+
+
+@app.route('/documentos')
+def fetch_documentos():
+  return knowledge_base.render_documents_page(app)
+
+
+@app.route('/protocolos')
+def fetch_protocols():
+  return knowledge_base.render_protocols_page(app)
+
+
+@app.route('/scores')
+def fetch_scores():
+  return knowledge_base.render_scores_page(app)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,20 @@
+#nav {
+	width: 100%;
+	margin-bottom: 5px;
+}
+
+#nav li {
+	display: inline-block;
+	margin: 1px 2em 0 1em;
+}
+
+#nav a {
+	color: #666;
+}
+#nav a:hover {
+	color: #aaa;
+}
+
+@media print {
+	#nav { display: none; }
+}
