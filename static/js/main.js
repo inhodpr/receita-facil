@@ -163,6 +163,7 @@ var DrugsForm = function(_app) {
       "<label for='route-list'>Via de uso da droga: </label>" +
       "<select id='route-list' name='route'>"+
         "<option value='Uso oral'>Uso oral</option>" +
+        "<option value='Uso oral contínuo'>Uso oral contínuo</option>" +
         "<option value='Uso Tópico'>Uso Tópico</option>" +
         "<option value='Uso Nasal'>Uso Nasal</option>" +
         "<option value='Uso Vaginal'>Uso Vaginal</option>" +
