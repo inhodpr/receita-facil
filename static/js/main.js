@@ -384,7 +384,7 @@ var ReceitaDiv = function(_app) {
     
     textarea.value = drugText;
     printableText.innerText = drugText;
-    textarea.addEventListener('change', function() {
+    textarea.addEventListener('keyup', function() {
       printableText.innerText = textarea.value;
     });
     listItem.appendChild(posSpan);
