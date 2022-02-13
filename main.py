@@ -88,19 +88,24 @@ def upload_drugs():
     '''
 
 
+@app.route('/bibliografia')
+def fetch_bibliografia():
+  return knowledge_base.render_bibliography_page(app)
+
+
 @app.route('/documentos')
 def fetch_documentos():
   return knowledge_base.render_documents_page(app)
 
 
-@app.route('/protocolos')
-def fetch_protocols():
-  return knowledge_base.render_protocols_page(app)
-
-
 @app.route('/scores')
 def fetch_scores():
   return knowledge_base.render_scores_page(app)
+
+
+@app.route('/painel')
+def fetch_panel():
+  return knowledge_base.render_panel_page(app)
 
 
 if __name__ == '__main__':
