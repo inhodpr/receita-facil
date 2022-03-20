@@ -1,0 +1,100 @@
+.prescription-form {
+    border: solid black 1px;
+    border-radius: 30px;
+    padding: 0 5px;
+    display: flex;
+    flex-flow: column nowrap;
+}
+#header-top {
+    display: flex;
+    margin-right: 30px;
+}
+#header-top img {
+    width: 30%
+}
+#header-top div.prefeitura {
+    width: 55%;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#header-top div.prefeitura span {
+    text-align: center;
+    font-size: 1.6em;
+}
+#header-top div.sms {
+    width: 15%;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#header-top div.sms span:first-child {
+    font-size: 0.6em;
+}
+#header-top div.sms span:nth-child(2) {
+    font-size: 2.2em;
+}
+#header-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+#header-title h1 {
+    margin: 0 10px;
+}
+#header-title div.gap {
+    background-image: url('/static/images/line.png');
+    background-repeat: repeat-x;
+    height: 1em;
+    width: -webkit-fill-available;
+}
+#header-form {
+    width: 80%;
+    margin: 8px auto;
+    border-bottom: 1px solid black;
+    padding-bottom: 5px;
+}
+#header-form  div {
+    display: flex;
+}
+#header-form span:first-child {
+    width: 12em;
+}
+#header-form input {
+    width: -webkit-fill-available;
+}
+#bottom {
+    display: flex;
+}
+#bottom > div {
+    width: 40%;
+    margin: auto;
+}
+div#medico {
+    text-align: center;
+}
+div.vgap {
+    flex-grow: 2;
+}
+.attribution {
+    margin-left: 30px;
+}
+
+@media print {
+    html, body {
+        size: A4;
+    }
+    .prescription-form {
+        min-height: 95%;
+    }
+    #header-top div.prefeitura span {
+        font-size: 2.4vw;
+    }
+    #header-top div.sms span:first-child {
+        font-size: 0.9vw;
+    }
+    #header-top div.sms span:nth-child(2) {
+        font-size: 3.6vw;
+    }
+}

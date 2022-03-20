@@ -1,0 +1,53 @@
+{% extends "main.html" %}
+{% block custom_styles %}
+<link rel="stylesheet" type="text/css" href="/static/css/santa_filomena_style.css">
+{% endblock %}
+{% block simple_prescription %}
+<div class='prescription-form simple-prescription-form'>
+    <div id='header-top'>
+        <img src="/static/images/logoSantaFilomena.png">
+        <div class='prefeitura'>
+            <span>Prefeitura Municipal de Santa Filomena</span>
+            <span>Secretaria Municipal de Saúde</span>
+        </div>
+        <div class='sms'>
+            <span>SECRETARIA MUNICIPAL DE</span>
+            <span>SAÚDE</span>
+        </div>
+    </div>
+    <div id='header-title'>
+        <div class='gap'></div>
+        <h1>RECEITUÁRIO</h1>
+        <div class='gap'></div>
+    </div>
+    <div id='header-form'>
+        <div>
+            <span>Unidade de saúde:</span>
+            <input name='unidade' type='text' value=''>
+        </div>
+        <div>
+            <span>Nome:</span>
+            <input name='patient' type='text' value=''>
+        </div>
+
+    </div>
+    <div>
+        <ul id="receita-simples"></ul>
+    </div>
+    <div class='vgap'></div>
+    <div id='bottom'>
+        <div id='data'>
+            <span>Data:</span>
+            <span class='autofill-date'></span>
+        </div>
+        <div id='medico'>
+            <div>__________________________</div>
+            <div>Médico - CRM</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block special_prescription %}
+<div class='prescription-form special-prescription-form'>
+</div>
+{% endblock %}

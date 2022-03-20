@@ -13,28 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.main-column {
-  padding: 5px;
-  width: 70%;
-  margin: 2px;
-  float: left;
-}
-.right-column {
-  width: 25%;
-  float: right;
-  padding: 3px;
-}
-#resetDrugs {
-  margin-left: 2em;
-}
-div.specialPrescriptionToggle {
-  padding-bottom: 10px;  
-}
-div.specialPrescriptionToggle span.specialPrescriptionLabel {
-  position: relative;
-  top: 1em;
-  left: 4px;  
-}
 .signature {
   height: 1.05em;
   border-bottom: 1px black solid;
@@ -223,64 +201,3 @@ div#header-usuario input, div#header-endereco input {
   text-align: center;
 }
 
-/* Receita Items */
-.receitaItem {
-  display: flex;
-  flex-direction: row;
-}
-.receitaItem .printable-drug-text {
-  font-family: monospace;
-  font-size: 12pt;
-  display: none;
-}
-.receitaItem .drug-text-wrapper {
-  flex: 2;
-}
-
-/* DRUG ICONS PANEL */
-.drug-icons {
-  padding: 0px 4px;
-}
-.drug-icons img {
-  margin: 4px;
-  max-width: 35px;
-  max-height: 35px;
-}
-
-.drug-icons img.unchecked {
-  filter: grayscale(100%);
-  opacity: 0.25;
-}
-
-/* General organization */
-div.collapsed {
-  display: none;
-}
-.attribution, .attribution a {
-  font-size: small;
-}
-
-@media print {
-  .main-column {
-    width: 100%;
-    page-break-after: always;
-    page-break-before: always;
-    page-break-inside: avoid;
-  }
-  #drogas-form,
-  .attribution,
-  button,
-  textarea,
-  img.unchecked {
-    display: none;
-  }
-  input {
-    border: none;
-  }
-  .receitaItem {
-    margin-bottom: 1.4em;
-  }
-  .receitaItem .printable-drug-text {
-    display: block;
-  }
-}

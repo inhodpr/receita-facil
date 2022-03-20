@@ -5,6 +5,12 @@ ul {
   list-style: none;
   padding: 0; 
 }
+*[hidden] {
+  display: none;
+}
+.prescription-form.disabled {
+  display: none;    
+}
 
 /* Colors */
 body {
@@ -12,13 +18,89 @@ body {
 }
 .main-column {
   background: #fafac0;
+  padding: 5px;
+  width: 70%;
+  margin: 2px;
+  float: left;
 }
 .right-column {
   background: #e0e0e0;
+  width: 25%;
+  float: right;
+  padding: 3px;
 }
+#resetDrugs {
+  margin-left: 2em;
+}
+div.specialPrescriptionToggle {
+  padding-bottom: 10px;  
+}
+div.specialPrescriptionToggle span.specialPrescriptionLabel {
+  position: relative;
+  top: 1em;
+  left: 4px;  
+}
+
+/* DRUG ICONS PANEL */
+.drug-icons {
+  padding: 0px 4px;
+}
+.drug-icons img {
+  margin: 4px;
+  max-width: 35px;
+  max-height: 35px;
+}
+.drug-icons img.unchecked {
+  filter: grayscale(100%);
+  opacity: 0.25;
+}
+/* Receita Items */
+.receitaItem {
+  display: flex;
+  flex-direction: row;
+}
+.receitaItem .printable-drug-text {
+  font-family: monospace;
+  font-size: 12pt;
+  display: none;
+}
+.receitaItem .drug-text-wrapper {
+  flex: 2;
+}
+
+/* General organization */
+div.collapsed {
+  display: none;
+}
+
 .attribution, .attribution a {
   color: #666;
+  font-size: small;
 }
+
 @media print {
   body { background: white; }
+  .main-column {
+    width: 100%;
+    page-break-after: always;
+    page-break-before: always;
+    page-break-inside: avoid;
+  }
+  #drogas-form,
+  .attribution,
+  button,
+  textarea,
+  img.unchecked {
+    display: none;
+  }
+  input {
+    border: none;
+  }
+  .receitaItem {
+    margin-bottom: 1.4em;
+  }
+  .receitaItem .printable-drug-text {
+    display: block;
+  }
 }
+  
