@@ -15,7 +15,7 @@
 import json
 import os
 
-from flask import Flask, request, redirect, Response
+from flask import Flask, render_template, request, redirect, Response
 from google.cloud import storage
 from scripts import knowledge_base, process_drugs
 
@@ -49,8 +49,14 @@ def process_upload_contents(file):
 @app.route('/')
 def home():
 	# Ignored when running on AppEngine
-	return app.send_static_file('index.html')
+	# return app.send_static_file('index.html')
+    return render_template("pnz.html")
 
+@app.route('/santafilomena')
+def homeSantaFilomena():
+	# Ignored when running on AppEngine
+	# return app.send_static_file('index.html')
+    return render_template("santa_filomena.html")
 
 @app.route('/drugs')
 def fetch_drugs():
