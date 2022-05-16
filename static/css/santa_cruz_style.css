@@ -13,49 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.signature {
-  height: 1.05em;
-  border-bottom: 1px black solid;
-  margin: 0px 4px;
-}
-.signature.fullline {
-  display: inline-block;
-  overflow: hidden;
-  width: 100%;
-}
-.signature.inline {
-  display: block;
-  overflow: hidden;
-}
-.label {
-  padding-top: 3px;
-  float: left;
-}
-
-/* SIMPLE PRESCRIPTION HEADERS */
-h1, h2 {
+.main-column { font-size: 9pt; }
+h1 { font-size: 16pt; }
+h2 { font-size: 11pt; }
+h3 { font-size: 10pt; }
+ h1, h2, h3 {
   text-align: center;
   margin: 0;
 }
-.simple-prescription-form #header-top {
+.field-row {
     display: flex;
-    flex-direction: row;
+    padding: 2px 3px;
+}
+.field-row input {
+    flex-grow: 2;
+    min-width: 10px;
+}
+div.gap { flex-grow: 2; }
+h3.box-heading {
+    border-bottom: 1px solid black;
+    margin: 0 0 12px 0;
+    padding: 5px 0;
+}
+div#header-top {
+  display: flex;
+  flex-direction: row;
+}
+#header-top img {
+  max-height: 100%;
+  margin: 0 40px 0 0;
+}
+
+/* SIMPLE PRESCRIPTION HEADERS */
+.simple-prescription-form #header-top {
     height: 6em;
     padding: 2px 0 5px 0;
 }
 .simple-prescription-form #header-top > div {
   padding-top: 0.5em;
 }
-.simple-prescription-form #header-top img {
-  max-height: 100%;
-  margin: 0 40px 0 0;
-}
 .simple-prescription-form div#header-top h1 {
   font-style: italic;
-  font-size: 22pt;
-}
-.simple-prescription-form div#header-top h2 {
-  font-size: 16pt;
 }
 .simple-prescription-form #main-content {
     display: flex;
@@ -64,67 +62,30 @@ h1, h2 {
     border: 1px solid black;
 }
 #main-content { padding: 5px; }
-div.vgap { flex-grow: 2; }
-
+#date-and-signature {
+    display: flex;
+    flex-flow: row nowrap;
+}
+#date-and-signature .provider-signature {
+    min-width: 200px;
+    text-align: center;
+}
 /* SPECIAL PRESCRIPTION HEADERS */
-input[name='emitente-name'] {
-  width: 70%;
-}
-input[name='emitente-uf'] {
-  width: 2em;
-}
-/* Make Usuário and Endereço fields take the remaining width. */
-div#header-usuario, div#header-endereco {
-  display: flex;
-  flex-direction: row;
-}
-div#header-usuario input, div#header-endereco input {
-  flex: 2;
-}
-
 .special-prescription-form #header-top {
-  height: 4em;
-}
-.special-prescription-form #header-top img {
-  /*max-height: 100%;*/
-  max-width: 20%;
+  height: 150px;
+  margin-bottom: 10px;
 }
 .special-prescription-form #header-top div {
-  display: inline-block;
-  width: 79%;
+  font-size: x-small;
+  flex-grow: 2;
 }
-.special-prescription-form #header-top div span {
-  text-align: center;
-  display: block;
-  width: 100%;
+#header-emitente {
+    display: flex;
+    flex-direction: row;
 }
-.special-prescription-form h1 {
-  text-align: center;
-}
-.special-prescription-form #header-emitente .gap {
-  width: 19%;
-  display: inline-block;
-  vertical-align: top;
-}
-.special-prescription-form #header-emitente .gap span {
-  width: 100%;
-  display: block;
-  margin-bottom: 2em;
-}
-
-.special-prescription-form #header-emitente #emitente {
-  display: inline-block;
-  width: 60%;
-  border: 1px solid black;
-  padding-bottom: 3px; 
-}
-#emitente h2 {
-  margin: 0;
-  width: 100%;
-  display: block;
-  border-bottom: 1px solid black;
-  text-align: center;
-  margin-bottom: 1em;
+#emitente {
+    border: 1px solid black;
+    margin-right: 10px;
 }
 #header-prescricao {
   min-height: 5em;
@@ -139,51 +100,17 @@ div#header-usuario input, div#header-endereco input {
   margin: 5px 0;
   border: 1px solid black;
 }
-#header-infos h3 {
-  margin: 0 0 12px 0;
-  padding: 5px 0;
-  font-size: 1.07em;
-  text-align: center;
-  border-bottom: 1px solid black;
+#info-dispensador {
+    display: flex;
+    flex-direction: column;
 }
-#header-infos fieldset {
-  border: none;
-  margin: 0;
-  padding: 0 0 3px 0;
-  display: flex;
-  flex-direction: column;
+.provider-line {
+    display: flex;
+    font-size: smaller;
+    margin: 0 3px 2px 3px;
 }
-#header-infos div.line {
-  height: 1.3em;
-  padding: 0 3px;
-  display: flex;
-  flex-direction: row;
-}
-#header-infos div.line span.gap {
-  flex: 2;
-  display: inline-block;
-  border-bottom: 1px solid black;
-  padding-top: 3px;
-}
-
-/* DATE AND SIGNATURE LINE*/
-#date-and-signature > div {
-  display: inline-block;
-  vertical-align: top;
-}
-#date-and-signature > span {
-  margin-left: 70%;
-  margin-right: 3em;
-  padding-bottom: 10px;
-}
-#date-and-signature #prescription-date {
-  width: 69%;
-}
-#date-and-signature #signature {
-  width: 29%
-}
-#signature > div {
-  text-align: center;
+.provider-signature {
+    border-top: 1px solid black;
 }
 
 @media print {
