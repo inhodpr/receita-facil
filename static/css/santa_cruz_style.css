@@ -64,7 +64,7 @@ h1, h2 {
     border: 1px solid black;
 }
 #main-content { padding: 5px; }
-.simple-prescription-form ul.receita-simples { flex: auto; }
+div.vgap { flex-grow: 2; }
 
 /* SPECIAL PRESCRIPTION HEADERS */
 input[name='emitente-name'] {
@@ -184,5 +184,14 @@ div#header-usuario input, div#header-endereco input {
 }
 #signature > div {
   text-align: center;
+}
+
+@media print {
+  html, body {
+    size: A4;
+  }
+  .content, .main-column, .prescription-form, #main-content {
+    min-height: 85%;
+  }
 }
 
