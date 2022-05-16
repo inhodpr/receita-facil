@@ -515,18 +515,21 @@ var ReceitaApp = function() {
   
   this.toggleSpecialPrescription = function(enableSpecialPrescription) {
     // Gather patient name.
-    var patientField = document.querySelector(
+    var oldPatientField = document.querySelector(
       'div.prescription-form.enabled input[name="patient-name"]');
-    var patientName = patientField.value;
-
+    var oldPatientName = "";
+    if (oldPatientField != null) {
+      oldPatientName = oldPatientField.value;
+    }
+    
     this.prescriptionHandler.switchPrescriptionMode(enableSpecialPrescription);
     var selectedDrugs = this.drugsHandler.getSelectedDrugs();
     this.prescriptionHandler.renderDrugs(selectedDrugs);
-
+    
     // Restore patient name in new patient field.
     var patientField = document.querySelector(
-      'div.prescription-form.enabled input[name="patient-name"]');
-    patientField.value = patientName;
+        'div.prescription-form.enabled input[name="patient-name"]');
+    patientField.value = oldPatientName;
   };
 
   this.start = function() {

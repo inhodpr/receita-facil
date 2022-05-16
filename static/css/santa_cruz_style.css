@@ -1,0 +1,188 @@
+/*
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+.signature {
+  height: 1.05em;
+  border-bottom: 1px black solid;
+  margin: 0px 4px;
+}
+.signature.fullline {
+  display: inline-block;
+  overflow: hidden;
+  width: 100%;
+}
+.signature.inline {
+  display: block;
+  overflow: hidden;
+}
+.label {
+  padding-top: 3px;
+  float: left;
+}
+
+/* SIMPLE PRESCRIPTION HEADERS */
+h1, h2 {
+  text-align: center;
+  margin: 0;
+}
+.simple-prescription-form #header-top {
+    display: flex;
+    flex-direction: row;
+    height: 6em;
+    padding: 2px 0 5px 0;
+}
+.simple-prescription-form #header-top > div {
+  padding-top: 0.5em;
+}
+.simple-prescription-form #header-top img {
+  max-height: 100%;
+  margin: 0 40px 0 0;
+}
+.simple-prescription-form div#header-top h1 {
+  font-style: italic;
+  font-size: 22pt;
+}
+.simple-prescription-form div#header-top h2 {
+  font-size: 16pt;
+}
+.simple-prescription-form #main-content {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+#main-content { padding: 5px; }
+.simple-prescription-form ul.receita-simples { flex: auto; }
+
+/* SPECIAL PRESCRIPTION HEADERS */
+input[name='emitente-name'] {
+  width: 70%;
+}
+input[name='emitente-uf'] {
+  width: 2em;
+}
+/* Make Usuário and Endereço fields take the remaining width. */
+div#header-usuario, div#header-endereco {
+  display: flex;
+  flex-direction: row;
+}
+div#header-usuario input, div#header-endereco input {
+  flex: 2;
+}
+
+.special-prescription-form #header-top {
+  height: 4em;
+}
+.special-prescription-form #header-top img {
+  /*max-height: 100%;*/
+  max-width: 20%;
+}
+.special-prescription-form #header-top div {
+  display: inline-block;
+  width: 79%;
+}
+.special-prescription-form #header-top div span {
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+.special-prescription-form h1 {
+  text-align: center;
+}
+.special-prescription-form #header-emitente .gap {
+  width: 19%;
+  display: inline-block;
+  vertical-align: top;
+}
+.special-prescription-form #header-emitente .gap span {
+  width: 100%;
+  display: block;
+  margin-bottom: 2em;
+}
+
+.special-prescription-form #header-emitente #emitente {
+  display: inline-block;
+  width: 60%;
+  border: 1px solid black;
+  padding-bottom: 3px; 
+}
+#emitente h2 {
+  margin: 0;
+  width: 100%;
+  display: block;
+  border-bottom: 1px solid black;
+  text-align: center;
+  margin-bottom: 1em;
+}
+#header-prescricao {
+  min-height: 5em;
+}
+#header-infos {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+#header-infos #info-usuario, #header-infos #info-dispensador {
+  width: 47%;
+  margin: 5px 0;
+  border: 1px solid black;
+}
+#header-infos h3 {
+  margin: 0 0 12px 0;
+  padding: 5px 0;
+  font-size: 1.07em;
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+#header-infos fieldset {
+  border: none;
+  margin: 0;
+  padding: 0 0 3px 0;
+  display: flex;
+  flex-direction: column;
+}
+#header-infos div.line {
+  height: 1.3em;
+  padding: 0 3px;
+  display: flex;
+  flex-direction: row;
+}
+#header-infos div.line span.gap {
+  flex: 2;
+  display: inline-block;
+  border-bottom: 1px solid black;
+  padding-top: 3px;
+}
+
+/* DATE AND SIGNATURE LINE*/
+#date-and-signature > div {
+  display: inline-block;
+  vertical-align: top;
+}
+#date-and-signature > span {
+  margin-left: 70%;
+  margin-right: 3em;
+  padding-bottom: 10px;
+}
+#date-and-signature #prescription-date {
+  width: 69%;
+}
+#date-and-signature #signature {
+  width: 29%
+}
+#signature > div {
+  text-align: center;
+}
+

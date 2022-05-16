@@ -48,15 +48,16 @@ def process_upload_contents(file):
 
 @app.route('/')
 def home():
-	# Ignored when running on AppEngine
-	# return app.send_static_file('index.html')
     return render_template("pnz.html")
 
 @app.route('/santafilomena')
 def homeSantaFilomena():
-	# Ignored when running on AppEngine
-	# return app.send_static_file('index.html')
     return render_template("santa_filomena.html")
+
+@app.route('/santacruz')
+def homeSantaCruz():
+    return render_template("santa_cruz.html")
+
 
 @app.route('/drugs')
 def fetch_drugs():
