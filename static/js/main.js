@@ -173,6 +173,11 @@ var DrugsForm = function(_app) {
         "<option value='Uso Intravenoso'>Uso Intravenoso</option>" +
         "<option value='Uso Oftálmico'>Uso Oftálmico</option>" +
         "<option value='Uso Otológico'>Uso Otológico</option>" +
+        "<option value='Uso Inalatório'>Uso Inalatório</option>" +
+        "<option value='Nebulização'>Nebulização</option>" +
+        "<option value='Declaração'>Declaração</option>" +
+        "<option value='Relatório'>Relatório</option>" +
+        "<option value='Laudo Médico'>Laudo Médico</option>" +
       "</select>";
     var selectorDiv = document.createElement("div");
     selectorDiv.id = 'route-selector';
