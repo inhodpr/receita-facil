@@ -16,7 +16,7 @@
 
 class DrugListReader:
     def __init__(self):
-        self.drugId = 1;
+        self.drugId = 0
         self.allDrugs = []
         self.currentDrug = None
         self.currentCategory = None
@@ -37,16 +37,16 @@ class DrugListReader:
     def parseNewDrug(self, line):
         self.currentDrug = {}
         parts = line.split('//')
-        self.currentDrug['name'] = parts[0]
-        self.currentDrug['quantity'] = parts[1]
+        self.currentDrug['name'] = str(parts[0]).strip()
+        self.currentDrug['quantity'] = str(parts[1]).strip()
         if len(parts) > 2:
-            self.currentDrug['instructions'] = parts[2]
+            self.currentDrug['instructions'] = str(parts[2]).strip()
         if len(parts) > 3:
-            self.currentDrug['brand'] = parts[3]
+            self.currentDrug['brand'] = str(parts[3]).strip()
 
     def parseRecommendation(self, line):
         self.currentDrug = {}
-        self.currentDrug['name'] = line[2:]
+        self.currentDrug['name'] = str(line[2:])
 
     def appendDescription(self, line):
         if not self.currentDrug:
@@ -55,7 +55,7 @@ class DrugListReader:
             self.currentDrug['instructions'] = ''
         else:
             self.currentDrug['instructions'] += '\r\n'
-        self.currentDrug['instructions'] += line
+        self.currentDrug['instructions'] += str(line)
 
 
     def process_drugs(self, input_file):
@@ -65,12 +65,12 @@ class DrugListReader:
                 continue
             if line.startswith('## '):
                 self.addDrug()
-                self.currentCategory = line[3:]
+                self.currentCategory = str(line[3:])
                 self.currentSubcategory = None
                 continue
             if line.startswith('### '):
                 self.addDrug()
-                self.currentSubcategory = line[4:]
+                self.currentSubcategory = str(line[4:])
                 continue
             if line.startswith('* '):
                 self.addDrug()
@@ -82,3 +82,5 @@ class DrugListReader:
                 self.appendDescription(line)
         self.addDrug()  # don't forget to add the last drug
         return self.allDrugs
+
+
