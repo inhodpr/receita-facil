@@ -47,8 +47,8 @@ var DrugsForm = function(_app) {
     input_check.addEventListener('change', function(e) {
       var drugId = e.currentTarget.parentElement.firstElementChild.value;
       var currentRoute = routeSelector.value;
-      if (drugData.is_link) {
-          currentRoute = 'LINKS';
+      if (drugData.is_link || drugData.is_image) {
+          currentRoute = 'Links';
       }
       if (e.currentTarget.checked) {
         routeMap[drugId] = currentRoute;  
@@ -415,11 +415,29 @@ var ReceitaDiv = function(_app) {
     var posSpan = document.createElement('span');
     var titleSpan = document.createElement('span');
     var qrCode = document.createElement('img');
-    var url = "https://chart.googleapis.com/chart?chs=80x80&cht=qr&chl=" + drugData.url;
+    var url = "https://chart.googleapis.com/chart?chs=80x80&cht=qr&chl=" + drugData.instructions;
 
     listItem.setAttribute('id', 'drug' + drugData['id']);
     listItem.classList = ['receitaItem'];
     listItem.classList.add('externalLink');
+    listItem.appendChild(posSpan);
+    titleSpan.innerText = drugData.name;
+    listItem.appendChild(titleSpan);
+    qrCode.src = url;
+    listItem.appendChild(qrCode);
+    this.prescriptionDiv.appendChild(listItem);
+  };
+
+  this.addImage = function(drugData) {
+    var listItem = document.createElement('li');
+    var posSpan = document.createElement('span');
+    var titleSpan = document.createElement('span');
+    var qrCode = document.createElement('img');
+    var url = "https://storage.googleapis.com/receita-facil-prescribed-images/" + drugData.instructions;
+
+    listItem.setAttribute('id', 'drug' + drugData['id']);
+    listItem.classList = ['receitaItem'];
+    listItem.classList.add('prescribed-image');
     listItem.appendChild(posSpan);
     titleSpan.innerText = drugData.name;
     listItem.appendChild(titleSpan);
@@ -480,10 +498,12 @@ var ReceitaDiv = function(_app) {
       var updatedPos = updatedDrugPositions[updatedIdx];
       var drugId = positionToId[updatedPos];
       var drugData = idToDrugData[drugId];
-      if (!drugData.is_link) {
-        this.addDrug(drugData);
-      } else {
+      if (drugData.is_link) {
         this.addLink(drugData);
+      } else if (drugData.is_image) {
+        this.addImage(drugData);
+      } else {
+        this.addDrug(drugData);
       }
       updatedIdx += 1;
     }
