@@ -537,36 +537,6 @@ var ReceitaApp = function() {
     xhr.send(null);
     var contents = xhr.responseText;
     DRUGS_LIST = JSON.parse(contents);
-    // Hack for adding videos.
-    var v1 = Object() 
-    v1.url = 'https://youtu.be/xXdBhu2G8Kg';
-    v1.name = 'Uso da bombinha com espaçador';
-    v1.category = 'LINKS';
-    v1.is_link = true;
-    v1.id = 7770;
-    var v2 = Object()
-    v2.url = 'https://youtu.be/QMgyDGJbeHM';
-    v2.name = 'Como usar o dispositivo Aerocaps? (medicações com cápsulas inalatórias';
-    v2.category = 'LINKS';
-    v2.is_link = true;
-    v2.id = 7771;
-    var v3 = Object()
-    v3.url = 'https://youtu.be/cS9NTQlNCIg';
-    v3.name = 'Como fazer a lavagem nasal com seringa? (adultos)';
-    v3.category = 'LINKS';
-    v3.is_link = true;
-    v3.id = 7772;
-    var v4 = Object()
-    v4.url = 'https://youtu.be/7lcqPQP5wlM';
-    v4.name = 'Como limpar o nariz com soro fisiológico? (crianças)';
-    v4.category = 'LINKS';
-    v4.is_link = true;
-    v4.id = 7773;
-     
-    DRUGS_LIST.push(v1);
-    DRUGS_LIST.push(v2);
-    DRUGS_LIST.push(v3);
-    DRUGS_LIST.push(v4);
   };
 
   this.generatePrescription = function() {
