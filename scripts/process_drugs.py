@@ -43,7 +43,6 @@ class DrugListReader:
     def parseNewDrug(self, line):
         self.currentDrug = {}
         parts = line.split('//')
-        irint('parsenewdrugs- ' + str(type(line)))
         self.currentDrug['name'] = str(parts[0]).strip()
         self.currentDrug['quantity'] = str(parts[1]).strip()
         if len(parts) > 2:
