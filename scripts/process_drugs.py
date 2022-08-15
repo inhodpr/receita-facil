@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import fileinput
+
 class DrugListReader:
     def __init__(self):
         self.drugId = 0
@@ -41,6 +43,7 @@ class DrugListReader:
     def parseNewDrug(self, line):
         self.currentDrug = {}
         parts = line.split('//')
+        irint('parsenewdrugs- ' + str(type(line)))
         self.currentDrug['name'] = str(parts[0]).strip()
         self.currentDrug['quantity'] = str(parts[1]).strip()
         if len(parts) > 2:
@@ -64,7 +67,8 @@ class DrugListReader:
 
     def process_drugs(self, input_file):
         for line in input_file:
-            line = line.decode(encoding='utf-8').strip()
+            if not isinstance(line, str):
+                line = line.decode(encoding='utf-8').strip()
             if not line:
                 continue
             if line.startswith('## '):
@@ -86,3 +90,11 @@ class DrugListReader:
         return self.allDrugs
 
 
+def main():
+    reader = DrugListReader()
+    with fileinput.input() as f:
+        drugs = reader.process_drugs(f)
+    print(drugs)
+
+if __name__ == "__main__":
+    main()
