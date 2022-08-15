@@ -54,6 +54,29 @@ div.specialPrescriptionToggle span.specialPrescriptionLabel {
   filter: grayscale(100%);
   opacity: 0.25;
 }
+.group-by-schedule .drug-icons {
+    display: none;
+}
+.group-by-schedule .routeHeader {
+	background-repeat: no-repeat;
+    background-size: 35px 35px;
+	height: 35px;
+	width: 35px;
+    display: block;
+    text-indent: -999em;
+    margin: 5px 0;
+    /* forces images to be printed on paper */
+    -webkit-print-color-adjust: exact;
+}
+.group-by-schedule .routeHeader.group-0 {
+    background-image: url("/static/images/icons/pro-coffee.svg");
+}
+.group-by-schedule .routeHeader.group-1 {
+    background-image: url("/static/images/icons/pro-sun.svg");
+}
+.group-by-schedule .routeHeader.group-2 {
+    background-image: url("/static/images/icons/pro-moon.svg");
+}
 /* Receita Items */
 .receitaItem {
   display: flex;
@@ -94,7 +117,7 @@ div.collapsed {
   .attribution,
   button,
   textarea,
-  img.unchecked {
+  .group-by-route img.unchecked {
     display: none;
   }
   input {

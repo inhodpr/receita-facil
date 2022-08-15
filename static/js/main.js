@@ -153,13 +153,31 @@ var DrugsForm = function(_app) {
       "<span class='specialPrescriptionLabel'>" +
         "Receituário de Controle Especial"
       "</span>";
-      this.drugsForm.appendChild(toggleDiv);
+    this.drugsForm.appendChild(toggleDiv);
 
-      var specialPrescriptionSelector = document.getElementById('useSpecialPrescription');
-      specialPrescriptionSelector.addEventListener('change', function() {
-        app.toggleSpecialPrescription(this.checked);
-      });
+    var specialPrescriptionSelector = document.getElementById('useSpecialPrescription');
+    specialPrescriptionSelector.addEventListener('change', function() {
+    app.toggleSpecialPrescription(this.checked);
+    });
+  };
 
+  this.buildGroupByScheduleToggle = function() {
+    var toggleDiv = document.createElement('div');
+    toggleDiv.className = 'groupByScheduleToggle';
+    toggleDiv.innerHTML = 
+      "<label class='switch'>" + 
+        "<input type='checkbox' id='groupBySchedule'>" +
+        "<span class='slider round'></span>" +
+      "</label>" +
+      "<span class='groupByScheduleLabel'>" +
+        "Agrupar por horário"
+      "</span>";
+    this.drugsForm.appendChild(toggleDiv);
+
+    var groupByScheduleSelector = document.getElementById('groupBySchedule');
+    groupByScheduleSelector.addEventListener('change', function() {
+    app.toggleGroupBySchedule(this.checked);
+    });
   };
 
   this.buildRouteSelector = function() {
@@ -217,6 +235,7 @@ var DrugsForm = function(_app) {
     this.drugsForm.appendChild(collapseAll);
     this.drugsForm.appendChild(resetDrugs);
     this.buildSpecialPrescriptionToggle();
+    this.buildGroupByScheduleToggle();
     this.buildRouteSelector();
 
     var printBtn = document.createElement('button');
@@ -278,8 +297,65 @@ var DrugsForm = function(_app) {
 var ReceitaDiv = function(_app) {
   this.app = _app;
   this.prescriptionDiv = null;
+  this.group_by = 'route';
+  this.drugSchedule = {};
   this.currentDrugPositions = [];
   this.currentPositionToIds = {};
+
+  class IconClickHandler {
+    constructor(receitaDiv, drugId, schedule) {
+        this.receitaDiv = receitaDiv;
+        this.drugId = drugId;
+        this.schedule = schedule;
+    }
+
+    handleClick(e) {
+        var eventSrc = e.currentTarget;
+        var isChecked = eventSrc.classList.contains('checked');
+        if (!(this.drugId in this.receitaDiv.drugSchedule)) {
+            this.receitaDiv.drugSchedule[this.drugId] = new Set()
+        }
+        if (isChecked) {
+            this.receitaDiv.drugSchedule[this.drugId].delete(this.schedule);
+            eventSrc.classList.add('unchecked');
+            eventSrc.classList.remove('checked');
+        }
+        else {
+            this.receitaDiv.drugSchedule[this.drugId].add(this.schedule);
+            eventSrc.classList.add('checked');
+            eventSrc.classList.remove('unchecked');
+        }
+    }
+  };
+
+  this.handleIconClick = function(e) {
+      this.handleClick(e);
+  }
+
+  this.buildIconsPanel = function(drugData) {
+    var drugId = drugData['id'];
+    var icons = ['pro-coffee.svg',
+                 'pro-sun.svg',
+                 'pro-moon.svg'];
+    var iconsDiv = document.createElement('div');
+    iconsDiv.classList = ['drug-icons'];
+
+    for (var i = 0; i < icons.length; i += 1) {
+      var newIcon = document.createElement('img');
+      newIcon.src = '/static/images/icons/' + icons[i];
+      if (drugId in this.drugSchedule && this.drugSchedule[drugId].has(i)) {
+        newIcon.classList = ['checked'];
+      } else {
+        newIcon.classList = ['unchecked'];
+      }
+      iconsDiv.appendChild(newIcon);
+
+      var iconClickHandler = new IconClickHandler(this, drugId, i);
+      newIcon.addEventListener('click', handleIconClick.bind(iconClickHandler));
+    }
+
+    return iconsDiv;
+  };
 
   this.switchPrescriptionMode = function(enableSpecialPrescription) {
     if (this.prescriptionDiv) {
@@ -346,36 +422,6 @@ var ReceitaDiv = function(_app) {
     return tmpl;
   };
 
-  this.buildIconsPanel = function() {
-    var numCols = 2;
-    var icons = ['pro-coffee.svg',
-                 'pro-sun.svg',
-                 'pro-moon.svg'];
-    var iconsDiv = document.createElement('div');
-    iconsDiv.classList = ['drug-icons'];
-
-    for (var i = 0; i < icons.length; i += 1) {
-      var newIcon = document.createElement('img');
-      newIcon.src = '/static/images/icons/' + icons[i];
-      newIcon.classList = ['unchecked'];
-      iconsDiv.appendChild(newIcon);
-
-      newIcon.addEventListener('click', function(e) {
-        var eventSrc = e.currentTarget;
-        var isChecked = eventSrc.classList.contains('checked');
-        if (isChecked) {
-          eventSrc.classList.add('unchecked');
-          eventSrc.classList.remove('checked');
-        } else {
-          eventSrc.classList.add('checked');
-          eventSrc.classList.remove('unchecked');
-        }
-      });
-    }
-
-    return iconsDiv;
-  };
-
   this.addDrug = function(drugData) {
     var drugText = this.getTextForDrug(drugData);
     var listItem = document.createElement('li');
@@ -397,7 +443,7 @@ var ReceitaDiv = function(_app) {
       printableText.innerText = textarea.value;
     });
     listItem.appendChild(posSpan);
-    listItem.appendChild(this.buildIconsPanel());
+    listItem.appendChild(this.buildIconsPanel(drugData));
     drugTextWrapper.appendChild(textarea);
     drugTextWrapper.appendChild(printableText);
     listItem.appendChild(drugTextWrapper);
@@ -408,6 +454,7 @@ var ReceitaDiv = function(_app) {
     textarea.style.width = '';
     textarea.style.height = textarea.scrollHeight + 3 + 'px';
     textarea.style.width = textarea.scrollWidth + 3 + 'px';
+    return listItem;
   };
 
   this.addLink = function(drugData) {
@@ -426,6 +473,7 @@ var ReceitaDiv = function(_app) {
     qrCode.src = url;
     listItem.appendChild(qrCode);
     this.prescriptionDiv.appendChild(listItem);
+    return listItem;
   };
 
   this.addImage = function(drugData) {
@@ -446,6 +494,7 @@ var ReceitaDiv = function(_app) {
     listItem.appendChild(posSpan);
     listItem.appendChild(outerDiv);
     this.prescriptionDiv.appendChild(listItem);
+    return listItem;
   };
 
   this.removeDrugWithId = function(drugId) {
@@ -456,9 +505,65 @@ var ReceitaDiv = function(_app) {
       console.log("Error: trying to remove drug with id 'drug" + drugId + "' " +
                   "but it was not found in the DOM.");
     }
-  }
+  };
 
   this.renderDrugs = function(selectedDrugs) {
+      this.renderDrugsGrouped(selectedDrugs);
+  };
+
+  this.renderDrugsGrouped = function(selectedDrugs) {
+      this.prescriptionDiv.innerHTML = "";
+      this.prescriptionDiv.classList = (this.group_by == "route" ? ["group-by-route"] : ["group-by-schedule"]);
+      var groupKey = function (drug) {
+        if (this.group_by == 'route') {
+            return [drug['route']];
+        } else {
+            return this.drugSchedule[drug['id']];
+        }
+      };
+      var drugSets = {};
+      for (var idx in selectedDrugs) {
+          var selectedDrug = selectedDrugs[idx];
+          groupKey(selectedDrug).forEach(function (group) {
+            if (!(group in drugSets)) {
+                drugSets[group] = [];
+            }
+            drugSets[group].push(selectedDrug);
+          });
+      }
+      var sortedDrugSets = {};
+      for (var group in drugSets) {
+        sortedDrugSets[group] = drugSets[group].sort( function(a, b) { return a['position'] - b['position']; });
+      }
+      var listNumber = 1;
+      for (var group in sortedDrugSets) {
+          var drugsInGroup = sortedDrugSets[group];
+          var groupDiv = document.createElement('div');
+          groupDiv.classList.add('routeHeader');
+          if (this.group_by == "schedule") {
+              groupDiv.classList.add('group-' + group);
+          }
+          groupDiv.innerText = group;
+          this.prescriptionDiv.appendChild(groupDiv);
+
+          for (var idx in drugsInGroup) {
+              var drugData = drugsInGroup[idx];
+              var listItem = null;
+              if (drugData.is_link) {
+                listItem = this.addLink(drugData);
+              } else if (drugData.is_image) {
+                listItem = this.addImage(drugData);
+              } else {
+                listItem = this.addDrug(drugData);
+              }
+              var posSpan = listItem.firstElementChild;
+              posSpan.innerText = listNumber + ')';  /* WAAAAT?!?! */
+              listNumber = listNumber + 1;
+          }
+      }
+  };
+
+  this.renderDrugsOld = function(selectedDrugs) {
     var updatedDrugPositions = [];
     var positionToId = {};
     var idToDrugData = {}
@@ -566,6 +671,11 @@ var ReceitaApp = function() {
     this.prescriptionHandler.renderDrugs(selectedDrugs);
   };
   
+  this.toggleGroupBySchedule = function(groupBySchedule) {
+    this.prescriptionHandler.group_by = (groupBySchedule ? "schedule" : "route");
+    this.generatePrescription();
+  }
+
   this.toggleSpecialPrescription = function(enableSpecialPrescription) {
     // Gather patient name.
     var oldPatientField = document.querySelector(
@@ -576,8 +686,7 @@ var ReceitaApp = function() {
     }
     
     this.prescriptionHandler.switchPrescriptionMode(enableSpecialPrescription);
-    var selectedDrugs = this.drugsHandler.getSelectedDrugs();
-    this.prescriptionHandler.renderDrugs(selectedDrugs);
+    this.generatePrescription();
     
     // Restore patient name in new patient field.
     var patientField = document.querySelector(
