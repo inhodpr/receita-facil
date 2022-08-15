@@ -33,6 +33,8 @@ class DrugListReader:
             self.currentDrug['subcategory'] = self.currentSubcategory
         if 'category' in self.currentDrug and self.currentDrug['category'] == 'Videos':
             self.currentDrug['is_link'] = True
+        if 'category' in self.currentDrug and self.currentDrug['category'] == 'Imagens':
+            self.currentDrug['is_image'] = True
         self.allDrugs.append(self.currentDrug)
         self.currentDrug = {}
 

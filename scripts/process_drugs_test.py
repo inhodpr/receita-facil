@@ -220,3 +220,16 @@ class TestProcessDrugs:
              'is_link': True},
             ])
 
+    def test_images(self):
+        input = ['## Imagens',
+                 '* Como tratar agua',
+                 'como_tratar_agua.jpeg']
+        reader = DrugListReader()
+        drugs = reader.process_drugs(input)
+        assert_that(drugs).is_equal_to([
+            {'id': 1,
+             'category': 'Imagens',
+             'name': 'Como tratar agua',
+             'instructions': 'como_tratar_agua.jpeg',
+             'is_image': True}])
+
