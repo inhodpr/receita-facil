@@ -117,8 +117,7 @@ class TestProcessDrugs:
         drugs = reader.process_drugs(input)
         assert_that(drugs).is_equal_to([
             {'id': 1,
-             'name': 'Avoid smoking',
-             'instructions': '* Avoid smoking'}])
+             'name': 'Avoid smoking'}])
 
     def test_multiline_recommendations(self):
         input = ['* Avoid smoking',
@@ -132,10 +131,10 @@ class TestProcessDrugs:
         assert_that(drugs).is_equal_to([
             {'id': 1,
              'name': 'Avoid smoking',
-             'instructions': '* Avoid smoking\r\nIt is really bad for your lungs.\r\nConsider jogging.'},
+             'instructions': 'It is really bad for your lungs.\r\nConsider jogging.'},
             {'id': 2,
              'name': 'Avoid drinking',
-             'instructions': '* Avoid drinking\r\nAt most once a week.'},
+             'instructions': 'At most once a week.'},
             ])
 
 
@@ -154,11 +153,70 @@ class TestProcessDrugs:
             {'id': 1,
              'category': 'Lifestyle changes',
              'name': 'Avoid smoking',
-             'instructions': '* Avoid smoking\r\nIt is really bad for your lungs.\r\nConsider jogging.'},
+             'instructions': 'It is really bad for your lungs.\r\nConsider jogging.'},
             {'id': 2,
              'category': 'Lifestyle changes',
              'subcategory': 'Social habits',
              'name': 'Avoid drinking',
-             'instructions': '* Avoid drinking\r\nAt most once a week.'},
+             'instructions': 'At most once a week.'},
+            ])
+
+
+    def test_videos(self):
+        input = ["## Antibiotics",
+                 "Fluconazole // 10mg",
+                 "## Antiviral",
+                 "Finasteride // 1mg",
+                 "### Anti-retroviral",
+                 "Amoxicillin // 150 mg",
+                 '',
+                 '## Lifestyle changes',
+                 '* Avoid smoking',
+                 'It is really bad for your lungs.',
+                 'Consider jogging.',
+                 '',
+                 '### Social habits',
+                 '* Avoid drinking',
+                 'At most once a week.',
+                 '## Videos',
+                 '* How to use the pump for asthma.',
+                 'http://www.youtube.com/v=asthma',
+                 '* How to use aerocaps?',
+                 'http://www.youtube.com/v=aerocaps']
+        reader = DrugListReader()
+        drugs = reader.process_drugs(input)
+        assert_that(drugs).is_equal_to([
+            {'id': 1,
+             'category': 'Antibiotics',
+             'name': 'Fluconazole',
+             'quantity': '10mg'},
+            {'id': 2,
+             'category': 'Antiviral',
+             'name': 'Finasteride',
+             'quantity': '1mg'},
+            {'id': 3,
+             'category': 'Antiviral',
+             'subcategory': 'Anti-retroviral',
+             'name': 'Amoxicillin',
+             'quantity': '150 mg'},
+            {'id': 4,
+             'category': 'Lifestyle changes',
+             'name': 'Avoid smoking',
+             'instructions': 'It is really bad for your lungs.\r\nConsider jogging.'},
+            {'id': 5,
+             'category': 'Lifestyle changes',
+             'subcategory': 'Social habits',
+             'name': 'Avoid drinking',
+             'instructions': 'At most once a week.'},
+            {'id': 6,
+             'category': 'Videos',
+             'name': 'How to use the pump for asthma.',
+             'instructions': 'http://www.youtube.com/v=asthma',
+             'is_link': True},
+            {'id': 7,
+             'category': 'Videos',
+             'name': 'How to use aerocaps?',
+             'instructions': 'http://www.youtube.com/v=aerocaps',
+             'is_link': True},
             ])
 

@@ -31,6 +31,8 @@ class DrugListReader:
             self.currentDrug['category'] = self.currentCategory
         if self.currentSubcategory:
             self.currentDrug['subcategory'] = self.currentSubcategory
+        if 'category' in self.currentDrug and self.currentDrug['category'] == 'Videos':
+            self.currentDrug['is_link'] = True
         self.allDrugs.append(self.currentDrug)
         self.currentDrug = {}
 
@@ -67,15 +69,13 @@ class DrugListReader:
                 self.addDrug()
                 self.currentCategory = str(line[3:])
                 self.currentSubcategory = None
-                continue
-            if line.startswith('### '):
+            elif line.startswith('### '):
                 self.addDrug()
                 self.currentSubcategory = str(line[4:])
-                continue
-            if line.startswith('* '):
+            elif line.startswith('* '):
                 self.addDrug()
                 self.parseRecommendation(line)
-            if '//' in line:
+            elif '//' in line and not line.startswith('http'):
                 self.addDrug()
                 self.parseNewDrug(line)
             else:
