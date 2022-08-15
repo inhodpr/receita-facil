@@ -431,18 +431,20 @@ var ReceitaDiv = function(_app) {
   this.addImage = function(drugData) {
     var listItem = document.createElement('li');
     var posSpan = document.createElement('span');
-    var titleSpan = document.createElement('span');
+    var outerDiv = document.createElement('div')
+    var titleSpan = document.createElement('div');
     var qrCode = document.createElement('img');
     var url = "https://storage.googleapis.com/receita-facil-prescribed-images/" + drugData.instructions;
 
     listItem.setAttribute('id', 'drug' + drugData['id']);
     listItem.classList = ['receitaItem'];
     listItem.classList.add('prescribed-image');
-    listItem.appendChild(posSpan);
     titleSpan.innerText = drugData.name;
-    listItem.appendChild(titleSpan);
     qrCode.src = url;
-    listItem.appendChild(qrCode);
+    outerDiv.appendChild(titleSpan);
+    outerDiv.appendChild(qrCode);
+    listItem.appendChild(posSpan);
+    listItem.appendChild(outerDiv);
     this.prescriptionDiv.appendChild(listItem);
   };
 
