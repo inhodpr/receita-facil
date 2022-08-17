@@ -20,6 +20,13 @@ def _fetch_from_storage(pagename):
   client = storage.Client()
   bucket_name = 'receita-facil-knowledge-' + pagename
   blobs = [(blob.name, blob.media_link) for blob in client.list_blobs(bucket_name)]
+  # Hack for renaming pages without having to rename full buckets.
+  renamed_pages = {
+      'bibliografia': 'biblioteca',
+      'scores': 'materiais',
+  }
+  if pagename in renamed_pages:
+      pagename = renamed_pages[pagename]
   return render_template("knowledge_base.html",
 			            pagename=pagename,
 			            blobs=blobs)
