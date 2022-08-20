@@ -47,9 +47,6 @@ var DrugsForm = function(_app) {
     input_check.addEventListener('change', function(e) {
       var drugId = e.currentTarget.parentElement.firstElementChild.value;
       var currentRoute = routeSelector.value;
-      if (drugData.is_link || drugData.is_image) {
-          currentRoute = 'Links';
-      }
       if (e.currentTarget.checked) {
         routeMap[drugId] = currentRoute;  
         drugPosition[drugId] = counter;
@@ -295,12 +292,10 @@ var DrugsForm = function(_app) {
 };
 
 var ReceitaDiv = function(_app) {
-  this.app = _app;
   this.prescriptionDiv = null;
   this.group_by = 'route';
   this.drugSchedule = {};
-  this.currentDrugPositions = [];
-  this.currentPositionToIds = {};
+  this.drugCustomText = {};
 
   class IconClickHandler {
     constructor(receitaDiv, drugId, schedule) {
@@ -328,8 +323,27 @@ var ReceitaDiv = function(_app) {
     }
   };
 
+  class CustomizedTextHandler {
+    constructor(receitaDiv, drugPosition, printableTextDiv, drugTextArea) {
+        this.receitaDiv = receitaDiv;
+        this.drugPosition = drugPosition;
+        this.printableTextDiv = printableTextDiv;
+        this.drugTextArea = drugTextArea;
+    }
+
+    handleCustomizedText = function (e) {
+        var newText = this.drugTextArea.value;
+        this.printableTextDiv.innerText = newText;
+        this.receitaDiv.drugCustomText[this.drugPosition] = newText;
+    }    
+  }
+
   this.handleIconClick = function(e) {
       this.handleClick(e);
+  }
+
+  this.handleCustomizedText = function(e) {
+    this.handleCustomizedText(e);    
   }
 
   this.buildIconsPanel = function(drugData) {
@@ -360,8 +374,6 @@ var ReceitaDiv = function(_app) {
   this.switchPrescriptionMode = function(enableSpecialPrescription) {
     if (this.prescriptionDiv) {
       this.prescriptionDiv.innerHTML = "";
-      this.currentDrugPositions = [];
-      this.currentPositionToIds = {};
     }
 
     var simplePrescription = document.querySelector('.simple-prescription-form');
@@ -423,7 +435,10 @@ var ReceitaDiv = function(_app) {
   };
 
   this.addDrug = function(drugData) {
-    var drugText = this.getTextForDrug(drugData);
+    if (!(drugData['position'] in this.drugCustomText)) {
+        this.drugCustomText[drugData['position']] = this.getTextForDrug(drugData);
+    }
+    var drugText = this.drugCustomText[drugData['position']];
     var listItem = document.createElement('li');
     var posSpan = document.createElement('span');
     var drugTextWrapper = document.createElement('div');
@@ -433,15 +448,14 @@ var ReceitaDiv = function(_app) {
     listItem.classList = ['receitaItem'];
     drugTextWrapper.classList = ['drug-text-wrapper'];
     printableText.classList = ['printable-drug-text']
-
+    
     listItem.setAttribute('id', 'drug' + drugData['id']);
     textarea.setAttribute('cols', 60);
-    
     textarea.value = drugText;
     printableText.innerText = drugText;
-    textarea.addEventListener('keyup', function() {
-      printableText.innerText = textarea.value;
-    });
+    
+    var customTextHandler = new CustomizedTextHandler(this, drugData['position'], printableText, textarea);
+    textarea.addEventListener('keyup', handleCustomizedText.bind(customTextHandler));
     listItem.appendChild(posSpan);
     listItem.appendChild(this.buildIconsPanel(drugData));
     drugTextWrapper.appendChild(textarea);
@@ -497,21 +511,7 @@ var ReceitaDiv = function(_app) {
     return listItem;
   };
 
-  this.removeDrugWithId = function(drugId) {
-    var drugNode = document.getElementById('drug' + drugId);
-    if (drugNode) {
-      drugNode.remove();
-    } else {
-      console.log("Error: trying to remove drug with id 'drug" + drugId + "' " +
-                  "but it was not found in the DOM.");
-    }
-  };
-
   this.renderDrugs = function(selectedDrugs) {
-      this.renderDrugsGrouped(selectedDrugs);
-  };
-
-  this.renderDrugsGrouped = function(selectedDrugs) {
       this.prescriptionDiv.innerHTML = "";
       this.prescriptionDiv.classList = (this.group_by == "route" ? ["group-by-route"] : ["group-by-schedule"]);
       var groupKey = function (drug) {
@@ -561,93 +561,6 @@ var ReceitaDiv = function(_app) {
               listNumber = listNumber + 1;
           }
       }
-  };
-
-  this.renderDrugsOld = function(selectedDrugs) {
-    var updatedDrugPositions = [];
-    var positionToId = {};
-    var idToDrugData = {}
-    for (idx in selectedDrugs) {
-      var drug = selectedDrugs[idx];
-      updatedDrugPositions.push(drug['position']);
-      positionToId[drug['position']] = drug['id'];
-      idToDrugData[drug['id']] = drug;
-    }
-
-    var currentIdx = 0;
-    var updatedIdx = 0;
-    while (currentIdx < this.currentDrugPositions.length) {
-      var currentPos = this.currentDrugPositions[currentIdx];
-      if (updatedIdx >= updatedDrugPositions.length) {
-        // We are probably removing the last drug here.
-        this.removeDrugWithId(this.currentPositionToIds[currentPos]);
-        currentIdx += 1;
-      }
-
-      // updatedIdx is smaller than updatedDrugPositions.length. This is safe.
-      var updatedPos = updatedDrugPositions[updatedIdx];
-      if (updatedPos == currentPos) {
-        // Same drug. Increment both, and continue.
-        currentIdx += 1;
-        updatedIdx += 1;
-      } else if (currentPos < updatedPos) {
-        // Some drug in the middle was unselected. Increment only currentIdx.
-        this.removeDrugWithId(this.currentPositionToIds[currentPos]);
-        currentIdx += 1; 
-      } else if (currentPos > updatedPos) {
-        var errorMsg = 'currentPos > updatedPos ' + 
-                       '('+ currentPos + ' > '+ updatedPos +'). ' +
-                       'This should never happen.';
-        console.log(errorMsg)
-      }
-    }
-    while (updatedIdx < updatedDrugPositions.length) {
-      var updatedPos = updatedDrugPositions[updatedIdx];
-      var drugId = positionToId[updatedPos];
-      var drugData = idToDrugData[drugId];
-      if (drugData.is_link) {
-        this.addLink(drugData);
-      } else if (drugData.is_image) {
-        this.addImage(drugData);
-      } else {
-        this.addDrug(drugData);
-      }
-      updatedIdx += 1;
-    }
-
-    // Now, finalize the prescription. Add numbers to each list item, and add
-    // router headers. But start by removing already existing headers.
-    document.querySelectorAll('.routeHeader').forEach(function (h) {
-      h.remove();
-    });
-    var receitaItems = document.querySelectorAll('.receitaItem');
-    var listNumber = 1;
-    var previousRoute = null;
-    for (var idx = 0; idx < receitaItems.length; idx += 1) {
-      var drugNode =  receitaItems[idx];
-      var drugId = Number(drugNode.id.substr(4));
-
-      // Set numbers for each drug to represent an ordered list.
-      var posSpan = drugNode.firstElementChild;
-      posSpan.innerText = listNumber + ')';  /* WAAAAT?!?! */
-      listNumber = listNumber + 1;
-
-      // Maybe add a header for route before drugNode.
-      var drugRoute = idToDrugData[drugId]['route'];
-      if (drugRoute != null &&
-          drugRoute != "" &&
-          (drugRoute != previousRoute || previousRoute == null)) {
-        var routeDiv = document.createElement('div');
-        routeDiv.classList.add('routeHeader');
-        routeDiv.innerText = drugRoute;
-        this.prescriptionDiv.insertBefore(routeDiv, drugNode);
-        previousRoute = drugRoute;
-      } 
-    } 
-
-    // Update list of current drugs.
-    this.currentDrugPositions = updatedDrugPositions;
-    this.currentPositionToIds = positionToId;
   };
 
   return this;
