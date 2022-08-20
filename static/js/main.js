@@ -453,6 +453,12 @@ var ReceitaDiv = function(_app) {
     textarea.setAttribute('cols', 60);
     textarea.value = drugText;
     printableText.innerText = drugText;
+
+    var iconSelector = new IconSelect([
+        '/static/images/illustrations/diarreia.png',
+        '/static/images/illustrations/migraine.png',
+        '/static/images/illustrations/stomachache.png',
+    ]);
     
     var customTextHandler = new CustomizedTextHandler(this, drugData['position'], printableText, textarea);
     textarea.addEventListener('keyup', handleCustomizedText.bind(customTextHandler));
@@ -461,6 +467,7 @@ var ReceitaDiv = function(_app) {
     drugTextWrapper.appendChild(textarea);
     drugTextWrapper.appendChild(printableText);
     listItem.appendChild(drugTextWrapper);
+    listItem.appendChild(iconSelector.root)
     this.prescriptionDiv.appendChild(listItem);
 
     // Need to do this after the textarea is appended to the doc.

@@ -1,0 +1,18 @@
+.icon-select {
+    max-width: 44px;
+}
+.icon-select img {
+    width: 40px;
+    height: 40px;
+}
+.icon-select .icon-options {
+    background-color: white;
+}
+.icon-select .icon-options .selectable-icon:hover {
+    border: 2px white solid;
+}
+.icon-select .icon-options .selectable-icon:hover {
+    border-color: black;
+}
+
+/* .icon-select .selected {} */
