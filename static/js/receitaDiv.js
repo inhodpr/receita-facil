@@ -222,17 +222,19 @@ export default class ReceitaDiv {
   renderDrugs = function (selectedDrugs) {
     this.prescriptionDiv.innerHTML = "";
     this.prescriptionDiv.classList = (this.group_by == "route" ? ["group-by-route"] : ["group-by-schedule"]);
-    var groupKey = function (drug, group_by) {
+    var groupKey = function (drug, group_by, drugSchedule) {
       if (group_by == 'route') {
         return [drug['route']];
+      } else if (drug['id'] in drugSchedule) {
+        return drugSchedule[drug['id']];
       } else {
-        return this.drugSchedule[drug['id']];
+        return [];
       }
     };
     var drugSets = {};
     for (var idx in selectedDrugs) {
       var selectedDrug = selectedDrugs[idx];
-      groupKey(selectedDrug, this.group_by).forEach(function (group) {
+      groupKey(selectedDrug, this.group_by, this.drugSchedule).forEach(function (group) {
         if (!(group in drugSets)) {
           drugSets[group] = [];
         }

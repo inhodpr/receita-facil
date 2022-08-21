@@ -159,8 +159,8 @@ export default class DrugsForm {
     "</span>";
     this.drugsForm.appendChild(toggleDiv);
     var groupByScheduleSelector = document.getElementById('groupBySchedule');
-    groupByScheduleSelector.addEventListener('change', (function () {
-      this.app.toggleGroupBySchedule(this.checked);
+    groupByScheduleSelector.addEventListener('change', (function (e) {
+      this.app.toggleGroupBySchedule(e.currentTarget.checked);
     }).bind(this));
   }
 
