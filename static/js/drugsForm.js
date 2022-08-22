@@ -97,7 +97,7 @@ export default class DrugsForm {
     document.getElementById('expand-all').setAttribute('style', 'display: none');
     document.getElementById('collapse-all').setAttribute('style', '');
     var nodes = document.querySelectorAll('.collapsed');
-    for (node of nodes) {
+    for (var node of nodes) {
       node.setAttribute('class', 'expanded');
     }
   }
@@ -106,7 +106,7 @@ export default class DrugsForm {
     document.getElementById('expand-all').setAttribute('style', '');
     document.getElementById('collapse-all').setAttribute('style', 'display: none');
     var nodes = document.querySelectorAll('.expanded');
-    for (node of nodes) {
+    for (var node of nodes) {
       node.setAttribute('class', 'collapsed');
     }
   }
@@ -117,7 +117,7 @@ export default class DrugsForm {
     this.drugPosition = [];
     this.routeSelector.value = 'Uso oral';
     // Unselect all drugs.
-    for (idx in this.drugSelections) {
+    for (var idx in this.drugSelections) {
       this.drugSelections[idx].checked = false;
     }
     // Clear copy if it exists.
