@@ -1,3 +1,9 @@
+var removeAllChildren = function (parent) {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
+};
+
 export default class IconSelect {
   constructor() {
     this.icons = [
@@ -6,7 +12,8 @@ export default class IconSelect {
       '/static/images/illustrations/stomachache.png',
     ];
     this.root = null;
-    this.selected = null;
+    this.selectedUrls = new Set();
+    this.selectedDiv = null;
     this.btnShowOptions = null;
     this.divOptions = null;
     this.build();
@@ -18,42 +25,48 @@ export default class IconSelect {
 
   handleIconClick = function (e) {
     var iconUrl = new URL(e.currentTarget.src);
-    if (iconUrl.pathname == '/') {
-      this.selected.hidden = true;
+    if (this.selectedUrls.has(iconUrl.pathname)) {
+      this.selectedUrls.delete(iconUrl.pathname);
     } else {
-      this.selected.hidden = false;
-      this.selected.src = iconUrl.toString();
+      this.selectedUrls.add(iconUrl.pathname);
     }
-    this.divOptions.hidden = true;
+    removeAllChildren(this.selectedDiv);
+    removeAllChildren(this.divOptions);
+    for (var idx in this.icons) {
+      this.addIcon(this.icons[idx]);
+    }
   }
 
   addIcon = function (iconUrl) {
     var icon = document.createElement('img');
     icon.src = iconUrl;
-    icon.classList = ['selectable-icon'];
     icon.addEventListener('click', this.handleIconClick.bind(this));
+    if (this.selectedUrls.has(iconUrl)) {
+      icon.classList.add('selected');
+      var cloned = icon.cloneNode();
+      cloned.addEventListener('click', this.handleIconClick.bind(this))
+      this.selectedDiv.appendChild(cloned);
+    }
     this.divOptions.appendChild(icon);
   }
 
   build = function () {
     this.root = document.createElement('div');
-    this.selected = document.createElement('img');
+    this.selectedDiv = document.createElement('div');
     this.btnShowOptions = document.createElement('button');
     this.divOptions = document.createElement('div');
-    this.root.appendChild(this.selected);
+    this.root.appendChild(this.selectedDiv);
     this.root.appendChild(this.btnShowOptions);
     this.root.appendChild(this.divOptions);
 
     this.root.classList = ['icon-select'];
-    this.selected.classList = ['selected'];
-    this.selected.hidden = true;
+    this.selectedDiv.classList = ['selected-icons'];
     this.btnShowOptions.innerText = '>>';
     this.btnShowOptions.classList = ['show-options'];
     this.btnShowOptions.addEventListener('click', this.showOptions.bind(this));
     this.divOptions.classList = ['icon-options'];
     this.divOptions.hidden = true;
 
-    this.addIcon('/');
     for (var idx in this.icons) {
       this.addIcon(this.icons[idx]);
     }
