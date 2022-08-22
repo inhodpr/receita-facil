@@ -20,7 +20,7 @@ export default class IconSelect {
   }
 
   showOptions = function (e) {
-    this.divOptions.hidden = false;
+    this.divOptions.hidden = !this.divOptions.hidden;
   }
 
   handleIconClick = function (e) {
@@ -52,12 +52,14 @@ export default class IconSelect {
 
   build = function () {
     this.root = document.createElement('div');
+    var firstRow = document.createElement('div');
     this.selectedDiv = document.createElement('div');
     this.btnShowOptions = document.createElement('button');
     this.divOptions = document.createElement('div');
-    this.root.appendChild(this.selectedDiv);
-    this.root.appendChild(this.btnShowOptions);
+    this.root.appendChild(firstRow);
     this.root.appendChild(this.divOptions);
+    firstRow.appendChild(this.selectedDiv);
+    firstRow.appendChild(this.btnShowOptions);
 
     this.root.classList = ['icon-select'];
     this.selectedDiv.classList = ['selected-icons'];

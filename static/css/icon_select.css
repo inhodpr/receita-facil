@@ -1,5 +1,9 @@
-.icon-select {
-    max-width: 44px;
+.icon-select .selected-icons {
+    height: 44px;
+    display: inline-block;
+}
+.icon-select .show-options {
+    float: right;
 }
 .icon-select img {
     width: 40px;
@@ -7,12 +11,17 @@
 }
 .icon-select .icon-options {
     background-color: white;
+    float: right;
+    width: 88px;
 }
-.icon-select .icon-options .selectable-icon:hover {
+.icon-select .icon-options img {
     border: 2px white solid;
 }
-.icon-select .icon-options .selectable-icon:hover {
+.icon-select .icon-options img:hover {
     border-color: black;
+}
+.icon-select .icon-options img.selected {
+    background-color: lightgreen;
 }
 
 /* .icon-select .selected {} */
