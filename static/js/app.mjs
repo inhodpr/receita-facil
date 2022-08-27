@@ -40,7 +40,7 @@ export default class ReceitaApp {
     this.advanceBottom(0);
   }
   
-  advanceBottom = function (delta) {
+  advanceBottom = function (delta = 1) {
     this.bottomIndex += delta;    
     if (this.bottomDiv != null) {
       var bottomRequestUrl = new URL('/bottom', document.location);
@@ -50,6 +50,11 @@ export default class ReceitaApp {
         r => r.text())
       .then((function (htmlContents) {
         this.bottomDiv.innerHTML = htmlContents;
+
+        var nextBtn = document.createElement("button");
+        nextBtn.innerText = '>';
+        nextBtn.addEventListener('click', (e => this.advanceBottom(1)).bind(this));
+        this.bottomDiv.appendChild(nextBtn);
       }).bind(this));
     }
   }
