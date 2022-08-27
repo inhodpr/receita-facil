@@ -27,7 +27,8 @@ export default class ReceitaApp {
       // Petrolina is the default city.
       this.city = "pnz";
     }
-    this.bottomIndex = Math.random() * 1000;
+    this.bottomIndex = Math.floor(Math.random() * 1000);
+    this.bottomDiv = document.getElementById('dynamic-bottom');
 
     const dateOpts = { year: 'numeric', month: 'numeric', day: 'numeric' };
     var today = new Date();
@@ -36,20 +37,21 @@ export default class ReceitaApp {
       p.innerText = dateText;
     });
     this.loadDrugsList().then(this.finishStart.bind(this));
-
-    this.bottomDiv = document.getElementById('dynamic-bottom');
+    this.advanceBottom(0);
+  }
+  
+  advanceBottom = function (delta) {
+    this.bottomIndex += delta;    
     if (this.bottomDiv != null) {
       var bottomRequestUrl = new URL('/bottom', document.location);
       bottomRequestUrl.searchParams.set('city', this.city);
       bottomRequestUrl.searchParams.set('idx', this.bottomIndex);
       fetch(bottomRequestUrl).then(
         r => r.text())
-      .then(this.finishBottomSection.bind(this));
+      .then((function (htmlContents) {
+        this.bottomDiv.innerHTML = htmlContents;
+      }).bind(this));
     }
-  }
-
-  finishBottomSection = function (htmlContents) {
-    this.bottomDiv.innerHTML = htmlContents;
   }
 
   generatePrescription = function () {
