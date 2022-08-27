@@ -71,16 +71,14 @@ def fetch_drugs():
 @app.route('/bottom')
 def fetch_bottoms():
     available_bottom_sections = [
+        'all_saline_solution.html',
         'pnz_phones.html',
     ]
     bottom_index = int(float(request.args['idx']))
     city_prefix = "{}_".format(request.args['city'])
-    print('bottom_index = {}'.format(bottom_index))
-    print('city_prefix = {}'.format(city_prefix))
     valid_templates = list(filter(
         lambda t: t.startswith('all_') or t.startswith(city_prefix),
         available_bottom_sections))
-    print('valid_templates = {}'.format(valid_templates))
     if not valid_templates:
         return ''
     template_idx = bottom_index % len(valid_templates)
