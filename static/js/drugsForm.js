@@ -141,9 +141,9 @@ export default class DrugsForm {
     "</span>";
     this.drugsForm.appendChild(toggleDiv);
     var specialPrescriptionSelector = document.getElementById('useSpecialPrescription');
-    specialPrescriptionSelector.addEventListener('change', function () {
-      app.toggleSpecialPrescription(this.checked);
-    });
+    specialPrescriptionSelector.addEventListener('change', (function (e) {
+      this.app.toggleSpecialPrescription(e.currentTarget.checked);
+    }).bind(this));
   }
 
   buildGroupByScheduleToggle = function () {
