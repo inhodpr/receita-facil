@@ -5,9 +5,10 @@ export default class ReceitaApp {
   constructor() {
     this.prescriptionHandler = null;
     this.drugsHandler = null;
+    this.city = null;
   }
-    
-  finishStart = function(drugsList) {
+
+  finishStart = function (drugsList) {
     this.prescriptionHandler = new ReceitaDiv(this);
     this.prescriptionHandler.switchPrescriptionMode(false);
     this.drugsHandler = new DrugsForm(this, drugsList);
@@ -16,11 +17,19 @@ export default class ReceitaApp {
 
   loadDrugsList = async function (callback) {
     var DRUGS_JSON_URL = '/drugs';
-    var contents = null;
     return fetch(DRUGS_JSON_URL).then(response => response.json());
   };
-  
+
   start = function () {
+    var currentUrl = new URL(document.URL);
+    this.city = currentUrl.pathname.substr(1);
+    if (this.city == "") {
+      // Petrolina is the default city.
+      this.city = "pnz";
+    }
+    this.bottomIndex = Math.floor(Math.random() * 1000);
+    this.bottomDiv = document.getElementById('dynamic-bottom');
+
     const dateOpts = { year: 'numeric', month: 'numeric', day: 'numeric' };
     var today = new Date();
     var dateText = today.toLocaleDateString('pt-BR', dateOpts);
@@ -28,6 +37,26 @@ export default class ReceitaApp {
       p.innerText = dateText;
     });
     this.loadDrugsList().then(this.finishStart.bind(this));
+    this.advanceBottom(0);
+  }
+  
+  advanceBottom = function (delta = 1) {
+    this.bottomIndex += delta;    
+    if (this.bottomDiv != null) {
+      var bottomRequestUrl = new URL('/bottom', document.location);
+      bottomRequestUrl.searchParams.set('city', this.city);
+      bottomRequestUrl.searchParams.set('idx', this.bottomIndex);
+      fetch(bottomRequestUrl).then(
+        r => r.text())
+      .then((function (htmlContents) {
+        this.bottomDiv.innerHTML = htmlContents;
+
+        var nextBtn = document.createElement("button");
+        nextBtn.innerText = '>';
+        nextBtn.addEventListener('click', (e => this.advanceBottom(1)).bind(this));
+        this.bottomDiv.appendChild(nextBtn);
+      }).bind(this));
+    }
   }
 
   generatePrescription = function () {
@@ -53,7 +82,5 @@ export default class ReceitaApp {
     var patientField = document.querySelector('div.prescription-form.enabled input[name="patient-name"]');
     patientField.value = oldPatientName;
   }
-
-
 }
 

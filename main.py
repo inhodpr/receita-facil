@@ -68,6 +68,24 @@ def fetch_drugs():
   return Response(contents, mimetype='application/json')
 
 
+@app.route('/bottom')
+def fetch_bottoms():
+    available_bottom_sections = [
+        'all_saline_solution.html',
+        'pnz_phones.html',
+    ]
+    bottom_index = int(float(request.args['idx']))
+    city_prefix = "{}_".format(request.args['city'])
+    valid_templates = list(filter(
+        lambda t: t.startswith('all_') or t.startswith(city_prefix),
+        available_bottom_sections))
+    if not valid_templates:
+        return ''
+    template_idx = bottom_index % len(valid_templates)
+    return render_template(os.path.join(
+        'bottoms', valid_templates[template_idx]))
+
+
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_drugs():
     if request.method == 'POST':
