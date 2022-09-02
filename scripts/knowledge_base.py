@@ -18,15 +18,14 @@ from google.cloud import storage
 
 def _fetch_from_storage(pagename):
   client = storage.Client()
-  bucket_name = 'receita-facil-knowledge-' + pagename
-  blobs = [(blob.name, blob.media_link) for blob in client.list_blobs(bucket_name)]
   # Hack for renaming pages without having to rename full buckets.
   renamed_pages = {
-      'bibliografia': 'biblioteca',
-      'scores': 'materiais',
+      'biblioteca': 'bibliografia',
+      'materiais': 'scores',
   }
-  if pagename in renamed_pages:
-      pagename = renamed_pages[pagename]
+  bucket_suffix = renamed_pages[pagename] if pagename in renamed_pages else pagename
+  bucket_name = 'receita-facil-knowledge-' + bucket_suffix
+  blobs = [(blob.name, blob.media_link) for blob in client.list_blobs(bucket_name)]
   return render_template("knowledge_base.html",
 			            pagename=pagename,
 			            blobs=blobs)
@@ -35,14 +34,17 @@ def _fetch_from_storage(pagename):
 def render_bibliography_page(app):
 	return _fetch_from_storage("bibliografia")
 
+def render_library_page(app):
+	return _fetch_from_storage("biblioteca")
 
 def render_documents_page(app):
 	return _fetch_from_storage("documentos")
 
-
 def render_scores_page(app):
 	return _fetch_from_storage("scores")
 
+def render_materials_page(app):
+	return _fetch_from_storage("materiais")
 
 def render_panel_page(app):
 	return _fetch_from_storage("painel")
