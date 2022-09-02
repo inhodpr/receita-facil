@@ -9,7 +9,7 @@ var SUPPORT_ICON_DEFS = null;
 export default class IconSelect {
   constructor() {
     this.root = null;
-    this.selectedUrls = new Set();
+    this.selectedUrls = [];
     this.selectedDiv = null;
     this.btnShowOptions = null;
     this.divOptions = null;
@@ -32,10 +32,11 @@ export default class IconSelect {
 
   handleIconClick = function (e) {
     var iconUrl = e.currentTarget.src;
-    if (this.selectedUrls.has(iconUrl)) {
-      this.selectedUrls.delete(iconUrl);
+    var position = this.selectedUrls.indexOf(iconUrl);
+    if (position >= 0) {
+      this.selectedUrls.splice(position, 1);
     } else {
-      this.selectedUrls.add(iconUrl);
+      this.selectedUrls.push(iconUrl);
     }
     removeAllChildren(this.selectedDiv);
     removeAllChildren(this.divOptions);
@@ -43,16 +44,6 @@ export default class IconSelect {
   }
 
   addIcon = function (iconUrl, parent) {
-    var icon = document.createElement('img');
-    icon.src = iconUrl;
-    icon.addEventListener('click', this.handleIconClick.bind(this));
-    if (this.selectedUrls.has(iconUrl)) {
-      icon.classList.add('selected');
-      var cloned = icon.cloneNode();
-      cloned.addEventListener('click', this.handleIconClick.bind(this))
-      this.selectedDiv.appendChild(cloned);
-    }
-    parent.appendChild(icon);
   }
 
   build = function () {
@@ -76,13 +67,31 @@ export default class IconSelect {
   }
 
   buildOptions = function() {
+    this.selectedUrls.forEach(
+	    url => {
+    var icon = document.createElement('img');
+    icon.src = url;
+    icon.addEventListener('click', this.handleIconClick.bind(this));
+		    this.selectedDiv.appendChild(icon);
+
+	    })
     for (var category in SUPPORT_ICON_DEFS) {
       var categoryHeader = document.createElement('div');
       categoryHeader.innerText = category;
       var categoryContents = document.createElement('div');
       categoryHeader.classList = ['category'];
       SUPPORT_ICON_DEFS[category].forEach(
-          url => {this.addIcon(url, categoryContents)});
+          url => {
+    var icon = document.createElement('img');
+    icon.src = url;
+    icon.addEventListener('click', this.handleIconClick.bind(this));
+
+    var position = this.selectedUrls.indexOf(url);
+    if (position >= 0) {
+      icon.classList.add('selected');
+    }
+    this.divOptions.appendChild(icon);
+	  });
       this.divOptions.appendChild(categoryHeader);
       this.divOptions.appendChild(categoryContents);
     }
