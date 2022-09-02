@@ -31,11 +31,11 @@ export default class IconSelect {
   }
 
   handleIconClick = function (e) {
-    var iconUrl = new URL(e.currentTarget.src);
-    if (this.selectedUrls.has(iconUrl.pathname)) {
-      this.selectedUrls.delete(iconUrl.pathname);
+    var iconUrl = e.currentTarget.src;
+    if (this.selectedUrls.has(iconUrl)) {
+      this.selectedUrls.delete(iconUrl);
     } else {
-      this.selectedUrls.add(iconUrl.pathname);
+      this.selectedUrls.add(iconUrl);
     }
     removeAllChildren(this.selectedDiv);
     removeAllChildren(this.divOptions);
