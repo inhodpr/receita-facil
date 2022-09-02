@@ -23,6 +23,7 @@ ALLOWED_EXTENSIONS = ['txt']
 BUCKET_NAME = 'receita-facil-drugs-storage'
 BLOB_NAME = 'drugs.json'
 
+SUPPORT_ICONS_BUCKET = 'receita-facil-support-icons'
 
 app = Flask(__name__)
 
@@ -111,6 +112,21 @@ def upload_drugs():
       <input type=submit value=Upload>
     </form>
     '''
+
+
+@app.route('/supportIcons')
+def support_icons_defs():
+    client = storage.Client()
+    blobs = client.list_blobs(SUPPORT_ICONS_BUCKET)
+    support_icon_defs = {}
+    for blob in blobs:
+        category, icon = blob.name.split('/')
+        if category not in support_icon_defs:
+            support_icon_defs[category] = []
+        support_icon_defs[category].append(blob.public_url)
+    
+    contents = json.dumps(support_icon_defs)
+    return Response(contents, mimetype='application/json')
 
 
 @app.route('/bibliografia')
