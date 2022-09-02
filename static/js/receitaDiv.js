@@ -119,7 +119,7 @@ export default class ReceitaDiv {
         return tmpl.replace(tmplVar, '');
       }
     };
-    var colWidth = 55;
+    var colWidth = 40;
     var numDashes = 0;
     if ('quantity' in drugData) {
       numDashes = colWidth - 2 - drugData['name'].length - drugData['quantity'].length;

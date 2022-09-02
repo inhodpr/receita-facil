@@ -15,12 +15,12 @@ export default class IconSelect {
     this.divOptions = null;
     this.build();
     if (SUPPORT_ICON_DEFS == null) {
-        fetch('/supportIcons')
+      fetch('/supportIcons')
         .then(response => response.json())
         .then((function (supportIconDefs) {
-            SUPPORT_ICON_DEFS = supportIconDefs;
-            this.buildOptions();
-          }).bind(this));
+          SUPPORT_ICON_DEFS = supportIconDefs;
+          this.buildOptions();
+        }).bind(this));
     } else {
       this.buildOptions();
     }
@@ -30,20 +30,23 @@ export default class IconSelect {
     this.divOptions.hidden = !this.divOptions.hidden;
   }
 
-  handleIconClick = function (e) {
+  handleAddIconClick = function (e) {
     var iconUrl = e.currentTarget.src;
-    var position = this.selectedUrls.indexOf(iconUrl);
-    if (position >= 0) {
-      this.selectedUrls.splice(position, 1);
-    } else {
-      this.selectedUrls.push(iconUrl);
-    }
+    this.selectedUrls.push(iconUrl);
     removeAllChildren(this.selectedDiv);
     removeAllChildren(this.divOptions);
     this.buildOptions();
   }
 
-  addIcon = function (iconUrl, parent) {
+  handleRemoveIconClick = function (e) {
+    var iconUrl = e.currentTarget.src;
+    var position = this.selectedUrls.indexOf(iconUrl);
+    if (position >= 0) {
+      this.selectedUrls.splice(position, 1);
+    }
+    removeAllChildren(this.selectedDiv);
+    removeAllChildren(this.divOptions);
+    this.buildOptions();
   }
 
   build = function () {
@@ -66,34 +69,35 @@ export default class IconSelect {
     this.divOptions.hidden = true;
   }
 
-  buildOptions = function() {
+  buildOptions = function () {
     this.selectedUrls.forEach(
-	    url => {
-    var icon = document.createElement('img');
-    icon.src = url;
-    icon.addEventListener('click', this.handleIconClick.bind(this));
-		    this.selectedDiv.appendChild(icon);
-
-	    })
+      url => {
+        var icon = document.createElement('img');
+        icon.src = url;
+        icon.addEventListener('click', this.handleRemoveIconClick.bind(this));
+        this.selectedDiv.appendChild(icon);
+      });
     for (var category in SUPPORT_ICON_DEFS) {
+      // Remove leading digits which are only used to set group order.
+      var headerText = category.replace(/^[0-9]* /, '');
       var categoryHeader = document.createElement('div');
-      categoryHeader.innerText = category;
+      categoryHeader.innerText = headerText;
       var categoryContents = document.createElement('div');
       categoryHeader.classList = ['category'];
       SUPPORT_ICON_DEFS[category].forEach(
-          url => {
-    var icon = document.createElement('img');
-    icon.src = url;
-    icon.addEventListener('click', this.handleIconClick.bind(this));
+        url => {
+          var icon = document.createElement('img');
+          icon.src = url;
+          icon.addEventListener('click', this.handleAddIconClick.bind(this));
 
-    var position = this.selectedUrls.indexOf(url);
-    if (position >= 0) {
-      icon.classList.add('selected');
-    }
-    this.divOptions.appendChild(icon);
-	  });
+          var position = this.selectedUrls.indexOf(url);
+          if (position >= 0) {
+            icon.classList.add('selected');
+          }
+          categoryContents.appendChild(icon);
+        });
       this.divOptions.appendChild(categoryHeader);
       this.divOptions.appendChild(categoryContents);
     }
   }
-  }
+}
