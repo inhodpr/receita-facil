@@ -106,6 +106,12 @@ div.collapsed {
 }
 
 @media print {
+  html, body {
+    size: A4;
+  }
+  .prescription-form {
+    min-height: 95%;
+  }
   body { background: white; }
   .main-column {
     width: 100%;
@@ -130,4 +136,3 @@ div.collapsed {
     display: block;
   }
 }
-  

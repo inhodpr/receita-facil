@@ -1,0 +1,117 @@
+.prescription-form {
+    display: flex;
+    flex-flow: column nowrap;
+}
+div.vgap {
+    flex-grow: 2;
+}
+
+#header-top {
+    text-align: center;
+}
+#header-top img, #footer img {
+    width: 100%;
+    display: block;
+}
+#header-top h1 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 14pt;
+}
+#bottom {
+    display: flex;
+}
+#bottom > div {
+    width: 40%;
+    margin: auto;
+}
+div#medico {
+    text-align: center;
+}
+
+
+/* SPECIAL PRESCRIPTION HEADERS */
+input[name='emitente-name'] {
+    width: 70%;
+  }
+  input[name='emitente-uf'] {
+    width: 2em;
+  }
+  /* Make Usuário and Endereço fields take the remaining width. */
+  div#header-usuario, div#header-endereco {
+    display: flex;
+    flex-direction: row;
+  }
+  div#header-usuario input, div#header-endereco input {
+    flex: 2;
+  }
+  
+  .special-prescription-form #header-emitente .gap {
+    width: 19%;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .special-prescription-form #header-emitente .gap span {
+    width: 100%;
+    display: block;
+    margin-bottom: 2em;
+  }
+  .special-prescription-form #header-emitente #emitente {
+    display: inline-block;
+    width: 60%;
+    border: 1px solid black;
+    padding-bottom: 3px; 
+  }
+
+  #header-usuario, #header-endereco, #header-prescricao {
+    padding: 1em 2px 0 2px; 
+  }
+  #header-prescricao {
+    min-height: 5em;
+  }
+  #header-infos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  #header-infos #info-usuario, #header-infos #info-dispensador {
+    width: 47%;
+    margin: 5px 0;
+    border: 1px solid black;
+  }
+  #header-infos h3, #emitente h3 {
+    margin: 0 0 12px 0;
+    padding: 5px 0;
+    font-size: 1.07em;
+    text-align: center;
+    border-bottom: 1px solid black;
+  }
+  #header-infos fieldset {
+    border: none;
+    margin: 0;
+    padding: 0 0 3px 0;
+    display: flex;
+    flex-direction: column;
+  }
+  #info-dispensador fieldset {
+      justify-content: end;
+      height: 140px;
+  }
+  div#signature-line {
+      font-size: 7pt;
+  }
+  div#signature-line > div {
+      display: inline-block;
+      margin: 0 8px;
+  }
+  #header-infos div.line {
+    height: 1.3em;
+    padding: 0 3px;
+    display: flex;
+    flex-direction: row;
+  }
+  #header-infos div.line span.gap {
+    flex: 2;
+    display: inline-block;
+    border-bottom: 1px solid black;
+    padding-top: 3px;
+  }

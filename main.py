@@ -59,6 +59,9 @@ def homeSantaFilomena():
 def homeSantaCruz():
     return render_template("santa_cruz.html")
 
+@app.route('/sbf')
+def homeSBF():
+    return render_template("sbf.html")
 
 @app.route('/drugs')
 def fetch_drugs():

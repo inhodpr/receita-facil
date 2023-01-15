@@ -1,0 +1,121 @@
+{% extends "main.html" %}
+{% block custom_styles %}
+<link rel="stylesheet" type="text/css" href="/static/css/sbf_style.css">
+{% endblock %}
+{% block simple_prescription %}
+<div class='prescription-form simple-prescription-form'>
+    <div id='header-top'>
+        <img src="/static/images/headerSBF.png">
+        <h1>RECEITUÁRIO</h1>
+    </div>
+    <div>
+        <span>Nome:</span>
+        <input name='nome' type='text' value=''>
+    </div>
+    <div>
+        <ul id="receita-simples"></ul>
+    </div>
+    <div class='vgap'></div>
+    <div id='bottom'>
+        <div id='data'>
+            <span>Data:</span>
+            <span class='autofill-date'></span>
+        </div>
+        <div id='medico'>
+            <div>__________________________</div>
+            <div>Médico - CRM</div>
+        </div>
+    </div>
+    <div id='footer'>
+        <img src="/static/images/footerSBF.png" />
+    </div>
+</div>
+{% endblock %}
+{% block special_prescription %}
+<div class='prescription-form special-prescription-form' hidden='true'>
+    <div id='header-top'>
+        <img src="/static/images/headerSBF.png">
+        <h1>RECEITUÁRIO CONTROLE ESPECIAL</h1>
+    </div>
+    <div id='header-emitente'>
+        <div id='emitente'>
+            <h3>IDENTIFICAÇÃO DO EMITENTE</h3>
+            <label for='emitente-name'>Nome completo: </span>
+            <input name='emitente-name' type='text' />
+            <div>
+                <label for='emitente-crm'>CRM:</label>
+                <input name='emitente-crm' type='text' />
+                <label for='emitente-uf'>UF:</label>
+                <input name='emitente-uf' type='text' value='BA' />
+            </div>
+        </div>
+        <div class='gap'>
+            <span>1 via - Farmácia</span>
+            <span>2 via - Usuário</span>
+        </div>
+    </div>
+    <div id='header-usuario'>
+        <label for='usuario'>Paciente:</label>
+        <input type='text' name='patient-name'></span>
+    </div>
+    <div id='header-endereco'>
+        <label for='usuario'>Endereço:</label>
+        <input type='text' name='endereco'></span>
+    </div>
+    <div id='header-prescricao'>
+        <label>Prescrição:</label>
+        <ul id='receita-especial'></ul>
+    </div>
+    <div id='header-infos'>
+        <div id='info-usuario'>
+            <h3>
+                IDENTIFICAÇÃO DO COMPRADOR
+            </h3>
+            <fieldset>
+                <div class=line>
+                    <span class='label'>Nome:</span>
+                    <span class='gap'></span>
+                </div>
+                <div class=line>
+                    <span class='gap'></span>
+                </div>
+                <div class=line>
+                    <span class='label'>Identidade:</span>
+                    <span class='gap'></span>
+                </div>
+                <div class=line>
+                    <span class='label'>Endereço:</span>
+                    <span class='gap'></span>
+                </div>
+                <div class=line>
+                    <span class='gap'></span>
+                </div>
+                <div class=line>
+                    <span class='gap'></span>
+                </div>
+                <div class=line>
+                    <span class='label'>Telefone:</span>
+                    <span class='gap'></span>
+                </div>
+            </fieldset>
+        </div>
+        <div id='info-dispensador'>
+            <h3>
+                IDENTIFICAÇÃO DO FORNECEDOR
+            </h3>
+            <fieldset>
+                <div id='signature-line'>
+                    <div>
+                        <div class='label'>______________________________</div>
+                        <div class='gap'>ASSINATURA DO FARMACÊUTICO</div>
+                    </div>
+                    <div>DATA: __ / __ / __</div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div id='footer'>
+        <img src="/static/images/footerSBF.png" />
+    </div>
+</div>
+{% endblock %}
