@@ -17,6 +17,10 @@ div.vgap {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 14pt;
 }
+.simple-prescription-form input[name='nome'] {
+    width: 90%;
+}
+
 #bottom {
     display: flex;
 }
