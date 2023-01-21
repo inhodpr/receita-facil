@@ -215,7 +215,7 @@ export default class DrugsForm {
     this.buildGroupByScheduleToggle();
     this.buildRouteSelector();
     var printBtn = document.createElement('button');
-    printBtn.innerText = 'Prepare to print';
+    printBtn.innerText = 'Duplicar página';
     this.drugsForm.appendChild(printBtn);
     printBtn.addEventListener('click', function (e) {
       var cloned = document.getElementsByClassName('main-column')[0].cloneNode(true);
