@@ -4,11 +4,13 @@
 {% endblock %}
 {% block simple_prescription %}
 <div class='prescription-form simple-prescription-form'>
+    {% if not unspecifiedCity %}
     <div id='header-top'>
         <img src="{{ city_logo_file }}">
         <span>SECRETARIA MUNICIPAL DE SAÚDE</span>
         <img src="/static/images/logo_sus.png">
     </div>
+    {% endif %}
     <div id='header-title'>
         <h1>RECEITUÁRIO</h1>
     </div>
@@ -39,6 +41,13 @@
 {% endblock %}
 {% block special_prescription %}
 <div class='prescription-form special-prescription-form' hidden='true'>
+{% if unspecifiedCity %}
+<div>
+    O receituário especial para medicamentos controlados só está disponível
+    para cidades específicas. Você pode acessá-lo pelo link disponível para sua
+    cidade.
+</div>
+{% else %}
     <div id="header-top">
         <img src="{{ city_logo_file }}">
         <div>
@@ -164,5 +173,6 @@
         Observação: Essa receita tem validade de 30 dias. Ultrapassado o prazo,
         favor solicitar uma nova ao prescritor.
     </div>
+    {% endif %}
 </div>
 {% endblock %}

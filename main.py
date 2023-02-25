@@ -34,56 +34,68 @@ def allowed_file(filename):
 
 
 def process_upload_contents(file):
-	# Parse contents
-	parser = process_drugs.DrugListReader()
-	parsed_drugs = parser.process_drugs(file)
-	parsed_drugs_json = json.dumps(parsed_drugs, indent=4)
+    # Parse contents
+    parser = process_drugs.DrugListReader()
+    parsed_drugs = parser.process_drugs(file)
+    parsed_drugs_json = json.dumps(parsed_drugs, indent=4)
 
-	# Now upload JSON to storage bucket.
-	client = storage.Client()
-	bucket = client.bucket(BUCKET_NAME)
-	blob = bucket.blob(BLOB_NAME)
-	blob.upload_from_string(parsed_drugs_json,
-		                    content_type='application/json')
+    # Now upload JSON to storage bucket.
+    client = storage.Client()
+    bucket = client.bucket(BUCKET_NAME)
+    blob = bucket.blob(BLOB_NAME)
+    blob.upload_from_string(parsed_drugs_json,
+                            content_type='application/json')
 
 
 @app.route('/')
 def home():
     return render_template("generic_city.html",
-        css_file='pnz_style.css',
-        city_logo_file='/static/images/logo_prefeitura.png',
-        address='Av. Fernando Góes, S/N, Centro, Petrolina-PE',
-        cnpj='06.914.894/0001-01',
-        telephone='(87) 3866-8550')
+                           unspecifiedCity=True,
+                           css_file='pnz_style.css')
+
+
+@app.route('/pnz')
+def homePetrolina():
+    return render_template("generic_city.html",
+                           css_file='pnz_style.css',
+                           city_logo_file='/static/images/logo_prefeitura.png',
+                           address='Av. Fernando Góes, S/N, Centro, Petrolina-PE',
+                           cnpj='06.914.894/0001-01',
+                           telephone='(87) 3866-8550')
+
 
 @app.route('/ourolandia')
 def homeOurolandia():
     return render_template("generic_city.html",
-        css_file='pnz_style.css',
-        city_logo_file='/static/images/logoOurolandia.jpeg',
-        address='Rua da Saudade, S/N, Centro - Ourolândia (BA)',
-        cnpj='10.469.110/0001-50',
-        telephone=None)
+                           css_file='pnz_style.css',
+                           city_logo_file='/static/images/logoOurolandia.jpeg',
+                           address='Rua da Saudade, S/N, Centro - Ourolândia (BA)',
+                           cnpj='10.469.110/0001-50',
+                           telephone=None)
+
 
 @app.route('/santafilomena')
 def homeSantaFilomena():
     return render_template("santa_filomena.html")
 
+
 @app.route('/santacruz')
 def homeSantaCruz():
     return render_template("santa_cruz.html")
+
 
 @app.route('/sbf')
 def homeSBF():
     return render_template("sbf.html")
 
+
 @app.route('/drugs')
 def fetch_drugs():
-  client = storage.Client()
-  bucket = client.bucket(BUCKET_NAME)
-  blob = bucket.blob(BLOB_NAME)
-  contents = blob.download_as_string()	
-  return Response(contents, mimetype='application/json')
+    client = storage.Client()
+    bucket = client.bucket(BUCKET_NAME)
+    blob = bucket.blob(BLOB_NAME)
+    contents = blob.download_as_string()
+    return Response(contents, mimetype='application/json')
 
 
 @app.route('/bottom')
@@ -141,35 +153,40 @@ def support_icons_defs():
         if category not in support_icon_defs:
             support_icon_defs[category] = []
         support_icon_defs[category].append(blob.public_url)
-    
+
     contents = json.dumps(support_icon_defs)
     return Response(contents, mimetype='application/json')
 
 
 @app.route('/bibliografia')
 def fetch_bibliography():
-  return knowledge_base.render_bibliography_page(app)
+    return knowledge_base.render_bibliography_page(app)
+
 
 @app.route('/biblioteca')
 def fetch_library():
-  return knowledge_base.render_library_page(app)
+    return knowledge_base.render_library_page(app)
+
 
 @app.route('/documentos')
 def fetch_documents():
-  return knowledge_base.render_documents_page(app)
+    return knowledge_base.render_documents_page(app)
+
 
 @app.route('/scores')
 def fetch_scores():
-  return knowledge_base.render_scores_page(app)
+    return knowledge_base.render_scores_page(app)
+
 
 @app.route('/materiais')
 def fetch_materials():
-  return knowledge_base.render_materials_page(app)
+    return knowledge_base.render_materials_page(app)
+
 
 @app.route('/painel')
 def fetch_panel():
-  return knowledge_base.render_panel_page(app)
+    return knowledge_base.render_panel_page(app)
 
 
 if __name__ == '__main__':
-	app.run(host='127.0.0.1', port=8080, debug=True)
+    app.run(host='127.0.0.1', port=8080, debug=True)
