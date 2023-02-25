@@ -49,7 +49,21 @@ def process_upload_contents(file):
 
 @app.route('/')
 def home():
-    return render_template("pnz.html")
+    return render_template("generic_city.html",
+        css_file='pnz_style.css',
+        city_logo_file='/static/images/logo_prefeitura.png',
+        address='Av. Fernando Góes, S/N, Centro, Petrolina-PE',
+        cnpj='06.914.894/0001-01',
+        telephone='(87) 3866-8550')
+
+@app.route('/ourolandia')
+def homeOurolandia():
+    return render_template("generic_city.html",
+        css_file='pnz_style.css',
+        city_logo_file='/static/images/logoOurolandia.jpeg',
+        address='Rua da Saudade, S/N, Centro - Ourolândia (BA)',
+        cnpj='10.469.110/0001-50',
+        telephone=None)
 
 @app.route('/santafilomena')
 def homeSantaFilomena():

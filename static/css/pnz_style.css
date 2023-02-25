@@ -85,6 +85,9 @@ input[name='emitente-name'] {
 input[name='emitente-uf'] {
   width: 2em;
 }
+div#emitente input.emitente-line {
+    width: 50%;
+}
 /* Make Usuário and Endereço fields take the remaining width. */
 div#header-usuario, div#header-endereco {
   display: flex;

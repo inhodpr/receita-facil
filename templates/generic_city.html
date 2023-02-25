@@ -1,11 +1,11 @@
 {% extends "main.html" %}
 {% block custom_styles %}
-<link rel="stylesheet" type="text/css" href="/static/css/pnz_style.css">
+<link rel="stylesheet" type="text/css" href="/static/css/{{ css_file }}">
 {% endblock %}
 {% block simple_prescription %}
 <div class='prescription-form simple-prescription-form'>
     <div id='header-top'>
-        <img src="/static/images/logo_prefeitura.png">
+        <img src="{{ city_logo_file }}">
         <span>SECRETARIA MUNICIPAL DE SAÚDE</span>
         <img src="/static/images/logo_sus.png">
     </div>
@@ -40,7 +40,7 @@
 {% block special_prescription %}
 <div class='prescription-form special-prescription-form' hidden='true'>
     <div id="header-top">
-        <img src="/static/images/logo_prefeitura.png">
+        <img src="{{ city_logo_file }}">
         <div>
             <span>SECRETARIA MUNICIPAL DE SAÚDE</span>
             <span>DIRETORIA DE VIGILÂNCIA EM SAÚDE</span>
@@ -54,18 +54,23 @@
         <div class='gap'></div>
         <div id='emitente'>
             <h2>IDENTIFICAÇÃO DO EMITENTE</h2>
-            <label for='emitente-name'>Nome completo: </span>
-                <input name='emitente-name' type='text' />
-                <div>
-                    <label for='emitente-crm'>CRM:</label>
-                    <input name='emitente-crm' type='text' />
-                    <label for='emitente-uf'>UF:</label>
-                    <input name='emitente-uf' type='text' value='PE' />
-                </div>
-                <div>
-                    Endereço: Av. Fernando Góes, S/N, Centro, Petrolina-PE.
-                    CNPJ: 06.914.894/0001-01. Tel: (87) 3866-8550
-                </div>
+            <label for='emitente-name'>Nome completo: </label>
+            <input name='emitente-name' type='text' />
+            <div>
+                <label for='emitente-crm'>CRM:</label>
+                <input name='emitente-crm' type='text' />
+                <label for='emitente-uf'>UF:</label>
+                <input name='emitente-uf' type='text' value='PE' />
+            </div>
+            {% if address %}
+            <div>Endereço: <input type="text" class='emitente-line' value="{{ address }}" /></div>
+            {% endif %}
+            {% if cnpj %}
+            <div>CNPJ: <input type="text" class='emitente-line' value="{{ cnpj }}" /></div>
+            {% endif %}
+            {% if telephone %}
+            <div>Tel: <input type="text" class='emitente-line' value="{{ telephone }}" /></div>
+            {% endif %}
         </div>
         <div class=gap>
             <span>1 via - Farmácia</span>
