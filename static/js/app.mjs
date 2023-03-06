@@ -23,10 +23,6 @@ export default class ReceitaApp {
   start = function () {
     var currentUrl = new URL(document.URL);
     this.city = currentUrl.pathname.substr(1);
-    if (this.city == "") {
-      // Petrolina is the default city.
-      this.city = "pnz";
-    }
     this.bottomIndex = Math.floor(Math.random() * 1000);
     this.bottomDiv = document.getElementById('dynamic-bottom');
 
