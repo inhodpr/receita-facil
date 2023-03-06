@@ -119,3 +119,9 @@ input[name='emitente-name'] {
     border-bottom: 1px solid black;
     padding-top: 3px;
   }
+  #date-and-signature {
+    text-align: right;
+  }
+  #date-and-signature span {
+    margin-right: 40px;
+  }
