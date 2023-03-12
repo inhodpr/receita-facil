@@ -78,5 +78,27 @@ export default class ReceitaApp {
     var patientField = document.querySelector('div.prescription-form.enabled input[name="patient-name"]');
     patientField.value = oldPatientName;
   }
+
+  buildDrugBox = function() {
+    var selectedDrugs = this.drugsHandler.getSelectedDrugs();
+    var drugBoxRequest = [];
+    for (var drug in selectedDrugs) {
+        var drugId = selectedDrugs[drug]['id'];
+        var position = selectedDrugs[drug]['position'];
+        var schedules = this.prescriptionHandler.getSchedulesForDrug(drugId);
+        var name = selectedDrugs[drug]['name']
+        var icons = this.prescriptionHandler.drugSupportIconSelectors[position].selectedUrls;
+        drugBoxRequest.push({
+            'name': name,
+            'schedule': schedules,
+            'icon': icons
+        });
+    }
+    
+    var requestUrl = new URL(window.location.href);
+    requestUrl.pathname = 'drugbox';
+    requestUrl.searchParams.set('selectedDrugs', JSON.stringify(drugBoxRequest));
+    window.location.href = requestUrl.toString();
+  }
 }
 

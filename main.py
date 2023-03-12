@@ -15,6 +15,7 @@
 import json
 import os
 
+from collections import namedtuple
 from flask import Flask, render_template, request, redirect, Response
 from google.cloud import storage
 from scripts import knowledge_base, process_drugs
@@ -24,6 +25,8 @@ BUCKET_NAME = 'receita-facil-drugs-storage'
 BLOB_NAME = 'drugs.json'
 
 SUPPORT_ICONS_BUCKET = 'receita-facil-support-icons'
+
+DrugBox = namedtuple('DrugBox', ['usage_hours', 'name', 'icon'])
 
 app = Flask(__name__)
 
@@ -156,6 +159,18 @@ def support_icons_defs():
 
     contents = json.dumps(support_icon_defs)
     return Response(contents, mimetype='application/json')
+
+
+@app.route('/drugbox')
+def drug_box():
+    selected_drugs = json.loads(request.args['selectedDrugs'])
+    print(selected_drugs)
+    drugBoxes = [DrugBox(usage_hours=selectedDrug['schedule'],
+                         name=selectedDrug['name'],
+                         icon=selectedDrug['icon'])
+                 for selectedDrug in selected_drugs]
+    print(drugBoxes)    
+    return render_template("drug_box.html", drugs=drugBoxes)
 
 
 @app.route('/bibliografia')

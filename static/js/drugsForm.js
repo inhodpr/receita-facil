@@ -191,6 +191,16 @@ export default class DrugsForm {
     this.routeSelector = document.getElementById('route-list');
   }
 
+  addBuildDrugBoxBtn = function() {
+    var link = document.createElement('a');
+    link.href = '#';
+    link.innerText = 'Caixa de remédios';
+    link.addEventListener('click', e => {
+        this.app.buildDrugBox();
+    });
+    this.drugsForm.appendChild(link);
+  }
+
   buildForm = function () {
     var expandAll = document.createElement('a');
     expandAll.appendChild(document.createTextNode('expandir'));
@@ -223,6 +233,7 @@ export default class DrugsForm {
       var parent = document.getElementsByClassName('content')[0];
       parent.appendChild(cloned);
     });
+    this.addBuildDrugBoxBtn();
     this.buildCategoryDivs();
     for (var i in this.drugsList) {
       var drug = this.drugsList[i];

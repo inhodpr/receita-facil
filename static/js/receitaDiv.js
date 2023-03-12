@@ -49,6 +49,19 @@ export default class ReceitaDiv {
     this.drugSupportIconSelectors = {};
   }
 
+  getSchedulesForDrug = function(drugId) {
+    const scheduleCodeToName = {
+        0: 'morning',
+        1: 'lunch',
+        2: 'dinner'
+    };
+    var output = [];
+    this.drugSchedule[drugId].forEach(code => {
+        if (code in scheduleCodeToName) output.push(scheduleCodeToName[code]);
+    });
+    return output;
+  }
+
   handleIconClick = function (e) {
     this.handleClick(e);
   }
