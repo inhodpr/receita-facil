@@ -12,6 +12,7 @@ img {
     page-break-after: always;
     page-break-before: always;
     page-break-inside: avoid;
+    -webkit-print-color-adjust: exact;
 }
 
 .drugbox-container {

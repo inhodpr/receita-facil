@@ -164,12 +164,10 @@ def support_icons_defs():
 @app.route('/drugbox')
 def drug_box():
     selected_drugs = json.loads(request.args['selectedDrugs'])
-    print(selected_drugs)
     drugBoxes = [DrugBox(usage_hours=selectedDrug['schedule'],
                          name=selectedDrug['name'],
                          icon=selectedDrug['icon'])
                  for selectedDrug in selected_drugs]
-    print(drugBoxes)    
     return render_template("drug_box.html", drugs=drugBoxes)
 
 
