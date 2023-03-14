@@ -16,13 +16,14 @@ img {
 
 .drugbox-container {
     position: relative;
-    top: 44px;
-    left: 208px;
+    top: 323px;
+    left: 12px;
     width: 153px;
     height: 153px;
     padding: 10px 10px;
     display: flex;
     flex-direction: column;
+    transform: rotate(-0.25turn);
 }
 
 .usage-hour {
