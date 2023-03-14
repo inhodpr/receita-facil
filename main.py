@@ -168,7 +168,10 @@ def drug_box():
                          name=selectedDrug['name'],
                          icon=selectedDrug['icon'])
                  for selectedDrug in selected_drugs]
-    return render_template("drug_box.html", drugs=drugBoxes)
+    drugBoxesBySchedule = {schedule: [(drug.name, drug.icon)
+                                      for drug in drugBoxes if schedule in drug.usage_hours]
+                           for schedule in ['morning', 'lunch', 'dinner']}
+    return render_template("drug_box.html", drugs=drugBoxesBySchedule.items())
 
 
 @app.route('/bibliografia')

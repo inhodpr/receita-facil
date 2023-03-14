@@ -5,28 +5,30 @@
         <link rel="stylesheet" type="text/css" href="/static/css/drug_box_style.css">
     </head>
     <body>
-        {% for drug in drugs %}
+        {% for schedule, drug_list in drugs %}
         <div class="drugbox-page">
             <div class="drugbox-container">
                 <div class='usage-hour'>    
-                    {% for usage_hour in drug.usage_hours %}
-                        {% if usage_hour == 'morning' %}
-                            <img src="/static/images/icons/pro-coffee.svg" />
-                        {% elif usage_hour == 'lunch' %}
-                            <img src="/static/images/icons/pro-sun.svg" />
-                        {% elif usage_hour == 'dinner' %}
-                            <img src="/static/images/icons/pro-moon.svg" />
-                        {% endif %}
+                    {% if schedule == 'morning' %}
+                        <img src="/static/images/icons/pro-coffee.svg" />
+                    {% elif schedule == 'lunch' %}
+                        <img src="/static/images/icons/pro-sun.svg" />
+                    {% elif schedule == 'dinner' %}
+                        <img src="/static/images/icons/pro-moon.svg" />
+                    {% endif %}
+                </div>
+                <ul class='drugs-list'>
+                    {% for drug_name, drug_icons in drug_list %}
+                        <li>
+                            <span class='drug-name'>{{ drug_name }}</span>
+                            <div class='drug-icons'>
+                                {% for icon in drug_icons %}
+                                <img src="{{ icon }}" />
+                                {% endfor %}
+                            </div>
+                        </li>
                     {% endfor %}
-                </div>
-                <div class='drug-name'>
-                    <span>{{ drug.name }}</span>
-                </div>
-                <div class='drug-icon'>
-                    {% for i in drug.icon %}
-                        <img src="{{ i }}" />
-                    {% endfor %}
-                </div>
+                </ul>
             </div>
         </div>
         {% endfor %}
