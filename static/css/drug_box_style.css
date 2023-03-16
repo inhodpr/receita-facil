@@ -1,10 +1,7 @@
-img {
-    height: 20px;
-    width: 20px;
-}
+/* -------- POSITIONING -------- */
 .drugbox-page {
-    width: 588px;
-    height: 833px;
+    width: 764px;
+    height: 1083px;
     background-image: url('/static/images/drug_box_template.jpeg');
     background-repeat: no-repeat;
     background-size: cover;
@@ -13,26 +10,22 @@ img {
     page-break-before: always;
     page-break-inside: avoid;
 }
-
 .drugbox-container {
     position: relative;
-    top: 323px;
+    top: 420px;
     left: 12px;
-    width: 153px;
-    height: 153px;
+    width: 223px;   /* 243 - (10 + 10 of padding) */
+    height: 223px;  /* 243 - (10 + 10 of padding) */
     padding: 10px 10px;
     display: flex;
     flex-direction: column;
     transform: rotate(-0.25turn);
 }
 
+/* -------- STRUCTURE INSIDE drugbox-container -------- */
 .usage-hour {
     flex-grow: 2;
     text-align: center;
-}
-.usage-hour img {
-    height: 40px;
-    width: 40px;
 }
 .drugs-list {
     margin: 0;
@@ -50,9 +43,19 @@ img {
 .drugs-list li .drug-name {
     flex-grow: 2;
     font-family: sans-serif;
-    font-size: smaller;
+}
+
+/* -------- image sizes -------- */
+.usage-hour img {
+    height: 40px;
+    width: 40px;
 }
 .drugs-list li .drug-icons img {
-    height: 15px;
-    width: 15px;
+    height: 20px;
+    width: 20px;
+}
+@media print {
+    .drugbox-page {
+        size: A4;
+    }
 }
