@@ -1,17 +1,16 @@
+import unittest
+
 from pyassert import *
 from process_drugs import *
 
-class TestProcessDrugs:
+class TestProcessDrugs(unittest.TestCase):
     def test_one_drug_with_category(self):
         input = ["## Antibiotics",
                  "Fluconazole // 10mg"]
         reader = DrugListReader()
         drugs = reader.process_drugs(input)
         assert_that(drugs).is_equal_to([
-            {'id': 1,
-             'category': 'Antibiotics',
-             'name': 'Fluconazole',
-             'quantity': '10mg'}])
+            Drug(id=1, category='Antibiotics', name='Fluconazole', quantity='10mg')])
 
     def test_two_drugs_with_one_category(self):
         input = ["## Antibiotics",
@@ -233,3 +232,6 @@ class TestProcessDrugs:
              'instructions': 'como_tratar_agua.jpeg',
              'is_image': True}])
 
+
+if __name__ == '__main__':
+    unittest.main()
