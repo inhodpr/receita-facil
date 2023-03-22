@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict, List
 
 from scripts import storage as support_icon_storage
 
@@ -9,7 +9,7 @@ SUPPORT_ICONS_BUCKET = 'receita-facil-support-icons'
 
 
 class OnDiskSupportIconsStorage(support_icon_storage.SupportIconsStorage):
-    def fetch_support_icons_definitions(self) -> dict[str, List[str]]:
+    def fetch_support_icons_definitions(self) -> Dict[str, List[str]]:
         client = storage.Client()
         blobs = client.list_blobs(SUPPORT_ICONS_BUCKET)
         support_icon_defs = {}
