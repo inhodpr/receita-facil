@@ -53,7 +53,6 @@ export default class ReceitaApp {
                 r => r.text())
                 .then((function (htmlContents) {
                     this.footnoteContents.innerHTML = htmlContents;
-                    footnote.innerHTML = htmlContents;
                     if (htmlContents == '') {
                         this.bottomDiv.classList.add('empty');
                     } else {

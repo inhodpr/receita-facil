@@ -40,6 +40,15 @@ div.specialPrescriptionToggle span.specialPrescriptionLabel {
   top: 1em;
   left: 4px;  
 }
+/* dynamic bottoms */
+#dynamic-bottom {
+    font-size: smaller;
+    font-weight: lighter;
+    color: #555;
+}
+#dynamic-bottom.empty {
+  padding: 0;
+}
 
 /* DRUG ICONS PANEL */
 .drug-icons {
