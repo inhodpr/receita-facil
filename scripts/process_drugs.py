@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from scripts.drug import Drug
+from typing import List
 import fileinput
 
 class DrugListReader:
@@ -24,68 +26,68 @@ class DrugListReader:
         self.currentCategory = None
         self.currentSubcategory = None
 
-    def addDrug(self):
+    def _add_drug(self):
         if not self.currentDrug:
             return
         self.drugId = self.drugId + 1
-        self.currentDrug['id'] = self.drugId
+        self.currentDrug.id = self.drugId
         if self.currentCategory:
-            self.currentDrug['category'] = self.currentCategory
+            self.currentDrug.category = self.currentCategory
         if self.currentSubcategory:
-            self.currentDrug['subcategory'] = self.currentSubcategory
-        if 'category' in self.currentDrug and self.currentDrug['category'] == 'Videos':
-            self.currentDrug['is_link'] = True
-        if 'category' in self.currentDrug and self.currentDrug['category'] == 'Imagens':
-            self.currentDrug['is_image'] = True
+            self.currentDrug.subcategory = self.currentSubcategory
+        if self.currentDrug.category == 'Videos':
+            self.currentDrug.is_link = True
+        if self.currentDrug.category == 'Imagens':
+            self.currentDrug.is_image = True
         self.allDrugs.append(self.currentDrug)
         self.currentDrug = {}
 
-    def parseNewDrug(self, line):
-        self.currentDrug = {}
+    def _parse_new_drug(self, line):
+        self.currentDrug = Drug()
         parts = line.split('//')
-        self.currentDrug['name'] = str(parts[0]).strip()
-        self.currentDrug['quantity'] = str(parts[1]).strip()
+        self.currentDrug.name = str(parts[0]).strip()
+        self.currentDrug.quantity = str(parts[1]).strip()
         if len(parts) > 2:
-            self.currentDrug['instructions'] = str(parts[2]).strip()
+            self.currentDrug.instructions = str(parts[2]).strip()
         if len(parts) > 3:
-            self.currentDrug['brand'] = str(parts[3]).strip()
+            self.currentDrug.brand = str(parts[3]).strip()
 
-    def parseRecommendation(self, line):
-        self.currentDrug = {}
-        self.currentDrug['name'] = str(line[2:])
+    def _parse_recommendation(self, line):
+        self.currentDrug = Drug()
+        self.currentDrug.name = str(line[2:])
 
-    def appendDescription(self, line):
+    def _append_description(self, line):
         if not self.currentDrug:
             return
-        if not 'instructions' in self.currentDrug:
-            self.currentDrug['instructions'] = ''
+        if not self.currentDrug.instructions:
+            self.currentDrug.instructions = ''
         else:
-            self.currentDrug['instructions'] += '\r\n'
-        self.currentDrug['instructions'] += str(line)
+            self.currentDrug.instructions += '\r\n'
+        self.currentDrug.instructions += str(line)
 
 
-    def process_drugs(self, input_file):
+    def process_drugs(self, input_file) -> List[Drug]:
         for line in input_file:
             if not isinstance(line, str):
                 line = line.decode(encoding='utf-8').strip()
             if not line:
                 continue
             if line.startswith('## '):
-                self.addDrug()
+                self._add_drug()
                 self.currentCategory = str(line[3:])
                 self.currentSubcategory = None
             elif line.startswith('### '):
-                self.addDrug()
+                self._add_drug()
                 self.currentSubcategory = str(line[4:])
             elif line.startswith('* '):
-                self.addDrug()
-                self.parseRecommendation(line)
+                self._add_drug()
+                self._parse_recommendation(line)
             elif '//' in line and not line.startswith('http'):
-                self.addDrug()
-                self.parseNewDrug(line)
+                self._add_drug()
+                self._parse_new_drug(line)
             else:
-                self.appendDescription(line)
-        self.addDrug()  # don't forget to add the last drug
+                self._append_description(line)
+        self._add_drug()  # don't forget to add the last drug
         return self.allDrugs
 
 
