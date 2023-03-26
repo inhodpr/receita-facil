@@ -35,25 +35,7 @@ export default class ReceitaApp {
     this.loadDrugsList().then(this.finishStart.bind(this));
     this.advanceBottom(0);
   }
-  
-  advanceBottom = function (delta = 1) {
-    this.bottomIndex += delta;    
-    if (this.bottomDiv != null) {
-      var bottomRequestUrl = new URL('/bottom', document.location);
-      bottomRequestUrl.searchParams.set('city', this.city);
-      bottomRequestUrl.searchParams.set('idx', this.bottomIndex);
-      fetch(bottomRequestUrl).then(
-        r => r.text())
-      .then((function (htmlContents) {
-        this.bottomDiv.innerHTML = htmlContents;
 
-<<<<<<< Updated upstream
-        var nextBtn = document.createElement("button");
-        nextBtn.innerText = '>';
-        nextBtn.addEventListener('click', (e => this.advanceBottom(1)).bind(this));
-        this.bottomDiv.appendChild(nextBtn);
-      }).bind(this));
-=======
     advanceBottom = function (delta = 1) {
         this.bottomIndex += delta;
         if (this.bottomDiv != null) {
@@ -71,7 +53,6 @@ export default class ReceitaApp {
                     }
                 }).bind(this));
         }
->>>>>>> Stashed changes
     }
   }
 
