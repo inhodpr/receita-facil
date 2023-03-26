@@ -124,16 +124,21 @@ def upload_drugs():
 
 @app.route('/bottom')
 def fetch_bottoms():
+    # Shortcut to make the initial load faster. Start with an empty footnote.
+    bottom_index = int(float(request.args['idx']))
+    if bottom_index == 0:
+        return ''
+
     valid_templates = app_storage.footnotes().fetch_footnotes_for_city(request.args['city'])
     if not valid_templates:
+        print('no valid footnotes - returning nothing.')
         return ''
-    bottom_index = int(float(request.args['idx']))
     num_valid_bottoms = len(valid_templates)
+    # Allow cycling and include an empty bottom at position 0.
     template_idx = bottom_index % (num_valid_bottoms + 1)
-    # Allow cycling until we have an empty bottom.
-    if template_idx == num_valid_bottoms:
+    if template_idx == 0:
         return ''
-    return app_storage.footnotes().render_footnote(valid_templates[template_idx])
+    return app_storage.footnotes().render_footnote(valid_templates[template_idx - 1])
 
 
 
