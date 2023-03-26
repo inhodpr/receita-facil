@@ -83,9 +83,12 @@ div.specialPrescriptionToggle span.specialPrescriptionLabel {
   flex-direction: row;
 }
 .receitaItem .printable-drug-text {
-  font-family: monospace;
-  font-size: 12pt;
   display: none;
+}
+.receitaItem .printable-drug-text::first-line {
+  font-family: monospace;
+  font-weight: bold;
+  font-size: larger;
 }
 .receitaItem .drug-text-wrapper {
   flex: 2;
