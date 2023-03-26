@@ -89,7 +89,13 @@ def fetch_drugs():
     class EnhancedJSONEncoder(json.JSONEncoder):
         def default(self, o):
             if dataclasses.is_dataclass(o):
-                return dataclasses.asdict(o)
+                asdict = dataclasses.asdict(o)
+                # clean up drug data before json-fying
+                empty_fields = [k for k, v in asdict.items() if not v]
+                for k in empty_fields:
+                    del asdict[k]
+                return asdict
+                # return dataclasses.asdict(o)
             return super().default(o)
     
     drugs = app_storage.drugs().fetch_drugs()
