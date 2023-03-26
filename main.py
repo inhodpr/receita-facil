@@ -128,7 +128,11 @@ def fetch_bottoms():
     if not valid_templates:
         return ''
     bottom_index = int(float(request.args['idx']))
-    template_idx = bottom_index % len(valid_templates)
+    num_valid_bottoms = len(valid_templates)
+    template_idx = bottom_index % (num_valid_bottoms + 1)
+    # Allow cycling until we have an empty bottom.
+    if template_idx == num_valid_bottoms:
+        return ''
     return app_storage.footnotes().render_footnote(valid_templates[template_idx])
 
 

@@ -51,6 +51,11 @@ export default class ReceitaApp {
         nextBtn.innerText = '>';
         nextBtn.addEventListener('click', (e => this.advanceBottom(1)).bind(this));
         this.bottomDiv.appendChild(nextBtn);
+        if (htmlContents == '') {
+            this.bottomDiv.classList.add('empty');
+        } else {
+            this.bottomDiv.classList.remove('empty');
+        }
       }).bind(this));
     }
   }
