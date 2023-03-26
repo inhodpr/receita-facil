@@ -47,11 +47,31 @@ export default class ReceitaApp {
       .then((function (htmlContents) {
         this.bottomDiv.innerHTML = htmlContents;
 
+<<<<<<< Updated upstream
         var nextBtn = document.createElement("button");
         nextBtn.innerText = '>';
         nextBtn.addEventListener('click', (e => this.advanceBottom(1)).bind(this));
         this.bottomDiv.appendChild(nextBtn);
       }).bind(this));
+=======
+    advanceBottom = function (delta = 1) {
+        this.bottomIndex += delta;
+        if (this.bottomDiv != null) {
+            var bottomRequestUrl = new URL('/bottom', document.location);
+            bottomRequestUrl.searchParams.set('city', this.city);
+            bottomRequestUrl.searchParams.set('idx', this.bottomIndex);
+            fetch(bottomRequestUrl).then(
+                r => r.text())
+                .then((function (htmlContents) {
+                    this.footnoteContents.innerHTML = htmlContents;
+                    if (htmlContents == '') {
+                        this.bottomDiv.classList.add('empty');
+                    } else {
+                        this.bottomDiv.classList.remove('empty');
+                    }
+                }).bind(this));
+        }
+>>>>>>> Stashed changes
     }
   }
 
