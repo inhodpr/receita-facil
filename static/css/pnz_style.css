@@ -204,8 +204,4 @@ div#header-usuario input, div#header-endereco input {
   text-align: center;
 }
 
-/* dynamic bottoms */
-#dynamic-bottom.empty {
-  padding: 0;
-}
 
