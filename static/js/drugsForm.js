@@ -183,6 +183,9 @@ export default class DrugsForm {
       "<option value='Declaração'>Declaração</option>" +
       "<option value='Relatório'>Relatório</option>" +
       "<option value='Laudo Médico'>Laudo Médico</option>" +
+      "<option value='Orientações'>Orientações</option>" +
+      "<option value='Encaminhamento'>Encaminhamento</option>" +
+      "<option value='Retorno'>Retorno</option>" +
       "</select>";
     var selectorDiv = document.createElement("div");
     selectorDiv.id = 'route-selector';
