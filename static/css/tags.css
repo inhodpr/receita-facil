@@ -1,0 +1,46 @@
+html, body, ul, li, div, span, img {
+    margin: 0;
+    padding: 0;
+}
+.routeHeader,
+li.receitaItem span {
+    display: none;
+}
+ul.receita-simples {
+    display: grid;
+    grid-template-rows: 0.9fr 0.9fr;
+    column-gap: 0.06fr;
+}
+li.receitaItem textarea {
+    width: 350px;
+}
+li.receitaItem {
+    display: inline-flex;
+    flex-direction: column;
+    width: 13.9cm;
+    height: 9.8cm;
+    margin: 5px;
+    padding: 5px;
+    border: black 1px solid;
+    border-radius: 5px;
+}
+div.drug-icons {
+    text-align: center;
+}
+div.drug-text-wrapper {
+    flex-grow: 2;
+}
+
+@media print {
+    .main-column {
+        float: none;
+        width: auto;
+        padding: 0;
+        margin: 0;
+    }
+    li.receitaItem {
+        overflow: hidden;
+        /* development only: do not submit! */ 
+        /* border: none; */
+    }
+}

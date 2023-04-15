@@ -26,12 +26,14 @@ export default class ReceitaApp {
 
         this.bottomIndex = 0;  // Always start with an empty footnote.
         this.bottomDiv = document.getElementById('dynamic-bottom');
-        this.nextBottomBtn = document.createElement("button");
-        this.footnoteContents = document.createElement("span");
-        this.nextBottomBtn.innerText = '>';
-        this.nextBottomBtn.addEventListener('click', (e => this.advanceBottom(1)).bind(this));
-        this.bottomDiv.appendChild(this.nextBottomBtn);
-        this.bottomDiv.appendChild(this.footnoteContents);
+        if (this.bottomDiv != null) {            
+            this.nextBottomBtn = document.createElement("button");
+            this.footnoteContents = document.createElement("span");
+            this.nextBottomBtn.innerText = '>';
+            this.nextBottomBtn.addEventListener('click', (e => this.advanceBottom(1)).bind(this));
+            this.bottomDiv.appendChild(this.nextBottomBtn);
+            this.bottomDiv.appendChild(this.footnoteContents);
+        }
 
         const dateOpts = { year: 'numeric', month: 'numeric', day: 'numeric' };
         var today = new Date();

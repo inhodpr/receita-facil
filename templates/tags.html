@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+{% block custom_styles %}
+<link rel="stylesheet" type="text/css" href="/static/css/tags.css">
+{% endblock %}
+{% block simple_prescription %}
+<div class='prescription-form simple-prescription-form'>
+    <ul id="receita-simples"></ul>
+</div>
+{% endblock %}
+{% block special_prescription %}
+<div class='prescription-form special-prescription-form' hidden='true'>
+    <ul id="receita-simples"></ul>
+</div>
+{% endblock %}
