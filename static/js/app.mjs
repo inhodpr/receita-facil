@@ -8,12 +8,16 @@ export default class ReceitaApp {
         this.city = null;
     }
 
+    isTagsPage = function () {
+        return this.city == 'etiquetas';
+    };
+
     finishStart = function (drugsList) {
         this.prescriptionHandler = new ReceitaDiv(this);
         this.prescriptionHandler.switchPrescriptionMode(false);
         this.drugsHandler = new DrugsForm(this, drugsList);
         this.drugsHandler.buildForm();
-    }
+    };
 
     loadDrugsList = async function (callback) {
         var DRUGS_JSON_URL = '/drugs';

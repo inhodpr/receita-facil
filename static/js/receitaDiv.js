@@ -42,6 +42,7 @@ class CustomizedTextHandler {
 
 export default class ReceitaDiv {
   constructor(_app) {
+    this.app = _app;
     this.prescriptionDiv = null;
     this.group_by = 'route';
     this.drugSchedule = {};
@@ -121,16 +122,17 @@ export default class ReceitaDiv {
     };
     var colWidth = 40;
     var numDashes = 0;
-    if ('quantity' in drugData) {
-      numDashes = colWidth - 2 - drugData['name'].length - drugData['quantity'].length;
-    }
-    if (numDashes < 1) {
-      numDashes = 1;
+    if (!this.app.isTagsPage() && 'quantity' in drugData) {
+        var drugNameLen = drugData['name'].length;
+        var drugQuantityLen = drugData['quantity'].length;
+        numDashes = Math.max(colWidth - 2 - drugNameLen - drugQuantityLen, 1);
     }
     drugData["dashes"] = '-'.repeat(numDashes);
     tmpl = replaceKey(tmpl, "{{drug}}", "name");
     tmpl = replaceKey(tmpl, "{{dashes}}", "dashes");
-    tmpl = replaceKey(tmpl, "{{amount}}", "quantity");
+    // On tags page, we don't show drug quantities.
+    tmpl = replaceKey(tmpl, "{{amount}}",
+                      (this.app.isTagsPage() ? "none" : "quantity"));
     tmpl = replaceKey(tmpl, "{{instructions}}", "instructions");
     tmpl = replaceKey(tmpl, "{{brand}}", "brand");
     while (tmpl.endsWith('\r\n')) {
