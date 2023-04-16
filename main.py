@@ -50,12 +50,7 @@ def homePetrolina():
 
 @app.route('/ourolandia')
 def homeOurolandia():
-    return render_template("generic_city.html",
-                           css_file='pnz_style.css',
-                           city_logo_file='/static/images/logoOurolandia.jpeg',
-                           address='Rua da Saudade, S/N, Centro - Ourolândia (BA)',
-                           cnpj='10.469.110/0001-50',
-                           telephone=None)
+    return render_template("ourolandia.html")
 
 
 @app.route('/santafilomena')

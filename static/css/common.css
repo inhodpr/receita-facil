@@ -126,7 +126,7 @@ div.collapsed {
   }
   body { background: white; }
   .main-column {
-    width: 100%;
+    width: 98%;
     page-break-after: always;
     page-break-before: always;
     page-break-inside: avoid;
