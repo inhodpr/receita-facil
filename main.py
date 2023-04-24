@@ -73,6 +73,11 @@ def homeSBF():
     return render_template("sbf.html")
 
 
+@app.route('/etiquetas')
+def homeTags():
+    return render_template("tags.html")
+
+
 def _allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

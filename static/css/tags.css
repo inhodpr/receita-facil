@@ -1,0 +1,64 @@
+html, body, ul, li, div, span, img {
+    margin: 0;
+    padding: 0;
+}
+
+div#root {
+    display: grid;
+    grid-template-rows: 0.9fr 0.9fr;
+    column-gap: 0.06fr;
+}
+
+button.add-tag {
+    width: 120px;
+    height: 120px;
+    border: none;
+    margin: 10px;
+    font-size: 60pt;
+    font-family: sans-serif;
+    color: #595959;
+    background-color: #b9b9b9;
+}
+
+button.add-tag:hover{
+    background-color: #ddd;
+}
+
+.tag {
+    display: inline-flex;
+    flex-direction: column;
+    width: 13.9cm;
+    height: 9.8cm;
+    margin: 5px;
+    padding: 5px;
+    border: black 1px solid;
+    border-radius: 5px;
+}
+
+.tag > .icon-select {
+    text-align: center;
+}
+
+.drug {
+    display: flex;
+    flex-grow: 2;
+}
+
+.drug textarea {
+    width: 350px;
+}
+
+@media print {
+    button, textarea {
+        display: none;
+    }
+    .printable-drug-text {
+        display: block;
+    }
+    .tag {
+        overflow: hidden;
+        /* development only: do not submit! */ 
+        border: none;
+    }
+}
+}
