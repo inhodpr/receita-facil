@@ -266,10 +266,10 @@ export default class ReceitaDiv {
         }
         else {
           listItem = this.addDrug(drugData);
+          var posSpan = listItem.firstElementChild;
+          posSpan.innerText = listNumber + ')'; /* WAAAAT?!?! */
+          listNumber = listNumber + 1;
         }
-        var posSpan = listItem.firstElementChild;
-        posSpan.innerText = listNumber + ')'; /* WAAAAT?!?! */
-        listNumber = listNumber + 1;
       }
     }
   }
