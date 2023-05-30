@@ -1,7 +1,7 @@
 .icon-select .selected-icons {
     height: 64px;
     display: inline-block;
-    margin: 0 0 1em 0;
+    margin: 1em 0;
 }
 .icon-select .show-options {
     float: right;
