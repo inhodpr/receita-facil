@@ -1,30 +1,5 @@
 import IconSelect from './iconSelect.js';
 
-class IconClickHandler {
-  constructor(receitaDiv, drugId, schedule) {
-    this.receitaDiv = receitaDiv;
-    this.drugId = drugId;
-    this.schedule = schedule;
-  }
-  handleClick(e) {
-    var eventSrc = e.currentTarget;
-    var isChecked = eventSrc.classList.contains('checked');
-    if (!(this.drugId in this.receitaDiv.drugSchedule)) {
-      this.receitaDiv.drugSchedule[this.drugId] = new Set();
-    }
-    if (isChecked) {
-      this.receitaDiv.drugSchedule[this.drugId].delete(this.schedule);
-      eventSrc.classList.add('unchecked');
-      eventSrc.classList.remove('checked');
-    }
-    else {
-      this.receitaDiv.drugSchedule[this.drugId].add(this.schedule);
-      eventSrc.classList.add('checked');
-      eventSrc.classList.remove('unchecked');
-    }
-  }
-};
-
 class CustomizedTextHandler {
   constructor(receitaDiv, drugPosition, printableTextDiv, drugTextArea) {
     this.receitaDiv = receitaDiv;
@@ -43,8 +18,6 @@ class CustomizedTextHandler {
 export default class ReceitaDiv {
   constructor(_app) {
     this.prescriptionDiv = null;
-    this.group_by = 'route';
-    this.drugSchedule = {};
     this.drugCustomText = {};
     this.drugSupportIconSelectors = {};
   }
@@ -54,29 +27,6 @@ export default class ReceitaDiv {
   }
   handleCustomizedText = function (e) {
     this.handleCustomizedText(e);
-  }
-
-  buildIconsPanel = function (drugData) {
-    var drugId = drugData['id'];
-    var icons = ['pro-coffee.svg',
-      'pro-sun.svg',
-      'pro-moon.svg'];
-    var iconsDiv = document.createElement('div');
-    iconsDiv.classList = ['drug-icons'];
-    for (var i = 0; i < icons.length; i += 1) {
-      var newIcon = document.createElement('img');
-      newIcon.src = '/static/images/icons/' + icons[i];
-      if (drugId in this.drugSchedule && this.drugSchedule[drugId].has(i)) {
-        newIcon.classList = ['checked'];
-      }
-      else {
-        newIcon.classList = ['unchecked'];
-      }
-      iconsDiv.appendChild(newIcon);
-      var iconClickHandler = new IconClickHandler(this, drugId, i);
-      newIcon.addEventListener('click', this.handleIconClick.bind(iconClickHandler));
-    }
-    return iconsDiv;
   }
 
   switchPrescriptionMode = function (enableSpecialPrescription) {
@@ -166,7 +116,6 @@ export default class ReceitaDiv {
 
     textarea.addEventListener('keyup', this.handleCustomizedText.bind(customTextHandler));
     listItem.appendChild(posSpan);
-    listItem.appendChild(this.buildIconsPanel(drugData));
     drugTextWrapper.appendChild(textarea);
     drugTextWrapper.appendChild(printableText);
     listItem.appendChild(drugTextWrapper);
@@ -183,14 +132,12 @@ export default class ReceitaDiv {
 
   addLink = function (drugData) {
     var listItem = document.createElement('li');
-    var posSpan = document.createElement('span');
     var titleSpan = document.createElement('span');
     var qrCode = document.createElement('img');
     var url = "https://chart.googleapis.com/chart?chs=80x80&cht=qr&chl=" + drugData.instructions;
     listItem.setAttribute('id', 'drug' + drugData['id']);
     listItem.classList = ['receitaItem'];
     listItem.classList.add('externalLink');
-    listItem.appendChild(posSpan);
     titleSpan.innerText = drugData.name;
     listItem.appendChild(titleSpan);
     qrCode.src = url;
@@ -201,7 +148,6 @@ export default class ReceitaDiv {
 
   addImage = function (drugData) {
     var listItem = document.createElement('li');
-    var posSpan = document.createElement('span');
     var outerDiv = document.createElement('div');
     var titleSpan = document.createElement('div');
     var qrCode = document.createElement('img');
@@ -213,7 +159,6 @@ export default class ReceitaDiv {
     qrCode.src = url;
     outerDiv.appendChild(titleSpan);
     outerDiv.appendChild(qrCode);
-    listItem.appendChild(posSpan);
     listItem.appendChild(outerDiv);
     this.prescriptionDiv.appendChild(listItem);
     return listItem;
@@ -221,20 +166,14 @@ export default class ReceitaDiv {
 
   renderDrugs = function (selectedDrugs) {
     this.prescriptionDiv.innerHTML = "";
-    this.prescriptionDiv.classList = (this.group_by == "route" ? ["group-by-route"] : ["group-by-schedule"]);
-    var groupKey = function (drug, group_by, drugSchedule) {
-      if (group_by == 'route') {
-        return [drug['route']];
-      } else if (drug['id'] in drugSchedule) {
-        return drugSchedule[drug['id']];
-      } else {
-        return [];
-      }
+    this.prescriptionDiv.classList = "group-by-route";
+    var groupKey = function (drug) {
+      return [drug['route']];
     };
     var drugSets = {};
     for (var idx in selectedDrugs) {
       var selectedDrug = selectedDrugs[idx];
-      groupKey(selectedDrug, this.group_by, this.drugSchedule).forEach(function (group) {
+      groupKey(selectedDrug).forEach(function (group) {
         if (!(group in drugSets)) {
           drugSets[group] = [];
         }
@@ -250,9 +189,6 @@ export default class ReceitaDiv {
       var drugsInGroup = sortedDrugSets[group];
       var groupDiv = document.createElement('div');
       groupDiv.classList.add('routeHeader');
-      if (this.group_by == "schedule") {
-        groupDiv.classList.add('group-' + group);
-      }
       groupDiv.innerText = group;
       this.prescriptionDiv.appendChild(groupDiv);
       for (var idx in drugsInGroup) {

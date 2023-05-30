@@ -146,24 +146,6 @@ export default class DrugsForm {
     }).bind(this));
   }
 
-  buildGroupByScheduleToggle = function () {
-    var toggleDiv = document.createElement('div');
-    toggleDiv.className = 'groupByScheduleToggle';
-    toggleDiv.innerHTML =
-      "<label class='switch'>" +
-      "<input type='checkbox' id='groupBySchedule'>" +
-      "<span class='slider round'></span>" +
-      "</label>" +
-      "<span class='groupByScheduleLabel'>" +
-      "Agrupar por horário";
-    "</span>";
-    this.drugsForm.appendChild(toggleDiv);
-    var groupByScheduleSelector = document.getElementById('groupBySchedule');
-    groupByScheduleSelector.addEventListener('change', (function (e) {
-      this.app.toggleGroupBySchedule(e.currentTarget.checked);
-    }).bind(this));
-  }
-
   buildRouteSelector = function () {
     var selectorHtml = "<label for='route-list'>Via de uso da droga: </label>" +
       "<select id='route-list' name='route'>" +
@@ -215,7 +197,6 @@ export default class DrugsForm {
     this.drugsForm.appendChild(collapseAll);
     this.drugsForm.appendChild(resetDrugs);
     this.buildSpecialPrescriptionToggle();
-    this.buildGroupByScheduleToggle();
     this.buildRouteSelector();
     var printBtn = document.createElement('button');
     printBtn.innerText = 'Duplicar página';
