@@ -1,14 +1,16 @@
-.icon-select .selected-icons {
-    height: 64px;
-    display: inline-block;
-    margin: 1em 0;
-}
 .icon-select .show-options {
     float: right;
 }
 .icon-select img {
     width: 60px;
     height: 60px;
+}
+.icon-select .selected-icons {
+    display: inline-block;
+    margin: 0.1em;
+}
+.icon-select .selected-icons img {
+    margin: 2px;
 }
 .icon-select .icon-options {
     background-color: white;

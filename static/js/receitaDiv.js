@@ -1,4 +1,5 @@
 import IconSelect from './iconSelect.js';
+import { InstructionsForDoctors } from './instructions_for_doctors.js';
 
 class CustomizedTextHandler {
   constructor(receitaDiv, drugPosition, printableTextDiv, drugTextArea) {
@@ -113,7 +114,7 @@ export default class ReceitaDiv {
     textarea.value = drugText;
     printableText.innerText = drugText;
     var customTextHandler = new CustomizedTextHandler(this, position, printableText, textarea);
-
+    
     textarea.addEventListener('keyup', this.handleCustomizedText.bind(customTextHandler));
     listItem.appendChild(posSpan);
     drugTextWrapper.appendChild(textarea);
@@ -121,6 +122,16 @@ export default class ReceitaDiv {
     listItem.appendChild(drugTextWrapper);
     listItem.appendChild(iconSelector.root);
     this.prescriptionDiv.appendChild(listItem);
+    
+    // Add instructions for doctors, if available.
+    if ('instructions_for_doctors' in drugData) {
+        var liForInstructions = document.createElement('li');        
+        var instructionsForDoctors = new InstructionsForDoctors(
+            drugData,
+            liForInstructions);
+        instructionsForDoctors.render();   
+        this.prescriptionDiv.appendChild(liForInstructions);
+    }
 
     // Need to do this after the textarea is appended to the doc.
     textarea.style.height = '';

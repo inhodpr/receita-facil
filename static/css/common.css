@@ -108,6 +108,17 @@ div.specialPrescriptionToggle span.specialPrescriptionLabel {
   max-width: 80%;
 }
 
+/* Instructions for doctors */
+.instructions-for-doctors {
+    padding: 5px;
+    margin: 10px;
+    border-radius: 5px;
+    background-color: #FAA;
+}
+.instructions-for-doctors button {
+    float: right;
+}
+
 /* General organization */
 div.collapsed {
   display: none;
