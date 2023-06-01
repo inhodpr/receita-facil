@@ -1,9 +1,10 @@
-from scripts import on_disk_drugs_storage, on_disk_support_icons_storage, appengine_datastore_footnotes, storage
+from scripts import drugs_datastore, on_disk_support_icons_storage, appengine_datastore_footnotes, storage
 
 
 class Storage:
     def __init__(self):
-        self._drugs = on_disk_drugs_storage.OnDiskDrugStorage()
+        self._drugs = drugs_datastore.DrugsDatastore()
+        # self._drugs = on_disk_drugs_storage.OnDiskDrugStorage()
         self._footnotes = appengine_datastore_footnotes.AppEngineDataStoreFootnotes()
         # self._footnotes = jinja_footnotes.JinjaFootnotesStorage()
         self._support_icons = on_disk_support_icons_storage.OnDiskSupportIconsStorage()
