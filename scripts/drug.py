@@ -28,13 +28,20 @@ def from_entity(entity: Entity) -> Drug:
     drug = Drug()
     drug.id = entity['id']
     drug.name = entity['name']
-    drug.quantity = entity['quantity']
-    drug.instructions = entity['instructions']
-    drug.brand = entity['brand']
-    drug.category = entity['category']
-    drug.subcategory = entity['subcategory']
-    drug.is_link = entity['is_link']
-    drug.is_image = entity['is_image']
+    if 'quantity' in entity:
+        drug.quantity = entity['quantity']
+    if 'instructions' in entity:
+        drug.instructions = entity['instructions']
+    if 'brand' in entity:
+        drug.brand = entity['brand']
+    if 'category' in entity:
+        drug.category = entity['category']
+    if 'subcategory' in entity:
+        drug.subcategory = entity['subcategory']
+    if 'is_link' in entity:
+        drug.is_link = entity['is_link']
+    if 'is_image' in entity:
+        drug.is_image = entity['is_image']
     return drug
 
 
