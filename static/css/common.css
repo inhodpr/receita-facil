@@ -147,7 +147,8 @@ div.collapsed {
   .attribution,
   button,
   textarea,
-  .group-by-route img.unchecked {
+  .group-by-route img.unchecked,
+  .instructions-for-doctors {
     display: none;
   }
   input {
