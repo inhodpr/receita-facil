@@ -127,18 +127,16 @@ export default class ReceitaDiv {
 
     // Add instructions for doctors, if available.
     if ('instructions_for_doctors' in drugData) {
-      var liForInstructions = document.createElement('li');
       var instructionsForDoctors = null;
       if (drugId in this.drugInstructions) {
         instructionsForDoctors = this.drugInstructions[drugId];
       } else {
-        instructionsForDoctors = new InstructionsForDoctors(
-          drugData,
-          liForInstructions);
+        instructionsForDoctors = new InstructionsForDoctors(drugData);
         this.drugInstructions[drugId] = instructionsForDoctors;
       }
       if (!instructionsForDoctors.isClosed()) {
-        instructionsForDoctors.render();
+        var liForInstructions = document.createElement('li');
+        instructionsForDoctors.render(liForInstructions);
         this.prescriptionDiv.appendChild(liForInstructions);
       }
     }
