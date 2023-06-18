@@ -152,12 +152,15 @@ export default class ReceitaDiv {
     var titleSpan = document.createElement('div');
     var qrCode = document.createElement('img');
     var url = "https://storage.googleapis.com/receita-facil-prescribed-images/" + drugData.instructions;
+    var hideTitle = drugData.instructions.startsWith('packs/');
     listItem.setAttribute('id', 'drug' + drugData['id']);
     listItem.classList = ['receitaItem'];
     listItem.classList.add('prescribed-image');
     titleSpan.innerText = drugData.name;
     qrCode.src = url;
-    outerDiv.appendChild(titleSpan);
+    if (!hideTitle) {
+      outerDiv.appendChild(titleSpan);
+    }
     outerDiv.appendChild(qrCode);
     listItem.appendChild(outerDiv);
     this.prescriptionDiv.appendChild(listItem);
