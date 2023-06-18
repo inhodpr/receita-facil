@@ -10,6 +10,7 @@ class Drug:
     name: str
     quantity: str = None
     instructions: str = None
+    instructions_for_doctors: str = None
     brand: str = None
     category: str = None
     subcategory: str = None
@@ -32,6 +33,8 @@ def from_entity(entity: Entity) -> Drug:
         drug.quantity = entity['quantity']
     if 'instructions' in entity:
         drug.instructions = entity['instructions']
+    if 'instructions_for_doctors' in entity:
+        drug.instructions_for_doctors = entity['instructions_for_doctors']
     if 'brand' in entity:
         drug.brand = entity['brand']
     if 'category' in entity:

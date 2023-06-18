@@ -1,4 +1,5 @@
 import IconSelect from './iconSelect.js';
+import { InstructionsForDoctors } from './instructions_for_doctors.js';
 
 class CustomizedTextHandler {
   constructor(receitaDiv, drugPosition, printableTextDiv, drugTextArea) {
@@ -20,6 +21,7 @@ export default class ReceitaDiv {
     this.prescriptionDiv = null;
     this.drugCustomText = {};
     this.drugSupportIconSelectors = {};
+    this.drugInstructions = {};
   }
 
   handleIconClick = function (e) {
@@ -91,6 +93,7 @@ export default class ReceitaDiv {
 
   addDrug = function (drugData) {
     var position = drugData['position'];
+    var drugId = drugData['id'];
     if (!(position in this.drugCustomText)) {
       this.drugCustomText[position] = this.getTextForDrug(drugData);
     }
@@ -107,7 +110,7 @@ export default class ReceitaDiv {
     listItem.classList = ['receitaItem'];
     drugTextWrapper.classList = ['drug-text-wrapper'];
     printableText.classList = ['printable-drug-text'];
-    listItem.setAttribute('id', 'drug' + drugData['id']);
+    listItem.setAttribute('id', 'drug' + drugId);
     textarea.setAttribute('cols', 60);
 
     textarea.value = drugText;
@@ -121,6 +124,22 @@ export default class ReceitaDiv {
     listItem.appendChild(drugTextWrapper);
     listItem.appendChild(iconSelector.root);
     this.prescriptionDiv.appendChild(listItem);
+
+    // Add instructions for doctors, if available.
+    if ('instructions_for_doctors' in drugData) {
+      var instructionsForDoctors = null;
+      if (drugId in this.drugInstructions) {
+        instructionsForDoctors = this.drugInstructions[drugId];
+      } else {
+        instructionsForDoctors = new InstructionsForDoctors(drugData);
+        this.drugInstructions[drugId] = instructionsForDoctors;
+      }
+      if (!instructionsForDoctors.isClosed()) {
+        var liForInstructions = document.createElement('li');
+        instructionsForDoctors.render(liForInstructions);
+        this.prescriptionDiv.appendChild(liForInstructions);
+      }
+    }
 
     // Need to do this after the textarea is appended to the doc.
     textarea.style.height = '';
