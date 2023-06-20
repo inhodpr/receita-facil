@@ -60,37 +60,48 @@ export default class DrugsForm {
     drugDiv.appendChild(span_drugname);
     return drugDiv;
   }
-  buildCategoryDivs = function () {
-    for (var i in this.drugsList) {
-      var drug = this.drugsList[i];
-      var category = drug['category'];
-      if (category == '') {
-        category = 'OUTROS';
-      }
-      if (category in this.categoryDivs) {
-        continue;
-      }
-      var categoryDiv = document.createElement('div');
-      var categoryName = document.createElement('a');
-      var categoryContent = document.createElement('div');
-      categoryDiv.setAttribute('class', 'categoria');
-      categoryContent.setAttribute('class', 'collapsed');
-      categoryName.setAttribute('href', '#');
-      categoryName.appendChild(document.createTextNode(category));
-      categoryDiv.appendChild(categoryName);
-      categoryDiv.appendChild(categoryContent);
-      categoryName.addEventListener('click', function () {
-        var categoryContent = this.parentElement.childNodes[1];
-        if (categoryContent.className == 'collapsed') {
-          categoryContent.setAttribute('class', 'expanded');
-        }
-        else if (categoryContent.className == 'expanded') {
-          categoryContent.setAttribute('class', 'collapsed');
-        }
-      });
-      this.drugsForm.appendChild(categoryDiv);
-      this.categoryDivs[category] = categoryDiv;
+
+  buildCategory = function(category) {
+    if (category == '') {
+      category = 'OUTROS';
     }
+    var categoryDiv = document.createElement('div');
+    var categoryName = document.createElement('a');
+    var categoryContent = document.createElement('div');
+    categoryDiv.setAttribute('class', 'categoria');
+    categoryContent.setAttribute('class', 'collapsed');
+    categoryName.setAttribute('href', '#');
+    categoryName.appendChild(document.createTextNode(category));
+    categoryDiv.appendChild(categoryName);
+    categoryDiv.appendChild(categoryContent);
+    categoryName.addEventListener('click', function () {
+      var categoryContent = this.parentElement.childNodes[1];
+      if (categoryContent.className == 'collapsed') {
+        categoryContent.setAttribute('class', 'expanded');
+      }
+      else if (categoryContent.className == 'expanded') {
+        categoryContent.setAttribute('class', 'collapsed');
+      }
+    });
+    this.drugsForm.appendChild(categoryDiv);
+    this.categoryDivs[category] = categoryDiv;
+  };
+
+  buildCategoryDivs = function () {
+    var categories = new Set();
+    this.drugsList.forEach(drug => categories.add(drug['category']));
+    
+    var specialCategories = ['Imagens',
+                             'Packs de imagens',
+                             'Videos',
+                             'DIGITAR QUALQUER MEDICAMENTO',
+                             'SALA DE PROCEDIMENTOS',
+                             'VALIDADE'];
+    specialCategories.forEach(this.buildCategory.bind(this));
+    specialCategories.forEach(specialCategory => categories.delete(specialCategory));
+    
+    var sortedCategories = Array.from(categories).sort();
+    sortedCategories.forEach(this.buildCategory.bind(this));
   }
 
   expandAll = function () {
