@@ -91,12 +91,13 @@ export default class DrugsForm {
     var categories = new Set();
     this.drugsList.forEach(drug => categories.add(drug['category']));
     
-    var specialCategories = ['Imagens',
-                             'Packs de imagens',
-                             'Videos',
-                             'DIGITAR QUALQUER MEDICAMENTO',
-                             'SALA DE PROCEDIMENTOS',
-                             'VALIDADE'];
+    var specialCategories = [
+        'DIGITAR QUALQUER MEDICAMENTO',
+        'SALA DE PROCEDIMENTOS',
+        'Imagens',
+        'Packs de imagens',
+        'Videos',
+        'VALIDADE'];
     specialCategories.forEach(this.buildCategory.bind(this));
     specialCategories.forEach(specialCategory => categories.delete(specialCategory));
     
@@ -180,7 +181,7 @@ export default class DrugsForm {
       "<option value='Encaminhamento'>Encaminhamento</option>" +
       "<option value='Retorno'>Retorno</option>" +
       "<option value='Retorno'>Atestado</option>" +
-      "<option value='Retorno'>Solicitação de examaes</option>" +
+      "<option value='Retorno'>Solicitação de exames</option>" +
       "</select>";
     var selectorDiv = document.createElement("div");
     selectorDiv.id = 'route-selector';
