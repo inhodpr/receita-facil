@@ -1,0 +1,155 @@
+{% extends "main.html" %}
+{% block custom_styles %}
+<link rel="stylesheet" type="text/css" href="/static/css/ourolandia.css">
+{% endblock %}
+{% block simple_prescription %}
+<div class='prescription-form simple-prescription-form'>
+    <p>Receituário simples para Ourolândia ainda não está implementado.</p>
+    <p>Você pode usar o receituário especial, ou usar o <a href='/'>receituário simples genérico</a>.</p>
+    <!-- 
+    <div id='header-top'>
+        <img src="/static/images/logo_ourolandia.png">
+        <span>SECRETARIA MUNICIPAL DE SAÚDE</span>
+        <img src="/static/images/logo_sus.png">
+    </div>
+    <div id='header-title'>
+        <h1>RECEITUÁRIO</h1>
+    </div>
+    <div id='header-unidade'>
+        <h2>UNIDADE DE SAÚDE</h2>
+        <input type='text'>
+    </div>
+    <div id='header-medico'>
+        <span>Nome:</span>
+        <input class='medico' name='patient-name' type='text' value=''>
+        <span>Registro nº:</span>
+        <input type='text' value='_______'>
+    </div>
+    <div>
+        <ul id="receita-simples"></ul>
+        <div id='date-and-signature'>
+            <div id='prescription-date'>
+                Data: <span class='autofill-date'></span>
+            </div>
+            <div id='signature'>
+                <div class='signature fullline'></div>
+                <div>(ASSINATURA E CARIMBO)</div>
+            </div>
+        </div>
+    </div>
+    <div id="dynamic-bottom"></div>
+    -->
+</div>
+{% endblock %}
+
+{% block special_prescription %}
+<div class='prescription-form special-prescription-form' hidden='true'>
+    <div id="header-top">
+        <img src="/static/images/logo_ourolandia.png">
+        <h1>RECEITUÁRIO DE CONTROLE ESPECIAL</h1>
+    </div>
+    <div id='header-emitente'>
+        <fieldset id='emitente'>
+            <h2>IDENTIFICAÇÃO DO EMITENTE</h2>
+            <div class='row'>
+                <label for='emitente-name'>Nome completo: </label>
+                <input name='emitente-name' type='text' />
+            </div>
+            <div class='row'>
+                <input name='emitente-name' type='text' />
+            </div>
+            <div class='row'>
+                <label for='emitente-crm'>CRM:</label>
+                <input name='emitente-crm' type='text' />
+                <label for='emitente-uf'>UF:</label>
+                <input name='emitente-uf' type='text' />
+                <label for='emitente-numero'>Nº:</label>
+                <input name='emitente-numero' type='text' />
+            </div>
+            <div class='row'>
+                <label for='emitente-endereco'>Endereço completo e tel.:</label>
+                <input name='emitente-endereco' type='text' />
+            </div>
+            <div class='row'>
+                <input name='emitente-endereco' type='text' />
+            </div>
+            <div class='row'>
+                <input name='emitente-endereco' type='text' />
+            </div>
+            <div class='row'>
+                <label for='emitente-cidade'>Cidade:</label>
+                <input name='emitente-cidade' type='text' />
+                <label for='emitente-uf'>UF:</label>
+                <input name='emitente-uf' type='text' value='PE' />
+            </div>
+        </fieldset>
+        <div>
+            <div>1 via - Farmácia</div>
+            <div>2 via - Usuário</div>
+        </div>
+    </div>
+    <fieldset id='header-patient' class='no-border'>
+        <div class='row'>
+            <label for='patient-name'>Paciente:</label>
+            <input type='text' name='patient-name' />
+        </div>
+        <div class='row'>
+            <label for='patient-address'>Endereço:</label>
+            <input type='text' name='patient-address' />
+        </div>
+    </fieldset>
+
+    <div id='prescription'>
+        <h3>Prescrição:</h3>
+        <ul id='receita-especial'></ul>
+        <div id='date-and-signature'>
+            <span>Data: <span class='autofill-date'></span></span>
+        </div>
+    </div>
+    <div id='header-infos'>
+        <fieldset>
+            <h2>IDENTIFICAÇÃO DO COMPRADOR</h2>
+            <div class="row">
+                <label for='buyer-name'>Nome:</label>
+                <input type="text" name="buyer-name" />
+            </div>
+            <div class="row">
+                <input type="text" name="buyer-name" />
+            </div>
+            <div class="row">
+                <label for='buyer-id'>Ident.:</label>
+                <input type="text" name="buyer-id" />
+            </div>
+            <div class="row">
+                <label for='buyer-emissor'>Org. Emissor:</label>
+                <input type="text" name="buyer-emissor" />
+            </div>
+            <div class="row">
+                <label for='buyer-address'>Endereço:</label>
+                <input type="text" name="buyer-address" />
+            </div>
+            <div class="row">
+                <input type="text" name="buyer-address" />
+                <label for='buyer-uf'>UF:</label>
+                <input type="text" name="buyer-uf" />
+            </div>
+            <div class="row">
+                <label for='buyer-city'>Cidade:</label>
+                <input type="text" name="buyer-city" />
+            </div>
+            <div class="row">
+                <label for='buyer-telephone'>Telefone:</label>
+                <input type="text" name="buyer-telephone" />
+            </div>
+        </fieldset>
+        <fieldset id='fornecedor'>
+            <h2>IDENTIFICAÇÃO DO FORNECEDOR</h2>
+            <div class="row"></div>
+            <div class="row">
+                <label>Data:</label>
+                <span>____ / ____ / ____</span>
+            </div>
+        </fieldset>
+    </div>
+</div>
+{% endblock %}

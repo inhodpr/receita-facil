@@ -1,0 +1,86 @@
+html, body, div, fieldset, input, label, span, img, h1, h2, h3 {
+    margin: 0;
+    padding: 0;
+}
+h1 { font-size: 16pt; }
+h2 { font-size: 12pt; }
+h3 { font-size: 11pt; }
+body { font-size: 10pt; }
+
+
+/* FIELDSETS, shared styles. */
+fieldset {
+    border: 1px solid black;
+}
+fieldset.no-border {
+    border: none;
+}
+fieldset h2 {
+    text-align: center;
+    border-bottom: 1px solid black;
+    padding: 3px;
+}
+fieldset div.row {
+    margin: 3px 0 0 3px;
+    display: flex;
+}
+fieldset div.row input {
+    flex-grow: 2;
+}
+
+/* top headers */
+.special-prescription-form > * {
+    margin: 1em 0;
+}
+.special-prescription-form #header-top {
+    position: relative;
+    height: 100px;
+    text-align: center;
+}
+.special-prescription-form #header-top h1 {
+    padding-top: 20px;
+}
+.special-prescription-form #header-top img {
+    display: block;
+    position: absolute;
+    left: 40px;
+    width: 90px;
+    height: 90px;
+}
+.special-prescription-form #header-emitente {
+    display: flex;
+}
+.special-prescription-form #header-emitente > fieldset {
+    width: 70%
+}
+.special-prescription-form #header-emitente > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 1em;
+}
+.special-prescription-form #prescription {
+    display: flex;
+    flex-direction: column;
+}
+.special-prescription-form #prescription ul#receita-especial {
+    flex-grow: 2;
+}
+.special-prescription-form #header-infos {
+    display: grid;
+    grid-template-columns: 0.9fr 0.9fr;
+    column-gap: 1em;
+}
+.special-prescription-form #fornecedor {
+    display: flex;
+    flex-direction: column;
+}
+.special-prescription-form #fornecedor div:nth-child(2) {
+    flex-grow: 2;
+}
+
+@media print {
+    fieldset div.row input {
+        border-bottom: 1px solid black;
+    }
+}
