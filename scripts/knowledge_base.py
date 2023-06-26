@@ -31,21 +31,9 @@ def _fetch_from_storage(pagename):
 			            blobs=blobs)
 
 
-def render_bibliography_page(app):
-	return _fetch_from_storage("bibliografia")
-
 def render_library_page(app):
 	return _fetch_from_storage("biblioteca")
 
-def render_documents_page(app):
-	return _fetch_from_storage("documentos")
-
-def render_scores_page(app):
-	return _fetch_from_storage("scores")
-
 def render_materials_page(app):
 	return _fetch_from_storage("materiais")
-
-def render_panel_page(app):
-	return _fetch_from_storage("painel")
 
