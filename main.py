@@ -149,34 +149,14 @@ def support_icons_defs():
     return Response(contents, mimetype='application/json')
 
 
-@app.route('/bibliografia')
-def fetch_bibliography():
-    return knowledge_base.render_bibliography_page(app)
-
-
 @app.route('/biblioteca')
 def fetch_library():
     return knowledge_base.render_library_page(app)
 
 
-@app.route('/documentos')
-def fetch_documents():
-    return knowledge_base.render_documents_page(app)
-
-
-@app.route('/scores')
-def fetch_scores():
-    return knowledge_base.render_scores_page(app)
-
-
 @app.route('/materiais')
 def fetch_materials():
     return knowledge_base.render_materials_page(app)
-
-
-@app.route('/painel')
-def fetch_panel():
-    return knowledge_base.render_panel_page(app)
 
 
 if __name__ == '__main__':
