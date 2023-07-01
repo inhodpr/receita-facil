@@ -95,7 +95,10 @@ export default class DrugsForm {
         'DIGITAR QUALQUER MEDICAMENTO',
         'SALA DE PROCEDIMENTOS',
         'Imagens',
-        'Packs de imagens',
+        'Packs de ícones (Comprimido)',
+        'Packs de ícones (Cápsula)',
+        'Packs de ícones (Líquido)',
+        'Packs de ícones (Tópico)',
         'Videos',
         'VALIDADE'];
     specialCategories.forEach(this.buildCategory.bind(this));
@@ -181,7 +184,7 @@ export default class DrugsForm {
       "<option value='Encaminhamento'>Encaminhamento</option>" +
       "<option value='Retorno'>Retorno</option>" +
       "<option value='Retorno'>Atestado</option>" +
-      "<option value='Retorno'>Solicitação de exames</option>" +
+      "<option value='Solicitação de exames'>Solicitação de exames</option>" +
       "</select>";
     var selectorDiv = document.createElement("div");
     selectorDiv.id = 'route-selector';
