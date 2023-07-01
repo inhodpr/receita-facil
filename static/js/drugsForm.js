@@ -95,7 +95,10 @@ export default class DrugsForm {
         'DIGITAR QUALQUER MEDICAMENTO',
         'SALA DE PROCEDIMENTOS',
         'Imagens',
-        'Packs de imagens',
+        'Packs de ícones (Comprimido)',
+        'Packs de ícones (Cápsula)',
+        'Packs de ícones (Líquido)',
+        'Packs de ícones (Tópico)',
         'Videos',
         'VALIDADE'];
     specialCategories.forEach(this.buildCategory.bind(this));
