@@ -79,6 +79,10 @@ fieldset div.row input {
     flex-grow: 2;
 }
 
+.special-prescription-form.jaguarari #prescription h3 {
+    text-align: center;
+}
+
 @media print {
     fieldset div.row input {
         border-bottom: 1px solid black;
