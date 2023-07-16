@@ -21,7 +21,7 @@ app_storage = storage_defs.Storage()
 
 
 # Slightly copied from main.py.
-def download_drugs(drugs_path):
+def download_drugs(drugs_path, basedir, images_dir):
     class EnhancedJSONEncoder(json.JSONEncoder):
         def default(self, o):
             if dataclasses.is_dataclass(o):
@@ -34,9 +34,21 @@ def download_drugs(drugs_path):
             return super().default(o)
     
     drugs = app_storage.drugs().fetch_drugs()
+    for drug in drugs:
+        if drug.is_image:
+            print(f'Downloading image: {drug.name}.')
+            image_url = "https://storage.googleapis.com/receita-facil-prescribed-images/" + parse.quote(drug.instructions)
+            image_path = os.path.join(images_dir, drug.instructions)
+            image_fullpath = os.path.join(basedir, image_path)
+            with urllib.request.urlopen(image_url) as img:
+                with open(image_fullpath, 'wb') as out:
+                    out.write(img.read())
+            drug.instructions = image_path
+
     contents = json.dumps(drugs, cls=EnhancedJSONEncoder)
     with open(drugs_path, 'w') as f:
         f.write(contents)
+    return drugs
 
 
 def download_icon(icon_path, adjusted_path):
@@ -75,29 +87,30 @@ def download_home_page(homepage_path):
 
 
 def pack_offline_app():
-    basedir = '/tmp/cuidadoparatodos-offline/app'
+    basedir = '/home/inhodpr/tmp/cuidadoparatodos-offline/app'
     if not os.path.exists(basedir):
         os.makedirs(basedir)
 
-    # Delete all files in the base dir.
-    # existing_files_glob = os.path.join(basedir, '*')
-    # if os.path.exists(existing_files_glob):
-    #     os.remove( existing_files_glob)
-
     # Recreate dirs that we will need.
     os.makedirs(os.path.join(basedir, 'icons'))
+    os.makedirs(os.path.join(basedir, 'images'))
+    os.makedirs(os.path.join(basedir, 'images/packs'))
 
     download_home_page(
         os.path.join(basedir, 'index.html'))
-    download_drugs(
-        os.path.join(basedir, 'drugs'))
-    download_support_icons(
-        os.path.join(basedir, 'supportIcons'),
-        basedir,
-        'icons')
     shutil.copytree(
         '/home/inhodpr/receita-facil/static',
         os.path.join(basedir, 'static'))
+    # Override the empty drugs.json with the real thing.
+    # Also downloads images from the RHS column.
+    download_drugs(
+        os.path.join(basedir, 'static/js/drugs.json'),
+        basedir,
+        'images')
+    download_support_icons(
+        os.path.join(basedir, 'static/js/supportIcons.json'),
+        basedir,
+        'icons')
 
 
 if __name__ == "__main__":

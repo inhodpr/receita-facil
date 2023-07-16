@@ -1,3 +1,5 @@
+import SupportIcons from './supportIcons.json'
+
 var removeAllChildren = function (parent) {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
@@ -13,14 +15,24 @@ export default class IconSelect {
     this.selectedDiv = null;
     this.btnShowOptions = null;
     this.divOptions = null;
+    
+    var url = new URL(document.location);
+    this.loadLocally = (url.protocol == 'file:');
+
     this.build();
     if (SUPPORT_ICON_DEFS == null) {
-      fetch('/supportIcons')
+      if (this.loadLocally) {
+        SUPPORT_ICON_DEFS = SupportIcons;
+        this.buildOptions();
+      } else {
+        fetch('supportIcons')
         .then(response => response.json())
         .then((function (supportIconDefs) {
           SUPPORT_ICON_DEFS = supportIconDefs;
           this.buildOptions();
         }).bind(this));
+      }     
+
     } else {
       this.buildOptions();
     }

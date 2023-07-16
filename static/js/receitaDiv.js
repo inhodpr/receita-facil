@@ -170,8 +170,15 @@ export default class ReceitaDiv {
     var outerDiv = document.createElement('div');
     var titleSpan = document.createElement('div');
     var qrCode = document.createElement('img');
+
+    var currentUrl = new URL(document.location);
+    var isRunningLocally = (currentUrl.protocol == 'file:');
     var url = "https://storage.googleapis.com/receita-facil-prescribed-images/" + drugData.instructions;
-    var hideTitle = drugData.instructions.startsWith('packs/');
+    if (isRunningLocally) {
+        url = drugData.instructions;
+    }
+
+    var hideTitle = url.indexOf('/packs/') >= 0;
     listItem.setAttribute('id', 'drug' + drugData['id']);
     listItem.classList = ['receitaItem'];
     listItem.classList.add('prescribed-image');

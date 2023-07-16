@@ -1,11 +1,15 @@
 import ReceitaDiv from './receitaDiv.js';
 import DrugsForm from './drugsForm.js';
+import Drugs from './drugs.json'
 
 export default class ReceitaApp {
     constructor() {
         this.prescriptionHandler = null;
         this.drugsHandler = null;
         this.city = null;
+
+        var currentUrl = new URL(document.URL);
+        this.isRunningLocal = currentUrl.protocol == 'file:';
     }
 
     finishStart = function (drugsList) {
@@ -16,7 +20,10 @@ export default class ReceitaApp {
     }
 
     loadDrugsList = async function (callback) {
-        var DRUGS_JSON_URL = '/drugs';
+        if (this.isRunningLocal) {
+            return Drugs;
+        }
+        var DRUGS_JSON_URL = 'drugs';
         return fetch(DRUGS_JSON_URL).then(response => response.json());
     };
 
