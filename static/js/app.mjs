@@ -1,6 +1,6 @@
 import ReceitaDiv from './receitaDiv.js';
 import DrugsForm from './drugsForm.js';
-import Drugs from './drugs.json'
+import Drugs from './drugs.json' assert { type: 'json' }
 
 export default class ReceitaApp {
     constructor() {

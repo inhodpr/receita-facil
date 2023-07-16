@@ -1,4 +1,4 @@
-import SupportIcons from './supportIcons.json'
+import SupportIcons from './supportIcons.json' assert { type: 'json' }
 
 var removeAllChildren = function (parent) {
   while (parent.firstChild) {
