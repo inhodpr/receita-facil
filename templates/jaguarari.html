@@ -12,13 +12,15 @@
 {% block special_prescription %}
 <div class='prescription-form special-prescription-form jaguarari' hidden='true'>
     <div id="header-top">
-        <img src="/static/images/logoJaguarariSemus.jpeg">
-        <div id="header-top-center">
+        <div class='col1'>
+            <img src="/static/images/logoJaguarariSemus.png">
+        </div>
+        <div class="col2">
             <h1>RECEITUÁRIO DE CONTROLE ESPECIAL</h1>
             <h2>Rua Pedro Santana, s/n - Centro - Jaguarari - BA</h2>
             <h2>CEP 48960-000 - CNPJ 11.135.974/0001-07</h2>
         </div>
-        <div>
+        <div class="col3">
             <img src="/static/images/logoJaguarari.png">
             <img src="/static/images/logoJaguarariPrefeitura.png">
         </div>
@@ -55,12 +57,12 @@
                 <label for='emitente-cidade'>Cidade:</label>
                 <input name='emitente-cidade' type='text' />
                 <label for='emitente-uf'>UF:</label>
-                <input name='emitente-uf' type='text' value='PE' />
+                <input name='emitente-uf' type='text'/>
             </div>
         </fieldset>
         <div>
-            <div>1 via - Farmácia</div>
-            <div>2 via - Usuário</div>
+            <div>1ª via FARMÁCIA</div>
+            <div>2ª via USUÁRIO</div>
         </div>
     </div>
     <fieldset id='header-patient' class='no-border'>
@@ -92,7 +94,7 @@
                 <label for='buyer-id'>Ident.:</label>
                 <input type="text" name="buyer-id" />
                 <label for='buyer-emissor'>Org. Emissor:</label>
-                <input type="text" name="buyer-emissor" />
+                <input type="text" size="1" name="buyer-emissor"/>
             </div>
             <div class="row">
                 <label for='buyer-address'>Endereço:</label>
@@ -117,9 +119,11 @@
         <fieldset id='fornecedor'>
             <h2>IDENTIFICAÇÃO DO FORNECEDOR</h2>
             <div class="row"></div>
-            <div class="row">
-                <label>Data:</label>
-                <span>____ / ____ / ____</span>
+            <div class="date-and-signature-grid">
+                <div class='p1'><input type="text" size="1"></div>
+                <div class='p2'>____ / ____ / ____</div>
+                <div class='p3'>ASSINATURA E CARIMBO DO FARMACÊUTICO</div>
+                <div class='p4'>DATA</div>
             </div>
         </fieldset>
     </div>

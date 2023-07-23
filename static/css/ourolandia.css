@@ -21,11 +21,14 @@ fieldset h2 {
     padding: 3px;
 }
 fieldset div.row {
-    margin: 3px 0 0 3px;
+    margin: 3px;
     display: flex;
+    flex-wrap: wrap;
 }
 fieldset div.row input {
     flex-grow: 2;
+    flex-shrink: 2;
+    min-width: 2em;
 }
 
 /* top headers */
@@ -59,17 +62,12 @@ fieldset div.row input {
     justify-content: center;
     margin-left: 1em;
 }
-.special-prescription-form #prescription {
-    display: flex;
-    flex-direction: column;
-}
-.special-prescription-form #prescription ul#receita-especial {
-    flex-grow: 2;
-}
 .special-prescription-form #header-infos {
-    display: grid;
-    grid-template-columns: 0.9fr 0.9fr;
-    column-gap: 1em;
+    display: flex;
+}
+.special-prescription-form #header-infos fieldset {
+    width: 48%;
+    margin: 0 1em;
 }
 .special-prescription-form #fornecedor {
     display: flex;
@@ -79,12 +77,63 @@ fieldset div.row input {
     flex-grow: 2;
 }
 
+/**************************************************************
+  Specific CSS for Jaguarari.
+**************************************************************/
+.special-prescription-form.jaguarari #header-top {
+    height: auto;
+    display: flex;
+}
+.special-prescription-form.jaguarari #header-top img {
+    /* override position: absolute for Ourolandia. */
+    position: static;
+    width: 100%;
+    height: auto;
+}
+.special-prescription-form.jaguarari #header-top .col1 {
+    width: 20%;
+}
+.special-prescription-form.jaguarari #header-top .col3 {
+    width: 10%;
+}
+.special-prescription-form.jaguarari #header-top .col2 {
+    width: 70%;
+}
+.special-prescription-form.jaguarari #header-top .col3 {
+    display: flex;
+    flex-direction: column;
+}
 .special-prescription-form.jaguarari #prescription h3 {
     text-align: center;
 }
-
+.date-and-signature-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    text-align: center;
+    font-size: 5pt;
+}
+.date-and-signature-grid > div {
+    margin: 3px;
+}
+.date-and-signature-grid input {
+    width: 100%;
+}
+.date-and-signature-grid .p1,
+.date-and-signature-grid .p3 {
+    width: 100%;
+}
+.date-and-signature-grid .p2 {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+.date-and-signature-grid .p3 {
+    text-wrap: nowrap;
+}
 @media print {
-    fieldset div.row input {
+    fieldset div.row input,
+    .date-and-signature-grid input {
         border-bottom: 1px solid black;
     }
 }
