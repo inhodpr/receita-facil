@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .container1 {
+            padding: 10px;
+            display: grid;
+            grid-template-rows: 150px 250px;
+            grid-template-columns: 600px auto;
+        }
+
+        .container2 {
+            padding: 10px;
+            display: grid;
+            grid-template-rows: 450px;
+            grid-template-columns: auto;
+        }
+
+        .container3 {
+            padding: 10px;
+            display: grid;
+            grid-template-rows: 100px 150px;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .identificacao {
+            border: 1px solid black;
+            display: inline-flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .paciente {
+            display: inline-flex;
+            flex-direction: column;
+        }
+
+        .assinatura-cabimbo {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container1">
+        <div>
+            <h2><i>RECEITUÁRIO CONTROLE ESPECIAL</i></h2>
+        </div>
+        <div>
+            <img class="logo" src="/static/images/logo_pedro_alexandre.png">
+        </div>
+        <div>
+            <div class='identificacao'>
+                <h3 style="align-self:center">IDENTIFICAÇÃO DO EMITENTE</h3>
+                <div>
+                    <label for='emitente-name'>Nome:</label>
+                    <input name='emitente-name' type='text' size="70%"/>
+                </div>
+                <div>
+                    <label for='emitente-crm'>CRO:</label>
+                    <input name='emitente-crm' type='text' size="44%"/>
+                    <label for='emitente-uf'>UF:</label>
+                    <input name='emitente-uf' type='text' value='BA' />
+                </div>
+                <div>
+                    <label for='emitente-endereco'>Endereço:</label>
+                    <input name='emitente-endereco' type='text' size="67%"/>
+                </div>
+                <div>
+                    <label for='emitente-telefone'>Telefone:</label>
+                    <input name='emitente-telefone' type='text' size="68%"/>
+                </div>
+                <div>
+                    <label for='emitente-bairro'>Bairro:</label>
+                    <input name='emitente-bairro' type='text'  size="70%"/>
+                </div>
+                <div>
+                    <label for='emitente-cidade'>Cidade:</label>
+                    <input name='emitente-cidade' type='text' size="42%"/>
+                    <label for='emitente-uf'>UF:</label>
+                    <input name='emitente-uf' type='text' value='BA' />
+                </div>              
+            </div>  
+        </div> 
+        <div>
+            <p>1 via - Farmácia</p>
+            <p>2 via - Usuário</p>
+        </div>
+    </div> 
+    <div class="container2">
+        <div class="paciente">
+            <div>
+                <label for='paciente-name'>Paciente:</label>
+                <input name='paciente-name' type='text' size="70%"/>  
+            </div>
+            <div>
+                <label for='paciente-endereco'>Endereco:</label>
+                <input name='paciente-endereco' type='text' size="70%"/>
+            </div>
+            <h3 style="align-self:center">PRESCRIÇÃO</h2>
+        </div>
+    </div>
+    <div class="container3">
+        <div></div>
+        <div class="assinatura-cabimbo">
+            <span>___________________________________________</span>
+            <div style="align-self: center">Assinatura / Carimbo</div>
+        </div>
+        <div class='identificacao'>
+            <h3 style="align-self:center">IDENTIFICAÇÃO DO EMITENTE</h3>
+            <div>
+                <label for='emitente-name'>Nome:</label>
+                <input name='emitente-name' type='text' size="70%"/>
+            </div>
+            <div>
+                <label for='emitente-crm'>CRO:</label>
+                <input name='emitente-crm' type='text' size="44%"/>
+                <label for='emitente-uf'>UF:</label>
+                <input name='emitente-uf' type='text' value='BA' />
+            </div> 
+        </div>
+        <div class='identificacao'>
+            <h3 style="align-self:center">IDENTIFICAÇÃO DO EMITENTE</h3>
+            <div>
+                <label for='emitente-name'>Nome:</label>
+                <input name='emitente-name' type='text' size="70%"/>
+            </div>
+            <div>
+                <label for='emitente-crm'>CRO:</label>
+                <input name='emitente-crm' type='text' size="44%"/>
+                <label for='emitente-uf'>UF:</label>
+                <input name='emitente-uf' type='text' value='BA' />
+            </div> 
+        </div>  
+    </div>
+</body>
+
+</html>
