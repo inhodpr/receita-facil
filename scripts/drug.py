@@ -27,7 +27,11 @@ def to_entity(drug: Drug, client: datastore.Client) -> Entity:
 
 def from_entity(entity: Entity) -> Drug:
     drug = Drug()
-    drug.id = entity['id']
+    if 'id' in entity:
+        drug.id = entity['id']
+    else:
+        drug.id = entity.key.id
+
     drug.name = entity['name']
     if 'quantity' in entity:
         drug.quantity = entity['quantity']
