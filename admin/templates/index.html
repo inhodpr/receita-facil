@@ -1,0 +1,75 @@
+<!doctype html>
+<!--
+ Copyright 2021 Google LLC
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<html>
+<head>
+  <title>Cuidado Para Todes - Admin</title>
+  <script src="https://storage.googleapis.com/cuidadoparatodos-admin-static-content/static/script.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.13.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBecR8j423PvEwPhOHgM0aqFUU5IbKcPWU",
+      authDomain: "cuidadoparatodos-admin.firebaseapp.com",
+      projectId: "cuidadoparatodos-admin",
+      storageBucket: "cuidadoparatodos-admin.appspot.com",
+      messagingSenderId: "1012115579180",
+      appId: "1:1012115579180:web:124862d76b0d4418e88c89"
+    };
+    
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    </script>
+    
+    <link type="text/css" rel="stylesheet" href="https://storage.googleapis.com/cuidadoparatodos-admin-static-content/static/main.css">
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
+</head>
+<body>
+  <div id="header">
+    <h1>Cuidado Para Todos - Admin</h1>
+
+    <div id="login-info">
+      Logado como <strong>{{ user_data['email'] }}</strong>
+    </div>
+    {% if error_message %}
+    <p>Error: {{ error_message }}</p>
+    {% endif %}
+    <button id="sign-out" hidden=true>Sign Out</button>
+  </div>
+  <div id="content">
+    <div id="firebaseui-auth-container"></div>
+
+    {% if drugs %}
+    <ul>
+      {% for drug in drugs %}
+      <li class="drug">
+        <a href="/admin/drug/edit/{{ drug['id'] }}">
+          <div>
+            <span class="name">{{ drug['name'] }}</span>
+            <span class="quantity">{{ drug['quantity'] }}</span>
+            <span class="category">{{ drug['category'] }}</span>
+          </div>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+</body>
+</html>
