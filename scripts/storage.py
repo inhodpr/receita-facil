@@ -1,4 +1,5 @@
 from scripts.drug import Drug
+from scripts.user import User
 
 from typing import Dict, List
 
@@ -7,6 +8,12 @@ class DrugsStorage:
         raise NotImplementedError()
 
     def update_drug_definitions(self, drugs_list: List[Drug]):
+        raise NotImplementedError()
+    
+    def update_drug(self, drug: Drug):
+        raise NotImplementedError()
+    
+    def find_drug_by_id(self, id: int) -> Drug:
         raise NotImplementedError()
 
 
@@ -23,3 +30,6 @@ class SupportIconsStorage:
         raise NotImplementedError()
 
 
+class UserStorage:
+    def find_user_by_email(self, email: str) -> User:
+        raise NotImplementedError()

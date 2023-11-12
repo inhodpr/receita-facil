@@ -102,6 +102,10 @@ export default class ReceitaDiv {
       this.drugSupportIconSelectors[position] = new IconSelect();
     }
     var iconSelector = this.drugSupportIconSelectors[position];
+    if (drugData['support_icons'] && drugData['support_icons'] != '') {
+      var iconUrls = drugData['support_icons'].split(',');
+      iconSelector.selectedUrls = iconUrls;
+    }
     var listItem = document.createElement('li');
     var posSpan = document.createElement('span');
     var drugTextWrapper = document.createElement('div');

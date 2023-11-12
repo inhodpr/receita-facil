@@ -13,9 +13,14 @@ export default class IconSelect {
     this.selectedDiv = null;
     this.btnShowOptions = null;
     this.divOptions = null;
+    this.iconDefsUrl = '/supportIcons';
     this.build();
+    this.start();
+  }
+
+  start = function() {
     if (SUPPORT_ICON_DEFS == null) {
-      fetch('/supportIcons')
+      fetch(this.iconDefsUrl)
         .then(response => response.json())
         .then((function (supportIconDefs) {
           SUPPORT_ICON_DEFS = supportIconDefs;
@@ -28,6 +33,7 @@ export default class IconSelect {
 
   showOptions = function (e) {
     this.divOptions.hidden = !this.divOptions.hidden;
+    e.preventDefault();
   }
 
   handleAddIconClick = function (e) {

@@ -14,6 +14,7 @@ class Drug:
     brand: str = None
     category: str = None
     subcategory: str = None
+    support_icons: list[str] = None
     is_link: bool = False
     is_image: bool = False
 
@@ -45,6 +46,8 @@ def from_entity(entity: Entity) -> Drug:
         drug.category = entity['category']
     if 'subcategory' in entity:
         drug.subcategory = entity['subcategory']
+    if 'support_icons' in entity:
+        drug.support_icons = entity['support_icons']
     if 'is_link' in entity:
         drug.is_link = entity['is_link']
     if 'is_image' in entity:
@@ -66,6 +69,8 @@ def from_json(obj: Any) -> Drug:
         drug.category = obj['category']
     if 'subcategory' in obj:
         drug.subcategory = obj['subcategory']
+    if 'support_icons' in obj:
+        drug.support_icons = obj['support_icons']
     if 'is_link' in obj:
         drug.is_link = obj['is_link']
     if 'is_image' in obj:
