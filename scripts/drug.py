@@ -2,6 +2,7 @@ import dataclasses
 from typing import Any
 from google.cloud import datastore
 from google.cloud.datastore.entity import Entity
+from google.appengine.api import datastore_types
 
 
 @dataclasses.dataclass(init=False, frozen=False)
@@ -14,7 +15,7 @@ class Drug:
     brand: str = None
     category: str = None
     subcategory: str = None
-    support_icons: list[str] = None
+    support_icons: Any = None
     is_link: bool = False
     is_image: bool = False
 
@@ -23,6 +24,11 @@ def to_entity(drug: Drug, client: datastore.Client) -> Entity:
     entity = Entity(key=client.key('drug', drug.id))
     for field, value in dataclasses.asdict(drug).items():
         entity[field] = value
+    # Convert instructions_for_doctors to datastore_types.Text. This is
+    # better for long text and is never indexed.
+    curr_instructions_for_doctors = entity['instructions_for_doctors']
+    entity['instructions_for_doctors'] = datastore_types.Text(curr_instructions_for_doctors)
+    entity.exclude_from_indexes.add('instructions_for_doctors')
     return entity
 
 

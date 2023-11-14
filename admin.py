@@ -96,9 +96,12 @@ def edit_drug(drug_id):
     try:
         claims = check_auth_token()
     except ValueError as err:
+        print('auth failed, redirect to home')
         return redirect('/admin')
 
+    print('auth success')
     drug = app_storage.drugs().find_drug_by_id(drug_id)
+    print(f'current drug: {drug}')
     form = DrugForm(data=dataclasses.asdict(drug))
     if request.method == 'GET':
         return render_template(
@@ -117,7 +120,7 @@ def edit_drug(drug_id):
             drug.support_icons = new_form.support_icons.data
             drug.is_image = new_form.is_image.data
             drug.is_link = new_form.is_link.data
-            print(drug)
+            print(f'new drug: {drug}')
             app_storage.drugs().update_drug(drug)
             return redirect('/admin')
         else:
