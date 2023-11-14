@@ -24,7 +24,11 @@
     import IconSelect from '/admin/static/js/iconSelect.js';
     window.addEventListener('load', function() {
       var iconSelector = new IconSelect();
+      var currentIconsStr = '{{ form.support_icons.data or "" }}';
       iconSelector.iconDefsUrl = '/admin/supportIconDefs';
+      if (currentIconsStr != '') {
+        iconSelector.selectedUrls = currentIconsStr.split(',');
+      }
       iconSelector.start();
       document.getElementById('support-icons-div').appendChild(iconSelector.root);
       document.getElementById('drug-form').addEventListener('submit', function () {
