@@ -39,8 +39,6 @@ export default class IconSelect {
   handleAddIconClick = function (e) {
     var iconUrl = e.currentTarget.src;
     this.selectedUrls.push(iconUrl);
-    removeAllChildren(this.selectedDiv);
-    removeAllChildren(this.divOptions);
     this.buildOptions();
   }
 
@@ -50,8 +48,6 @@ export default class IconSelect {
     if (position >= 0) {
       this.selectedUrls.splice(position, 1);
     }
-    removeAllChildren(this.selectedDiv);
-    removeAllChildren(this.divOptions);
     this.buildOptions();
   }
 
@@ -76,6 +72,9 @@ export default class IconSelect {
   }
 
   buildOptions = function () {
+    removeAllChildren(this.selectedDiv);
+    removeAllChildren(this.divOptions);
+
     this.selectedUrls.forEach(
       url => {
         var icon = document.createElement('img');
