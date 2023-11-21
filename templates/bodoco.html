@@ -1,0 +1,167 @@
+{% extends "main.html" %}
+{% block custom_styles %}
+<link rel="stylesheet" type="text/css" href="/static/css/bodoco.css">
+{% endblock %}
+{% block simple_prescription %}
+<div class='prescription-form simple-prescription-form'>
+    <div id='header-top'>
+        <img src="/static/images/logo_bodoco.png">
+        <span>
+            SECRETARIA MUNICIPAL <br/>
+            DE SAÚDE
+        </span>
+    </div>
+    <div id='header-title'>
+        <h1>RECEITUÁRIO</h1>
+    </div>
+    <div id='header-paciente'>
+        <span>Nome do paciente:</span>
+        <input class='patient-name' name='patient-name' type='text' value=''>
+    </div>
+    <div>
+        <ul id="receita-simples"></ul>
+        <div id='date-and-signature'>
+            <div id='prescription-date'>
+                Data: <span class='autofill-date'></span>
+            </div>
+            <div id='signature'>
+                <div class='signature fullline'></div>
+                <div>
+                    Profissional solicitante<br/>
+                    Assinatura, Carimbo, e Conselho de Classe
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="dynamic-bottom"></div>
+</div>
+{% endblock %}
+{% block special_prescription %}
+<div class='prescription-form special-prescription-form' hidden='true'>
+    <div id="header-top">
+        <img src="/static/images/logo_bodoco.png">
+        <div>
+            <span>SECRETARIA MUNICIPAL DE SAÚDE</span>
+            <span>DIRETORIA DE VIGILÂNCIA EM SAÚDE</span>
+            <span>COORDENAÇÃO DE ASSISTÊNCIA FARMACÊUTICA</span>
+        </div>
+    </div>
+    <h1>
+        RECEITUÁRIO DE CONTROLE ESPECIAL
+    </h1>
+    <div id='header-emitente'>
+        <div class='gap'></div>
+        <div id='emitente'>
+            <h2>IDENTIFICAÇÃO DO EMITENTE</h2>
+            <label for='emitente-name'>Nome completo: </label>
+            <input name='emitente-name' type='text' />
+            <div>
+                <label for='emitente-crm'>CRM:</label>
+                <input name='emitente-crm' type='text' />
+                <label for='emitente-uf'>UF:</label>
+                <input name='emitente-uf' type='text' value='PE' />
+            </div>
+            {% if address %}
+            <div>Endereço: <input type="text" class='emitente-line' value="" /></div>
+            {% endif %}
+            {% if cnpj %}
+            <div>CNPJ: <input type="text" class='emitente-line' value="" /></div>
+            {% endif %}
+            {% if telephone %}
+            <div>Tel: <input type="text" class='emitente-line' value="" /></div>
+            {% endif %}
+        </div>
+        <div class=gap>
+            <span>1 via - Farmácia</span>
+            <span>2 via - Usuário</span>
+        </div>
+    </div>
+    <div id='header-usuario'>
+        <label for='usuario'>USUÁRIO:</label>
+        <input type='text' name='patient-name'></span>
+    </div>
+    <div id='header-endereco'>
+        <label for='usuario'>ENDEREÇO:</label>
+        <input type='text' name='endereco'></span>
+    </div>
+    <div id='header-prescricao'>
+        <h2>Prescrição:</h2>
+        <ul id='receita-especial'></ul>
+        <div id='date-and-signature'>
+            <span>Data: <span class='autofill-date'></span></span>
+        </div>
+    </div>
+    <div id='header-infos'>
+        <div id='info-usuario'>
+            <h3>
+                INFORMAÇÃO DO USUÁRIO PARA QUEM
+                O MEDICAMENTO FOI DISPENSADO
+            </h3>
+            <fieldset>
+                <div class=line>
+                    <span class='label'>Nome:</span>
+                    <span class='gap'></span>
+                </div>
+                <div class=line>
+                    <span class='gap'></span>
+                </div>
+                <div class=line>
+                    <span class='label'>Identidade:</span>
+                    <span class='gap'></span>
+                </div>
+                <div class=line>
+                    <span class='label'>Endereço:</span>
+                    <span class='gap'></span>
+                </div>
+                <div class=line>
+                    <span class='gap'></span>
+                </div>
+                <div class=line>
+                    <span class='gap'></span>
+                </div>
+                <div class=line>
+                    <span class='label'>Telefone:</span>
+                    <span class='gap'></span>
+                </div>
+            </fieldset>
+        </div>
+        <div id='info-dispensador'>
+            <h3>
+                IDENTIFICAÇÃO DO PROFISSIONAL
+                DISPENSADOR
+            </h3>
+            <fieldset>
+                <div class='line'>
+                    <span class='label'>Nome:</span>
+                    <span class='gap'></span>
+                </div>
+                <div class='line'>
+                    <span class='gap'></span>
+                </div>
+                <div class='line'>
+                    <span class='label'>Unidade dispensadora:</span>
+                    <span class='gap'></span>
+                </div>
+                <div class='line'>
+                    <span class='gap'></span>
+                </div>
+                <div class='line'>
+                    <span class='label'>Assinatura:</span>
+                    <span class='gap'></span>
+                </div>
+                <div class='line'>
+                    <span class='gap'></span>
+                </div>
+                <div class='line'>
+                    <span class='label'>Data:</span>
+                    <span class='gap'></span>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div>
+        Observação: Essa receita tem validade de 30 dias. Ultrapassado o prazo,
+        favor solicitar uma nova ao prescritor.
+    </div>
+</div>
+{% endblock %}
