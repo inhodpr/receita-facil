@@ -2,6 +2,7 @@ import dataclasses
 from typing import Any
 from google.cloud import datastore
 from google.cloud.datastore.entity import Entity
+from google.appengine.api import datastore_types
 
 
 @dataclasses.dataclass(init=False, frozen=False)
@@ -14,6 +15,7 @@ class Drug:
     brand: str = None
     category: str = None
     subcategory: str = None
+    support_icons: Any = None
     is_link: bool = False
     is_image: bool = False
 
@@ -22,6 +24,11 @@ def to_entity(drug: Drug, client: datastore.Client) -> Entity:
     entity = Entity(key=client.key('drug', drug.id))
     for field, value in dataclasses.asdict(drug).items():
         entity[field] = value
+    # Convert instructions_for_doctors to datastore_types.Text. This is
+    # better for long text and is never indexed.
+    curr_instructions_for_doctors = entity['instructions_for_doctors']
+    entity['instructions_for_doctors'] = datastore_types.Text(curr_instructions_for_doctors)
+    entity.exclude_from_indexes.add('instructions_for_doctors')
     return entity
 
 
@@ -45,6 +52,8 @@ def from_entity(entity: Entity) -> Drug:
         drug.category = entity['category']
     if 'subcategory' in entity:
         drug.subcategory = entity['subcategory']
+    if 'support_icons' in entity:
+        drug.support_icons = entity['support_icons']
     if 'is_link' in entity:
         drug.is_link = entity['is_link']
     if 'is_image' in entity:
@@ -66,6 +75,8 @@ def from_json(obj: Any) -> Drug:
         drug.category = obj['category']
     if 'subcategory' in obj:
         drug.subcategory = obj['subcategory']
+    if 'support_icons' in obj:
+        drug.support_icons = obj['support_icons']
     if 'is_link' in obj:
         drug.is_link = obj['is_link']
     if 'is_image' in obj:
