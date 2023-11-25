@@ -1,0 +1,78 @@
+#header-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+#header-top img {
+    max-width: 40%;
+}
+
+#header-top span {
+    width: 42%;
+    margin: 0 10 0 0;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    font-size: 18pt;
+    text-align: center;
+}
+
+#header-top span::first-line {
+    font-size: 13pt;
+}
+
+h1 {
+    text-align: center;
+}
+
+#header-paciente {
+    display: flex;
+}
+
+#header-paciente input {
+    flex-grow: 3;
+}
+
+/* DATE AND SIGNATURE LINE*/
+.signature {
+    height: 1.05em;
+    border-bottom: 1px black solid;
+    margin: 0px 4px;
+}
+
+.signature.fullline {
+    display: inline-block;
+    overflow: hidden;
+    width: 100%;
+}
+
+.signature.inline {
+    display: block;
+    overflow: hidden;
+}
+
+#date-and-signature {
+    font-size: smaller;
+}
+
+#date-and-signature>div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#date-and-signature>span {
+    margin-left: 70%;
+    margin-right: 3em;
+    padding-bottom: 10px;
+}
+
+#date-and-signature #prescription-date {
+    width: 59%;
+}
+
+#date-and-signature #signature {
+    width: 39%
+}
+
+#signature>div {
+    text-align: center;
+}

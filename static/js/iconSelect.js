@@ -13,9 +13,14 @@ export default class IconSelect {
     this.selectedDiv = null;
     this.btnShowOptions = null;
     this.divOptions = null;
+    this.iconDefsUrl = '/supportIcons';
     this.build();
+    this.start();
+  }
+
+  start = function() {
     if (SUPPORT_ICON_DEFS == null) {
-      fetch('/supportIcons')
+      fetch(this.iconDefsUrl)
         .then(response => response.json())
         .then((function (supportIconDefs) {
           SUPPORT_ICON_DEFS = supportIconDefs;
@@ -28,13 +33,12 @@ export default class IconSelect {
 
   showOptions = function (e) {
     this.divOptions.hidden = !this.divOptions.hidden;
+    e.preventDefault();
   }
 
   handleAddIconClick = function (e) {
     var iconUrl = e.currentTarget.src;
     this.selectedUrls.push(iconUrl);
-    removeAllChildren(this.selectedDiv);
-    removeAllChildren(this.divOptions);
     this.buildOptions();
   }
 
@@ -44,8 +48,6 @@ export default class IconSelect {
     if (position >= 0) {
       this.selectedUrls.splice(position, 1);
     }
-    removeAllChildren(this.selectedDiv);
-    removeAllChildren(this.divOptions);
     this.buildOptions();
   }
 
@@ -70,6 +72,9 @@ export default class IconSelect {
   }
 
   buildOptions = function () {
+    removeAllChildren(this.selectedDiv);
+    removeAllChildren(this.divOptions);
+
     this.selectedUrls.forEach(
       url => {
         var icon = document.createElement('img');
