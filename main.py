@@ -53,6 +53,11 @@ def homeOurolandia():
     return render_template("ourolandia.html")
 
 
+@app.route('/jaguarari')
+def homeJaguarari():
+    return render_template("jaguarari.html")
+
+
 @app.route('/santafilomena')
 def homeSantaFilomena():
     return render_template("santa_filomena.html")
