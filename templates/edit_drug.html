@@ -1,0 +1,72 @@
+<!doctype html>
+<!--
+ Copyright 2021 Google LLC
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<html>
+<head>
+  <title>Cuidado Para Todos - Admin</title>
+  <link type="text/css" rel="stylesheet" href="/admin/static/css/admin.css">
+  <link type="text/css" rel="stylesheet" href="/admin/static/css/icon_select.css">
+  <script type="module">
+    import IconSelect from '/admin/static/js/iconSelect.js';
+    window.addEventListener('load', function() {
+      var iconSelector = new IconSelect();
+      var currentIconsStr = '{{ form.support_icons.data or "" }}';
+      iconSelector.iconDefsUrl = '/admin/supportIconDefs';
+      if (currentIconsStr != '') {
+        iconSelector.selectedUrls = currentIconsStr.split(',');
+      }
+      iconSelector.start();
+      document.getElementById('support-icons-div').appendChild(iconSelector.root);
+      document.getElementById('drug-form').addEventListener('submit', function () {
+        var supportIconsField = document.getElementById('support_icons');
+        supportIconsField.value = iconSelector.selectedUrls;
+      });
+    });
+  </script>
+</head>
+<body>
+  <div id="header">
+    <h1>Cuidado Para Todos - Admin</h1>
+
+    {% if user_data %}
+    <div id="login-info">
+      Logado como <strong>{{ user_data }}</strong>
+      <a href="/admin/logout">Sign Out</a>
+    </div>
+    {% endif %}
+  </div>
+  <div id="content">
+    {% from "macros.html" import render_field %}
+    <form id='drug-form' method="POST" action="/admin/drug/edit/{{ form.id.data }}">
+        <fieldset>
+            {{ render_field(form.name) }}
+            {{ render_field(form.quantity) }}
+            {{ render_field(form.brand) }}
+            {{ render_field(form.category) }}
+            {{ render_field(form.subcategory) }}
+            {{ render_field(form.instructions) }}
+            {{ render_field(form.instructions_for_doctors) }}
+            {{ render_field(form.is_image) }}
+            {{ render_field(form.is_link) }}
+            {{ render_field(form.support_icons) }}
+            <div id="support-icons-div"></div>
+            <input type="submit" value="Update" />
+          </fieldset>
+    </form>
+  </div>
+</body>
+</html>
