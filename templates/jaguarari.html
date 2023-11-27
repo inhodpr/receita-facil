@@ -1,11 +1,20 @@
 {% extends "main.html" %}
 {% block custom_styles %}
 <link rel="stylesheet" type="text/css" href="/static/css/ourolandia.css">
+<link rel="stylesheet" type="text/css" href="/static/css/jaguarari.css">
 {% endblock %}
 {% block simple_prescription %}
 <div class='prescription-form simple-prescription-form'>
-    <p>Receituário simples para Jaguarari ainda não está implementado.</p>
-    <p>Você pode usar o receituário especial, ou usar o <a href='/'>receituário simples genérico</a>.</p>
+    <div id='header-top'>
+        <img src="/static/images/logoJaguarari.png" />
+        <img src="/static/images/logoJaguarariPrefeitura.png" />
+    </div>
+    <h1>RECEITUÁRIO</h1>
+    <div id="header-paciente">
+        <span>PACIENTE:</span>
+        <input type="text" class="paciente" />
+    </div>
+    <ul id="receita-simples"></ul>
 </div>
 {% endblock %}
 
