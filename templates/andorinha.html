@@ -1,0 +1,38 @@
+{% extends "main.html" %}
+{% block custom_styles %}
+<link rel="stylesheet" type="text/css" href="/static/css/andorinha.css">
+{% endblock %}
+{% block simple_prescription %}
+<div class='prescription-form simple-prescription-form'>
+    <div id='header-top'>
+        <div class="images">
+            <img src="/static/images/logoAndorinhaSecretaria.png">
+            <img src="/static/images/logoAndorinhaPrefeitura.png">
+        </div>
+        <h1>PREFEITURA MUNICIPAL DE ANDORINHA</h1>
+        <h1>SECRETARIA MUNICIPAL DE SAÚDE</h1>
+    </div>
+    <div>
+        <ul id="receita-simples"></ul>
+        <div id='date-and-signature'>
+            <div id='prescription-date'>
+                Andorinha, <span class='autofill-date'></span>.
+            </div>
+            <div id='signature'>
+                <div class='signature fullline'></div>
+                <div>Nome</div>
+            </div>
+        </div>
+    </div>
+    <div id="dynamic-bottom"></div>
+</div>
+{% endblock %}
+{% block special_prescription %}
+<div class='prescription-form special-prescription-form' hidden='true'>
+    <div>
+        O receituário especial para Andorinha ainda não está pronto.
+        cidade.
+    </div>
+</div>
+{% endblock %}
+

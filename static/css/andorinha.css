@@ -1,0 +1,42 @@
+#header-top div.images {
+    display: flex;
+    justify-content: space-between;
+}
+
+#header-top h1 {
+    font-size: 18pt;
+    text-align: center;
+}
+
+/* ====================== */
+/*   Date and signature   */
+/* ====================== */
+#date-and-signature {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    font-size: 13pt;
+}
+
+#date-and-signature > div {
+    margin: 3px;
+}
+
+#date-and-signature > div#signature {
+    width: 50%;
+}
+
+.signature.fullline {
+    display: inline-block;
+    width: 100%;
+    height: 1.05em;
+    margin: 0px 4px;
+    overflow: hidden;
+    border-bottom: 1px black solid;
+}
+
+@media print {
+    fieldset div.row input {
+        border-bottom: 1px solid black;
+    }
+}

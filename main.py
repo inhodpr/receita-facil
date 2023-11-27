@@ -78,6 +78,11 @@ def homeBodoco():
     return render_template("bodoco.html")
 
 
+@app.route('/andorinha')
+def homeAndorinha():
+    return render_template("andorinha.html")
+
+
 def _allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
