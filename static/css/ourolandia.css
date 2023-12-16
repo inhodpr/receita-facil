@@ -1,11 +1,3 @@
-html, body, div, fieldset, input, label, span, img, h1, h2, h3 {
-    margin: 0;
-    padding: 0;
-}
-h1 { font-size: 16pt; }
-h2 { font-size: 12pt; }
-h3 { font-size: 11pt; }
-body { font-size: 10pt; }
 
 
 /* FIELDSETS, shared styles. */
