@@ -1,0 +1,51 @@
+/* DATE AND SIGNATURE LINE*/
+
+.signature {
+    height: 1.05em;
+    border-bottom: 1px black solid;
+    margin: 0px 4px;
+}
+
+.signature.fullline {
+    display: inline-block;
+    overflow: hidden;
+    width: 100%;
+}
+
+.signature.inline {
+    display: block;
+    overflow: hidden;
+}
+
+#date-and-signature {
+    font-size: smaller;
+    margin-top: 5em;
+}
+
+#date-and-signature>div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#date-and-signature>span {
+    margin-left: 70%;
+    margin-right: 3em;
+    padding-bottom: 10px;
+}
+
+#date-and-signature #prescription-date {
+    width: 59%;
+}
+
+#date-and-signature #signature {
+    width: 39%
+}
+
+#signature>div {
+    text-align: center;
+}
+@media print {
+    .date-and-signature-grid input {
+        border-bottom: 1px solid black;
+    }
+}

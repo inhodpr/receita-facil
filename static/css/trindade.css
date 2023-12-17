@@ -1,0 +1,68 @@
+#header-top {
+    display: flex;
+    margin-bottom: 1em;
+}
+.simple-prescription-form {
+    #header-top {
+        justify-content: center;
+    }
+    #header-top h1 {
+        text-align: right;
+        font-size: 1.5em;
+        margin: 25px 5px 0 0;
+        display: block;
+    }
+    #header-top img {
+        height: 90px;
+        display: block;
+    }
+}
+.special-prescription-form {
+    #header-top img {
+        height: 150px;
+        display: block;
+    }
+    #header-top > div {
+        text-align: center;
+        font-size: 1.5em;
+        margin: 25px 0 0 50px;
+        font-weight: bold;
+    }
+    #header-top > div > div:nth-child(3) {
+        margin-top: 20px;
+        font-size: 1.2em;
+    }
+}
+h2.top {
+    font-size: 2em;
+    text-align: center;
+    text-decoration: underline;
+}
+#header-medico {
+    text-transform: capitalize;
+    display: flex;
+}
+#header-medico input[name='patient-name'] {
+    flex-grow: 2;
+}
+div#emitente-line {
+    display: flex;
+    gap: 2em;
+}
+fieldset#emitente {
+    width: 500px;
+}
+#header-infos {
+    display: flex;
+    gap: 5px;
+}
+#header-infos > fieldset {
+    width: 517px;
+}
+fieldset#fornecedor {
+    display: flex;
+    flex-direction: column;
+}
+fieldset#fornecedor div.row:first-of-type {
+    flex-grow: 2;
+}

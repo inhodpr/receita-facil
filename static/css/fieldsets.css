@@ -1,0 +1,27 @@
+/* FIELDSETS, shared styles. */
+fieldset {
+    border: 1px solid black;
+}
+fieldset.no-border {
+    border: none;
+}
+fieldset h2 {
+    text-align: center;
+    border-bottom: 1px solid black;
+    padding: 3px;
+}
+fieldset div.row {
+    margin: 3px;
+    display: flex;
+    flex-wrap: nowrap;
+}
+fieldset div.row input {
+    flex-grow: 2;
+    flex-shrink: 2;
+    min-width: 2em;
+}
+@media print {
+    fieldset div.row input {
+        border-bottom: 1px solid black;
+    }
+}

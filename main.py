@@ -83,6 +83,11 @@ def homeAndorinha():
     return render_template("andorinha.html")
 
 
+@app.route('/trindade')
+def homeTrindade():
+    return render_template("trindade.html")
+
+
 def _allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
