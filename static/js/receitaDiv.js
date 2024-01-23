@@ -99,14 +99,15 @@ export default class ReceitaDiv {
     }
     var drugText = this.drugCustomText[position];
     if (!(position in this.drugSupportIconSelectors)) {
-      this.drugSupportIconSelectors[position] = new IconSelect();
+      var newIconSelector = new IconSelect();
+      if (drugData['support_icons'] && drugData['support_icons'] != '') {
+        var iconUrls = drugData['support_icons'].split(',');
+        newIconSelector.selectedUrls = iconUrls;
+        newIconSelector.buildOptions();
+      }
+      this.drugSupportIconSelectors[position] = newIconSelector;
     }
     var iconSelector = this.drugSupportIconSelectors[position];
-    if (drugData['support_icons'] && drugData['support_icons'] != '') {
-      var iconUrls = drugData['support_icons'].split(',');
-      iconSelector.selectedUrls = iconUrls;
-      iconSelector.buildOptions();
-    }
     var listItem = document.createElement('li');
     var posSpan = document.createElement('span');
     var drugTextWrapper = document.createElement('div');
