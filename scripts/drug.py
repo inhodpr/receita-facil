@@ -21,19 +21,19 @@ class Drug:
     
     # Usage route for this drug. Oral, IV, etc.
     # https://github.com/inhodpr/receita-facil/issues/48
-    route: str | None = None
+    route: str = None
 
     # URL of an image describing how to use the drug, or any other visual
     # information useful for the patient. Displayed below the drug
     # instructions.
     # https://github.com/inhodpr/receita-facil/issues/50
-    image_url: str | None = None
+    image_url: str = None
 
     # URL associated with a drug. Shown as a QR code with a subtitle under
     # the drug instructions.
     # https://github.com/inhodpr/receita-facil/issues/51
-    qr_code_url: str | None = None
-    qr_code_subtitle: str | None = None
+    qr_code_url: str = None
+    qr_code_subtitle: str = None
 
 
 def to_entity(drug: Drug, client: datastore.Client) -> Entity:

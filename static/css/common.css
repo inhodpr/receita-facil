@@ -63,49 +63,17 @@ div.specialPrescriptionToggle span.specialPrescriptionLabel {
   padding: 0;
 }
 
-/* DRUG ICONS PANEL */
-.drug-icons {
-  padding: 0px 4px;
-}
-.drug-icons img {
-  margin: 4px;
-  max-width: 35px;
-  max-height: 35px;
-}
-.drug-icons img.unchecked {
-  filter: grayscale(100%);
-  opacity: 0.25;
-}
-.group-by-schedule .drug-icons {
-    display: none;
-}
-.group-by-schedule .routeHeader {
-	background-repeat: no-repeat;
-    background-size: 35px 35px;
-	height: 35px;
-	width: 35px;
-    display: block;
-    text-indent: -999em;
-    margin: 5px 0;
-    /* forces images to be printed on paper */
-    -webkit-print-color-adjust: exact;
-}
-.group-by-schedule .routeHeader.group-0 {
-    background-image: url("/static/images/icons/pro-coffee.svg");
-}
-.group-by-schedule .routeHeader.group-1 {
-    background-image: url("/static/images/icons/pro-sun.svg");
-}
-.group-by-schedule .routeHeader.group-2 {
-    background-image: url("/static/images/icons/pro-moon.svg");
-}
 /* Receita Items */
 .receitaItem {
   position: relative;
+}
+.receitaItem > * {
+  margin: 0.5em 1em;
+}
+.receitaItem .drug-info {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  padding: 0.5em 0;
 }
 .receitaItem:not(:first-of-type):not(.prescribed-image):before {
   content : "";
@@ -126,18 +94,24 @@ div.specialPrescriptionToggle span.specialPrescriptionLabel {
 }
 .receitaItem .drug-text-wrapper {
   flex: 2;
+} 
+.receitaItem img.img-for-patient {
+  display: block;
 }
- 
+.receitaItem div.qr-code {
+  display: flex;  
+  align-items: center;
+}
 .prescribed-image img {
   max-width: 80%;
 }
 
 /* Instructions for doctors */
 .instructions-for-doctors {
-    padding: 5px;
-    margin: 10px;
-    border-radius: 5px;
-    background-color: #FAA;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: #FAA;
 }
 .instructions-for-doctors button {
     float: right;

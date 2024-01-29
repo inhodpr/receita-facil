@@ -1,5 +1,5 @@
 export class InstructionsForDoctors {
-    constructor(_drug, _parent) {
+    constructor(_drug) {
         this.drug = _drug;
         this.isClosedBtnClicked = false;
     }

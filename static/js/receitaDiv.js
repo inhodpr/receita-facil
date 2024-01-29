@@ -124,13 +124,39 @@ export default class ReceitaDiv {
     var customTextHandler = new CustomizedTextHandler(this, position, printableText, textarea);
 
     textarea.addEventListener('keyup', this.handleCustomizedText.bind(customTextHandler));
-    listItem.appendChild(posSpan);
     drugTextWrapper.appendChild(textarea);
     drugTextWrapper.appendChild(printableText);
-    listItem.appendChild(drugTextWrapper);
-    listItem.appendChild(iconSelector.root);
-    this.prescriptionDiv.appendChild(listItem);
+    var divFirstRow = document.createElement("div");
+    divFirstRow.classList.add('drug-info');
+    divFirstRow.appendChild(posSpan);
+    divFirstRow.appendChild(drugTextWrapper);
+    divFirstRow.appendChild(iconSelector.root);
+    listItem.appendChild(divFirstRow);
+    
+    // Add image, if available.
+    if ('image_url' in drugData && drugData['image_url'].length > 0) {
+      var imgForPatient = document.createElement('img');
+      imgForPatient.src = drugData['image_url'];
+      imgForPatient.classList.add('img-for-patient');
+      listItem.appendChild(imgForPatient);
+    }
 
+    // Add QR Code, if available.
+    if ('qr_code_url' in drugData && drugData['qr_code_url'].length > 0) {
+      var qrCodeDiv = document.createElement('div');
+      qrCodeDiv.classList.add('qr-code');
+
+      var qrCodeImg = document.createElement('img');
+      qrCodeImg.src = "https://chart.googleapis.com/chart?chs=80x80&cht=qr&chl=" + drugData['qr_code_url'];
+      
+      var qrCodeSpan = document.createElement('span');
+      qrCodeSpan.innerText = drugData['qr_code_subtitle'];
+      
+      qrCodeDiv.appendChild(qrCodeSpan);
+      qrCodeDiv.appendChild(qrCodeImg);
+      listItem.appendChild(qrCodeDiv);
+    }
+    
     // Add instructions for doctors, if available.
     if ('instructions_for_doctors' in drugData) {
       var instructionsForDoctors = null;
@@ -141,12 +167,12 @@ export default class ReceitaDiv {
         this.drugInstructions[drugId] = instructionsForDoctors;
       }
       if (!instructionsForDoctors.isClosed()) {
-        var liForInstructions = document.createElement('li');
-        instructionsForDoctors.render(liForInstructions);
-        this.prescriptionDiv.appendChild(liForInstructions);
+        instructionsForDoctors.render(listItem);
       }
     }
-
+    
+    this.prescriptionDiv.appendChild(listItem);
+    
     // Need to do this after the textarea is appended to the doc.
     textarea.style.height = '';
     textarea.style.width = '';
@@ -230,7 +256,7 @@ export default class ReceitaDiv {
         }
         else {
           listItem = this.addDrug(drugData);
-          var posSpan = listItem.firstElementChild;
+          var posSpan = listItem.firstElementChild.firstElementChild;
           posSpan.innerText = listNumber + ')'; /* WAAAAT?!?! */
           listNumber = listNumber + 1;
         }
