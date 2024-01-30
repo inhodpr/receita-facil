@@ -181,7 +181,7 @@ export default class DrugsForm {
       "<option value='Orientações'>Orientações</option>" +
       "<option value='Encaminhamento'>Encaminhamento</option>" +
       "<option value='Retorno'>Retorno</option>" +
-      "<option value='Retorno'>Atestado</option>" +
+      "<option value='Atestado'>Atestado</option>" +
       "<option value='Solicitação de exames'>Solicitação de exames</option>" +
       "</select>";
     var selectorDiv = document.createElement("div");
