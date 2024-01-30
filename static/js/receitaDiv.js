@@ -91,7 +91,7 @@ export default class ReceitaDiv {
     return tmpl;
   }
 
-  addDrug = function (drugData) {
+  addDrug = function (drugData, drugListNumber) {
     var position = drugData['position'];
     var drugId = drugData['id'];
     if (!(position in this.drugCustomText)) {
@@ -114,15 +114,16 @@ export default class ReceitaDiv {
     var textarea = document.createElement('textarea');
     var printableText = document.createElement('div');
     listItem.classList = ['receitaItem'];
+    posSpan.innerText = drugListNumber + ')';
     drugTextWrapper.classList = ['drug-text-wrapper'];
     printableText.classList = ['printable-drug-text'];
     listItem.setAttribute('id', 'drug' + drugId);
     textarea.setAttribute('cols', 60);
-
+    
     textarea.value = drugText;
     printableText.innerText = drugText;
     var customTextHandler = new CustomizedTextHandler(this, position, printableText, textarea);
-
+    
     textarea.addEventListener('keyup', this.handleCustomizedText.bind(customTextHandler));
     drugTextWrapper.appendChild(textarea);
     drugTextWrapper.appendChild(printableText);
@@ -247,17 +248,12 @@ export default class ReceitaDiv {
       this.prescriptionDiv.appendChild(groupDiv);
       for (var idx in drugsInGroup) {
         var drugData = drugsInGroup[idx];
-        var listItem = null;
         if (drugData.is_link) {
-          listItem = this.addLink(drugData);
-        }
-        else if (drugData.is_image) {
-          listItem = this.addImage(drugData);
-        }
-        else {
-          listItem = this.addDrug(drugData);
-          var posSpan = listItem.firstElementChild.firstElementChild;
-          posSpan.innerText = listNumber + ')'; /* WAAAAT?!?! */
+          this.addLink(drugData);
+        } else if (drugData.is_image) {
+          this.addImage(drugData);
+        } else {
+          this.addDrug(drugData, listNumber);
           listNumber = listNumber + 1;
         }
       }
