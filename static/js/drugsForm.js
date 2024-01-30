@@ -236,7 +236,10 @@ export default class DrugsForm {
     var hiddenField = parent.firstElementChild;
     var drugId = parseInt(hiddenField.value);
     var drugData = this.drugsList[drugId];
-    if (drugId in this.routeMap &&
+    // For some drugs, route is already set in the database. For others, we
+    // will read from routeMap.
+    if (!('route' in drugData) &&
+      drugId in this.routeMap &&
       this.routeMap[drugId] != null &&
       this.routeMap[drugId] != "") {
       drugData['route'] = this.routeMap[drugId];
