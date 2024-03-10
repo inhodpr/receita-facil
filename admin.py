@@ -38,6 +38,7 @@ class DrugForm(Form):
         'Uso oral',
         'Uso oral contínuo',
         'Uso Tópico',
+        'Uso Externo',
         'Uso Nasal',
         'Uso Vaginal',
         'Uso Retal',
@@ -54,7 +55,7 @@ class DrugForm(Form):
         'Orientações',
         'Encaminhamento',
         'Retorno',
-        'Retorno',
+        'Atestado',
         'Solicitação de exames',
     ], validate_choice=False)
     image_url = StringField("Image associada à droga (URL)")
