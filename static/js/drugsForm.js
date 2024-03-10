@@ -165,6 +165,7 @@ export default class DrugsForm {
       "<option value='Uso oral'>Uso oral</option>" +
       "<option value='Uso oral contínuo'>Uso oral contínuo</option>" +
       "<option value='Uso Tópico'>Uso Tópico</option>" +
+      "<option value='Uso Externo'>Uso Externo</option>" +
       "<option value='Uso Nasal'>Uso Nasal</option>" +
       "<option value='Uso Vaginal'>Uso Vaginal</option>" +
       "<option value='Uso Retal'>Uso Retal</option>" +

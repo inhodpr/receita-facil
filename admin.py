@@ -38,6 +38,7 @@ class DrugForm(Form):
         'Uso oral',
         'Uso oral contínuo',
         'Uso Tópico',
+        'Uso Externo',
         'Uso Nasal',
         'Uso Vaginal',
         'Uso Retal',
