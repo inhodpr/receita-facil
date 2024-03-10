@@ -54,7 +54,7 @@ class DrugForm(Form):
         'Orientações',
         'Encaminhamento',
         'Retorno',
-        'Retorno',
+        'Atestado',
         'Solicitação de exames',
     ], validate_choice=False)
     image_url = StringField("Image associada à droga (URL)")
