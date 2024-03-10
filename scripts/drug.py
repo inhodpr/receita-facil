@@ -18,6 +18,22 @@ class Drug:
     support_icons: Any = None
     is_link: bool = False
     is_image: bool = False
+    
+    # Usage route for this drug. Oral, IV, etc.
+    # https://github.com/inhodpr/receita-facil/issues/48
+    route: str = None
+
+    # URL of an image describing how to use the drug, or any other visual
+    # information useful for the patient. Displayed below the drug
+    # instructions.
+    # https://github.com/inhodpr/receita-facil/issues/50
+    image_url: str = None
+
+    # URL associated with a drug. Shown as a QR code with a subtitle under
+    # the drug instructions.
+    # https://github.com/inhodpr/receita-facil/issues/51
+    qr_code_url: str = None
+    qr_code_subtitle: str = None
 
 
 def to_entity(drug: Drug, client: datastore.Client) -> Entity:
@@ -58,6 +74,14 @@ def from_entity(entity: Entity) -> Drug:
         drug.is_link = entity['is_link']
     if 'is_image' in entity:
         drug.is_image = entity['is_image']
+    if 'route' in entity:
+        drug.route = entity['route']
+    if 'image_url' in entity:
+        drug.image_url = entity['image_url']
+    if 'qr_code_url' in entity:
+        drug.qr_code_url = entity['qr_code_url']
+    if 'qr_code_subtitle' in entity:
+        drug.qr_code_subtitle = entity['qr_code_subtitle']
     return drug
 
 
@@ -81,5 +105,13 @@ def from_json(obj: Any) -> Drug:
         drug.is_link = obj['is_link']
     if 'is_image' in obj:
         drug.is_image = obj['is_image']
+    if 'route' in obj:
+        drug.route = obj['route']
+    if 'image_url' in obj:
+        drug.image_url = obj['image_url']
+    if 'qr_code_url' in obj:
+        drug.qr_code_url = obj['qr_code_url']
+    if 'qr_code_subtitle' in obj:
+        drug.qr_code_subtitle = obj['qr_code_subtitle']
     return drug
 

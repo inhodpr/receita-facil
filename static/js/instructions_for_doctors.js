@@ -1,5 +1,5 @@
 export class InstructionsForDoctors {
-    constructor(_drug, _parent) {
+    constructor(_drug) {
         this.drug = _drug;
         this.isClosedBtnClicked = false;
     }
@@ -16,7 +16,7 @@ export class InstructionsForDoctors {
         this.text = document.createElement('p');
         this.text.innerText = this.drug['instructions_for_doctors'];
         this.closeBtn.addEventListener('click', (function (e) {
-            parent.style.display = 'none';
+            this.root.style.display = 'none';
             this.isClosedBtnClicked = true;
         }).bind(this));
 

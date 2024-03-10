@@ -181,7 +181,7 @@ export default class DrugsForm {
       "<option value='Orientações'>Orientações</option>" +
       "<option value='Encaminhamento'>Encaminhamento</option>" +
       "<option value='Retorno'>Retorno</option>" +
-      "<option value='Retorno'>Atestado</option>" +
+      "<option value='Atestado'>Atestado</option>" +
       "<option value='Solicitação de exames'>Solicitação de exames</option>" +
       "</select>";
     var selectorDiv = document.createElement("div");
@@ -236,7 +236,10 @@ export default class DrugsForm {
     var hiddenField = parent.firstElementChild;
     var drugId = parseInt(hiddenField.value);
     var drugData = this.drugsList[drugId];
-    if (drugId in this.routeMap &&
+    // For some drugs, route is already set in the database. For others, we
+    // will read from routeMap.
+    if (!('route' in drugData) &&
+      drugId in this.routeMap &&
       this.routeMap[drugId] != null &&
       this.routeMap[drugId] != "") {
       drugData['route'] = this.routeMap[drugId];
