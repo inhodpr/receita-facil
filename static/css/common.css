@@ -97,6 +97,7 @@ div.specialPrescriptionToggle span.specialPrescriptionLabel {
 } 
 .receitaItem img.img-for-patient {
   display: block;
+  max-width: 80%;
 }
 .receitaItem div.qr-code {
   display: flex;  
