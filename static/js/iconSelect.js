@@ -5,6 +5,12 @@ var removeAllChildren = function (parent) {
 };
 
 var SUPPORT_ICON_DEFS = null;
+var INCLUDED_CATEGORIES = new Set([
+  'Via de uso',
+  'Motivo do uso',
+  'Horários',
+  'Outros', 
+]);
 
 export default class IconSelect {
   constructor() {
@@ -85,6 +91,10 @@ export default class IconSelect {
     for (var category in SUPPORT_ICON_DEFS) {
       // Remove leading digits which are only used to set group order.
       var headerText = category.replace(/^[0-9]* /, '');
+      if (!INCLUDED_CATEGORIES.has(headerText)) {
+        console.log('\'' + headerText + '\' skipped due to not being in included categories.');
+        continue;
+      }
       var categoryHeader = document.createElement('div');
       categoryHeader.innerText = headerText;
       var categoryContents = document.createElement('div');
