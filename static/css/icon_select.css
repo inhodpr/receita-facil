@@ -2,13 +2,13 @@
     float: right;
 }
 .icon-select img {
-    width: 80px;
-    height: 80px;
+    width: auto;
+    height: 104px;
 }
 .icon-select .selected-icons {
     display: flex;
     flex-wrap: nowrap;
-    margin: 0.1em;
+    margin: 1em;
 }
 .icon-select .selected-icons img {
     margin: 2px;
@@ -16,7 +16,7 @@
 .icon-select .icon-options {
     background-color: white;
     float: right;
-    width: 448px;
+    width: 800px;
 }
 .icon-select .icon-options div.category {
     margin: 10px 0 0 0;

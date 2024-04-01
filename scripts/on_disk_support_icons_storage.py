@@ -19,5 +19,6 @@ class OnDiskSupportIconsStorage(support_icon_storage.SupportIconsStorage):
             category, _ = blob.name.split('/')
             if category not in support_icon_defs:
                 support_icon_defs[category] = []
-            support_icon_defs[category].append(blob.public_url)
+            if blob.public_url and blob.public_url.endswith('.png'):
+                support_icon_defs[category].append(blob.public_url)
         return support_icon_defs
