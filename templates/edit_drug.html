@@ -58,6 +58,14 @@
             {{ render_field(form.brand) }}
             {{ render_field(form.category) }}
             {{ render_field(form.subcategory) }}
+            <div>
+              <p>
+                Category (v2) e Subcategory (V2) correspondem a um conjunto
+                mais limitado de categorias que estão ainda em desenvolvimento.
+              </p>
+              {{ render_field(form.category_v2) }}
+              {{ render_field(form.subcategory_v2) }}
+            </div>
             {{ render_field(form.instructions) }}
             {{ render_field(form.instructions_for_doctors) }}
             {{ render_field(form.route) }}

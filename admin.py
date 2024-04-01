@@ -29,6 +29,8 @@ class DrugForm(Form):
     quantity = StringField('Quantity')
     category = StringField('Category')
     subcategory = StringField('Subcategory')
+    category_v2 = StringField('Category (V2)')
+    subcategory_v2 = StringField('Subcategory (V2)')
     instructions = TextAreaField('Instructions')
     instructions_for_doctors = TextAreaField('Instructions for doctors')
     support_icons = HiddenField('Support icons')
@@ -145,6 +147,8 @@ def edit_drug(drug_id):
             drug.quantity = new_form.quantity.data
             drug.category = new_form.category.data
             drug.subcategory = new_form.subcategory.data
+            drug.category_v2 = new_form.category_v2.data
+            drug.subcategory_v2 = new_form.subcategory_v2.data
             drug.instructions = new_form.instructions.data
             drug.instructions_for_doctors = new_form.instructions_for_doctors.data
             drug.support_icons = new_form.support_icons.data

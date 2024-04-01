@@ -35,6 +35,9 @@ class Drug:
     qr_code_url: str = None
     qr_code_subtitle: str = None
 
+    # Categories and subcategories used in the new 
+    category_v2: str = None
+    subcategory_v2: str = None
 
 def to_entity(drug: Drug, client: datastore.Client) -> Entity:
     entity = Entity(key=client.key('drug', drug.id))
@@ -68,6 +71,10 @@ def from_entity(entity: Entity) -> Drug:
         drug.category = entity['category']
     if 'subcategory' in entity:
         drug.subcategory = entity['subcategory']
+    if 'category_v2' in entity:
+        drug.category_v2 = entity['category_v2']
+    if 'subcategory_v2' in entity:
+        drug.subcategory_v2 = entity['subcategory_v2']
     if 'support_icons' in entity:
         drug.support_icons = entity['support_icons']
     if 'is_link' in entity:
@@ -99,6 +106,10 @@ def from_json(obj: Any) -> Drug:
         drug.category = obj['category']
     if 'subcategory' in obj:
         drug.subcategory = obj['subcategory']
+    if 'category_v2' in obj:
+        drug.category_v2 = obj['category_v2']
+    if 'subcategory_v2' in obj:
+        drug.subcategory_v2 = obj['subcategory_v2']
     if 'support_icons' in obj:
         drug.support_icons = obj['support_icons']
     if 'is_link' in obj:
