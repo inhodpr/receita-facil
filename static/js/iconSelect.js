@@ -6,6 +6,7 @@ var removeAllChildren = function (parent) {
 
 var SUPPORT_ICON_DEFS = null;
 var INCLUDED_CATEGORIES = new Set([
+  'Combinados',
   'Via de uso',
   'Motivo do uso',
   'Horários',
@@ -96,9 +97,12 @@ export default class IconSelect {
         continue;
       }
       var categoryHeader = document.createElement('div');
-      categoryHeader.innerText = headerText;
       var categoryContents = document.createElement('div');
+      categoryHeader.innerText = headerText;
       categoryHeader.classList = ['category'];
+      if (headerText == 'Combinados') {
+        categoryContents.classList.add('category-combinados');
+      }
       SUPPORT_ICON_DEFS[category].forEach(
         url => {
           var icon = document.createElement('img');
