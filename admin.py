@@ -35,6 +35,7 @@ class DrugForm(Form):
     is_image = BooleanField('Is Image?')
     is_link = BooleanField('Is Link?')
     route = SelectField(choices=[
+        '',
         'Uso oral',
         'Uso oral contínuo',
         'Uso Tópico',
