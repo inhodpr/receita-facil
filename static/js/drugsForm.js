@@ -41,6 +41,13 @@ export default class DrugsForm {
     this.handleDrugSelection(e);
   }
 
+  // Check if the new layout is active, via URL params.
+  // Details: https://github.com/inhodpr/receita-facil/issues/34
+  isNewTemplate = function() {
+    var url = new URL(document.URL);
+    return url.searchParams.get('v') == 2;
+  }
+
   buildDrugField = function (idx, drugData, drugDiv) {
     var drugDiv = document.createElement('div');
     var input_id = document.createElement('input');
@@ -87,20 +94,31 @@ export default class DrugsForm {
     this.categoryDivs[category] = categoryDiv;
   };
 
+
+  getCategory = function(drugData) {
+    var category_field = 'category';
+    if (this.isNewTemplate() && ('category_v2' in drugData)) {
+      category_field = 'category_v2';
+    }
+    return drugData[category_field];
+  }
+
   buildCategoryDivs = function () {
     var categories = new Set();
-    this.drugsList.forEach(drug => categories.add(drug['category']));
+    this.drugsList.forEach(drug => categories.add(this.getCategory(drug)));
     
-    var specialCategories = [
-        'DIGITAR QUALQUER MEDICAMENTO',
-        'SALA DE PROCEDIMENTOS',
-        'Imagens',
-        'Videos',
-        'VALIDADE',
-        'DIABETES',
-        'HIPERTENSÃO / CARDIO'];
-    specialCategories.forEach(this.buildCategory.bind(this));
-    specialCategories.forEach(specialCategory => categories.delete(specialCategory));
+    if (!this.isNewTemplate()) {
+      var specialCategories = [
+          'DIGITAR QUALQUER MEDICAMENTO',
+          'SALA DE PROCEDIMENTOS',
+          'Imagens',
+          'Videos',
+          'VALIDADE',
+          'DIABETES',
+          'HIPERTENSÃO / CARDIO'];
+      specialCategories.forEach(this.buildCategory.bind(this));
+      specialCategories.forEach(specialCategory => categories.delete(specialCategory));
+    }
     
     var sortedCategories = Array.from(categories).sort();
     sortedCategories.forEach(this.buildCategory.bind(this));
@@ -227,7 +245,7 @@ export default class DrugsForm {
     for (var i in this.drugsList) {
       var drug = this.drugsList[i];
       var drugDiv = this.buildDrugField(i, drug);
-      var category = drug['category'];
+      var category = this.getCategory(drug);
       var categoryDiv = this.categoryDivs[category];
       categoryDiv.childNodes[1].appendChild(drugDiv);
     }
