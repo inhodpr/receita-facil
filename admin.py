@@ -2,13 +2,15 @@ import dataclasses
 import datetime
 import json
 import os
+import time
 import string
 import random
 
 from flask import Flask, make_response, redirect, render_template, request, url_for
-from scripts import storage_defs
+from scripts import drug, storage_defs
 from wtforms import Form, validators
 from wtforms import BooleanField, HiddenField, IntegerField, PasswordField, SelectField, StringField, TextAreaField
+from wtforms.widgets import HiddenInput
 
 
 app = Flask(__name__,
@@ -23,7 +25,7 @@ class LoginForm(Form):
 
 
 class DrugForm(Form):
-    id = IntegerField('Id', [validators.DataRequired()])
+    id = IntegerField('Id', [validators.DataRequired()], widget=HiddenInput())
     name = StringField('Name')
     brand = StringField('Brand')
     quantity = StringField('Quantity')
@@ -119,8 +121,62 @@ def logout():
     return response
 
 
+def _parse_form_contents(request) -> (drug.Drug, str):
+    form = DrugForm(request.form)
+    if not form.validate():
+        return None, form.errors
+    new_drug = drug.Drug()
+    new_drug.id = form.id.data
+    new_drug.name = form.name.data
+    new_drug.brand = form.brand.data
+    new_drug.quantity = form.quantity.data
+    new_drug.category = form.category.data
+    new_drug.subcategory = form.subcategory.data
+    new_drug.instructions = form.instructions.data
+    new_drug.instructions_for_doctors = form.instructions_for_doctors.data
+    new_drug.support_icons = form.support_icons.data
+    new_drug.route = form.route.data
+    new_drug.image_url = form.image_url.data
+    new_drug.qr_code_url = form.qr_code_url.data
+    new_drug.qr_code_subtitle = form.qr_code_subtitle.data
+    new_drug.is_image = form.is_image.data
+    new_drug.is_link = form.is_link.data
+    return new_drug, None
+
+
 @app.route("/admin/drug/edit/<drug_id>", methods=['GET', 'POST'])
 def edit_drug(drug_id):
+    claims = None
+    error_message = None
+    try:
+        claims = check_auth_token()
+    except ValueError as err:
+        return redirect('/admin')
+    old_drug = app_storage.drugs().find_drug_by_id(drug_id)
+    form = DrugForm(data=dataclasses.asdict(old_drug))
+    if request.method == 'GET':
+        return render_template(
+            "edit_drug.html",
+            user_data=claims,
+            error_message=error_message,
+            form=form
+        )
+    elif request.method == 'POST':
+        new_drug, err = _parse_form_contents(request)
+        if new_drug:
+            app_storage.drugs().update_drug(new_drug)
+            return redirect('/admin')
+        else:
+            print(f'error msg: {err}')
+            return render_template(
+                "edit_drug.html",
+                user_data=claims,
+                error_message=error_message + err,
+                form=form
+            )
+
+@app.route("/admin/drug/add", methods=['GET', 'POST'])
+def add_drug():
     claims = None
     error_message = None
     try:
@@ -129,39 +185,30 @@ def edit_drug(drug_id):
         print('auth failed, redirect to home')
         return redirect('/admin')
 
-    print('auth success')
-    drug = app_storage.drugs().find_drug_by_id(drug_id)
-    print(f'current drug: {drug}')
-    form = DrugForm(data=dataclasses.asdict(drug))
+    # New ids default to nanoseconds since unix epoch.
+    id = time.time_ns()
+    form=DrugForm(data={'id': id})
     if request.method == 'GET':
         return render_template(
-            "edit_drug.html", user_data=claims, error_message=error_message, form=form
+            "edit_drug.html",
+            user_data=claims,
+            error_message=error_message,
+            form=form
         )
     elif request.method == 'POST':
-        print('>>> got post!')
-        new_form = DrugForm(request.form)
-        if form.validate():
-            drug.name = new_form.name.data
-            drug.brand = new_form.brand.data
-            drug.quantity = new_form.quantity.data
-            drug.category = new_form.category.data
-            drug.subcategory = new_form.subcategory.data
-            drug.instructions = new_form.instructions.data
-            drug.instructions_for_doctors = new_form.instructions_for_doctors.data
-            drug.support_icons = new_form.support_icons.data
-            drug.route = new_form.route.data
-            drug.image_url = new_form.image_url.data
-            drug.qr_code_url = new_form.qr_code_url.data
-            drug.qr_code_subtitle = new_form.qr_code_subtitle.data
-            drug.is_image = new_form.is_image.data
-            drug.is_link = new_form.is_link.data
-            print(f'new drug: {drug}')
-            app_storage.drugs().update_drug(drug)
+        new_drug, err = _parse_form_contents(request)
+        print(f"new_drug: {new_drug}")
+        print(f"err: {err}")
+        if new_drug:
+            app_storage.drugs().update_drug(new_drug)
             return redirect('/admin')
         else:
             print(f'error msg: {error_message}')
             return render_template(
-                "edit_drug.html", user_data=claims, error_message=error_message, form=form
+                "edit_drug.html",
+                user_data=claims,
+                error_message=error_message,
+                form=form
             )
 
 
