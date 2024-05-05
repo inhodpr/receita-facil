@@ -10,6 +10,9 @@ class DrugsStorage:
     def update_drug_definitions(self, drugs_list: List[Drug]):
         raise NotImplementedError()
     
+    def add_drug(self, drug: Drug):
+        raise NotImplementedError()
+
     def update_drug(self, drug: Drug):
         raise NotImplementedError()
     

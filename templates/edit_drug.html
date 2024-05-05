@@ -51,8 +51,9 @@
   </div>
   <div id="content">
     {% from "macros.html" import render_field %}
-    <form id='drug-form' method="POST" action="/admin/drug/edit/{{ form.id.data }}">
+    <form id='drug-form' method="POST">
         <fieldset>
+            {{ render_field(form.id) }}
             {{ render_field(form.name) }}
             {{ render_field(form.quantity) }}
             {{ render_field(form.brand) }}

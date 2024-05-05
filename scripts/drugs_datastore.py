@@ -20,5 +20,9 @@ class DrugsDatastore(storage.DrugsStorage):
         entity = drug.to_entity(new_drug, self._datastore_client)
         self._datastore_client.put(entity)
 
+    def add_drug(self, new_drug: drug.Drug):
+        entity = drug.to_entity(new_drug, self._datastore_client)
+        self._datastore_client.put(entity)
+
     def update_drug_definitions(self, drugs_list: List[drug.Drug]):
         raise NotImplementedError()
