@@ -148,7 +148,7 @@ export default class ReceitaDiv {
       qrCodeDiv.classList.add('qr-code');
 
       var qrCodeImg = document.createElement('img');
-      qrCodeImg.src = "https://chart.googleapis.com/chart?chs=80x80&cht=qr&chl=" + drugData['qr_code_url'];
+      qrCodeImg.src = "https://image-charts.com/chart?chs=80x80&cht=qr&chl=" + drugData['qr_code_url'];
       
       var qrCodeSpan = document.createElement('span');
       qrCodeSpan.innerText = drugData['qr_code_subtitle'];
@@ -186,7 +186,7 @@ export default class ReceitaDiv {
     var listItem = document.createElement('li');
     var titleSpan = document.createElement('span');
     var qrCode = document.createElement('img');
-    var url = "https://chart.googleapis.com/chart?chs=80x80&cht=qr&chl=" + drugData.instructions;
+    var url = "https://image-charts.com/chart?chs=80x80&cht=qr&chl=" + drugData.instructions;
     listItem.setAttribute('id', 'drug' + drugData['id']);
     listItem.classList = ['receitaItem'];
     listItem.classList.add('externalLink');
