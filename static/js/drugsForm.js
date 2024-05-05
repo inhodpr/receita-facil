@@ -18,6 +18,34 @@ class DrugSelectionHandler {
   }
 }
 
+const _CATEGORY_ICONS = {
+  'Cardiovascular':                           '/static/images/categoryIcons/CARDIOVASCULAR.webp',
+  'Condutas':                                 '/static/images/categoryIcons/.webp',            // FALTANDO
+  'Dermatologia':                             '/static/images/categoryIcons/DERMATOLOGIA.webp',
+  'Diabetes':                                 '/static/images/categoryIcons/DIABETES.webp',
+  'Doenças que não podem ser neglicenciadas': '/static/images/categoryIcons/DOENÇAS QUE NÃO PODEM SER NEGLIGENCIADAS.png',
+  'Endocrinologia':                           '/static/images/categoryIcons/ENDOCRINOLOGIA.jpg',
+  'Gastrologia':                              '/static/images/categoryIcons/GASTROENTEROLOGIA.webp',
+                                          //  '/static/images/categoryIcons/GESTANTES.webp',   << SOBRANDO
+  'Hipertensão':                              '/static/images/categoryIcons/.webp',            // FALTANDO
+  'IST':                                      '/static/images/categoryIcons/IST.png',
+                                          //  '/static/images/categoryIcons/NEFROLOGIA.webp',  << SOBRANDO
+  'Neurologia':                               '/static/images/categoryIcons/NEUROLOGIA.webp',
+  'Oftalmologia':                             '/static/images/categoryIcons/OFTALMOLOGIA.webp',
+  'Ortopedia':                                '/static/images/categoryIcons/.webp',            // FALTANDO
+  'Otorrinolaringologia':                     '/static/images/categoryIcons/OTORRINOLARINGOLOGIA.webp',
+  'Pediatria':                                '/static/images/categoryIcons/PEDIATRIA.webp',
+  'Respiratório':                             '/static/images/categoryIcons/PNEUMOLOGIA.webp',  // É ISSO MESMO?
+  'Reumatologia':                             '/static/images/categoryIcons/REUMATOLOGIA.webp',
+  'Sala de procedimentos':                    '/static/images/categoryIcons/Sala de Procedimentos.png',
+  'Saúde da mulher':                          '/static/images/categoryIcons/SAÚDE DA MULHER.webp',
+  'Saúde do homem':                           '/static/images/categoryIcons/SAÚDE DO HOMEM.jpg',
+  'Saúde mental':                             '/static/images/categoryIcons/SAÚDE MENTAL.webp',
+  'Sintomáticos':                             '/static/images/categoryIcons/.webp',
+  'Uso racional de antibióticos em APS':      '/static/images/categoryIcons/.webp',
+};
+
+
 export default class DrugsForm {
   constructor(_app, drugsList) {
     this.app = _app;
@@ -30,6 +58,7 @@ export default class DrugsForm {
     this.counter = 1;
     this.drugPosition = {};
   }
+
   createHandler = function (method, captures) {
     var targetObj = this;
     return function (e) {
@@ -69,7 +98,7 @@ export default class DrugsForm {
   }
 
   buildCategory = function(category) {
-    if (category == '') {
+    if (category == '' || category === undefined) {
       category = 'OUTROS';
     }
     var categoryDiv = document.createElement('div');
@@ -107,6 +136,7 @@ export default class DrugsForm {
     var categories = new Set();
     this.drugsList.forEach(drug => categories.add(this.getCategory(drug)));
     
+    // On the old template we put some special categories up top.
     if (!this.isNewTemplate()) {
       var specialCategories = [
           'DIGITAR QUALQUER MEDICAMENTO',
