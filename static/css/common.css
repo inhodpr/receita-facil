@@ -146,6 +146,7 @@ div.collapsed {
   .attribution,
   button,
   textarea,
+  .icon-options,
   .group-by-route img.unchecked,
   .instructions-for-doctors {
     display: none;
