@@ -33,7 +33,7 @@ describe('Print Events', () => {
     expect(addEventListenerSpy).toHaveBeenCalledWith('afterprint', expect.any(Function));
   });
 
-  test('should handle beforeprint event correctly', () => {
+  test('should handle beforeprint event correctly when clone is enabled', () => {
     const setPrintStylesSpy = jest.spyOn(receitaDiv, 'setPrintStyles');
     const originalElement = document.querySelector('.main-column'); 
     const checkbox = document.getElementById('duplicatePrescriptionToggle');
@@ -43,19 +43,30 @@ describe('Print Events', () => {
     const clonedElement = document.querySelector('#clone');
     
     expect(setPrintStylesSpy).toHaveBeenCalledWith('A4 landscape');
-
     expect(originalElement.innerHTML).toBe(clonedElement.innerHTML);
     expect(clonedElement).toBeTruthy();
     expect(clonedElement.classList.contains('clone')).toBe(true);
   });
 
+    test('should handle beforeprint event correctly when clone is disabled', () => {
+    const setPrintStylesSpy = jest.spyOn(receitaDiv, 'setPrintStyles');
+    const checkbox = document.getElementById('duplicatePrescriptionToggle');
+    checkbox.checked = false;
 
-  test('should handle afterprint event correctly', () => {
-    const contentDiv = document.querySelector('.content');
-    const mainColumn = document.querySelector('.main-column').cloneNode(true);
-    mainColumn.classList.add('clone');
-    mainColumn.id = 'clone';
-    contentDiv.appendChild(mainColumn);
+    receitaDiv.handleBeforePrint();
+
+    const clonedElement = document.querySelector('#clone');
+    
+    expect(setPrintStylesSpy).toHaveBeenCalledWith('A4 portrait');
+    expect(clonedElement).toBeNull();
+  });
+
+  test('should handle afterprint event correctly when clone is enabled', () => {
+    const mainColumnBefore = document.querySelector('.main-column');
+    const checkbox = document.getElementById('duplicatePrescriptionToggle');
+    checkbox.checked = true;
+
+    receitaDiv.handleBeforePrint();
 
     const clonedElementBefore = document.querySelector('#clone');
     expect(clonedElementBefore).toBeTruthy();
@@ -63,8 +74,30 @@ describe('Print Events', () => {
     receitaDiv.handleAfterPrint();
 
     const clonedElementAfter = document.querySelector('#clone');
+    const mainColumnAfter = document.querySelector('.main-column');
+
+    expect(mainColumnBefore).toBe(mainColumnAfter);
     expect(clonedElementAfter).toBeNull();
   });
+
+  test('should handle afterprint event correctly when clone does not exist', () => {
+    const mainColumnBefore = document.querySelector('.main-column');
+    const checkbox = document.getElementById('duplicatePrescriptionToggle');
+    checkbox.checked = false;
+
+    receitaDiv.handleBeforePrint();
+
+    const clonedElementBefore = document.querySelector('#clone');
+    expect(clonedElementBefore).toBeNull();
+
+    receitaDiv.handleAfterPrint();
+
+    const mainColumnAfter = document.querySelector('.main-column');
+    const clonedElementAfter = document.querySelector('#clone');
+
+    expect(mainColumnBefore).toBe(mainColumnAfter);
+    expect(clonedElementAfter).toBeNull();
+  }); 
 
   test('should apply print styles correctly in setPrintStyles', () => {
     receitaDiv.setPrintStyles('A4 portrait');
