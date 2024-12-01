@@ -132,12 +132,7 @@ export default class DrugsForm {
     // Unselect all drugs.
     for (var idx in this.drugSelections) {
       this.drugSelections[idx].checked = false;
-    }
-    // Clear copy if it exists.
-    var allclones = document.querySelectorAll('.clone');
-    allclones.forEach(function (clone) {
-      clone.remove();
-    });
+    } 
     this.app.generatePrescription();
   }
 
@@ -215,15 +210,6 @@ export default class DrugsForm {
     this.buildSpecialPrescriptionToggle();
     this.buildPrintToggle();
     this.buildRouteSelector();
-    var printBtn = document.createElement('button');
-    printBtn.innerText = 'Duplicar página';
-    this.drugsForm.appendChild(printBtn);
-    printBtn.addEventListener('click', function (e) {
-      var cloned = document.getElementsByClassName('main-column')[0].cloneNode(true);
-      cloned.classList.add('clone');
-      var parent = document.getElementsByClassName('content')[0];
-      parent.appendChild(cloned);
-    });
     this.buildCategoryDivs();
     for (var i in this.drugsList) {
       var drug = this.drugsList[i];
