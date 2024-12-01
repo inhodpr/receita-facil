@@ -143,7 +143,7 @@ export default class DrugsForm {
 
   buildSpecialPrescriptionToggle = function () {
     var toggleDiv = document.createElement('div');
-    toggleDiv.className = 'specialPrescriptionToggle';
+    toggleDiv.className = 'specialPrescriptionToggle toggleInput';
     toggleDiv.innerHTML =
       "<label class='switch'>" +
       "<input type='checkbox' id='useSpecialPrescription'>" +
@@ -213,6 +213,7 @@ export default class DrugsForm {
     this.drugsForm.appendChild(collapseAll);
     this.drugsForm.appendChild(resetDrugs);
     this.buildSpecialPrescriptionToggle();
+    this.buildPrintToggle();
     this.buildRouteSelector();
     var printBtn = document.createElement('button');
     printBtn.innerText = 'Duplicar página';
@@ -265,4 +266,17 @@ export default class DrugsForm {
     });
     return selectedDrugs;
   }
+    buildPrintToggle = function () {
+    var toggleDiv = document.createElement('div');
+    toggleDiv.className = 'toggleInput'; 
+    
+    toggleDiv.innerHTML =`
+      <label class='switch'> 
+        <input type='checkbox' id='duplicatePrescriptionToggle'> 
+        <span class='slider round'></span> 
+      </label> 
+      <span class='duplicatePrescriptionLabel'>Duplicar Página</span>`;    
+    
+    this.drugsForm.appendChild(toggleDiv);
+  };
 }

@@ -46,13 +46,9 @@ body {
   margin-left: 2em;
 }
 div.specialPrescriptionToggle {
-  padding-bottom: 10px;  
+  margin-top: 10px;
 }
-div.specialPrescriptionToggle span.specialPrescriptionLabel {
-  position: relative;
-  top: 1em;
-  left: 4px;  
-}
+
 /* dynamic bottoms */
 #dynamic-bottom {
     font-size: smaller;
@@ -127,27 +123,53 @@ div.collapsed {
   color: #666;
   font-size: small;
 }
+.clone{
+  display: none;
+}
+
 
 @media print {
-  html, body {
-    size: A4;
+
+  @page{
+    margin: 5mm;
   }
-  .prescription-form {
-    min-height: 95%;
+
+
+  body:has(.clone) {
+    zoom: 0.7071;
   }
-  body { background: white; }
+  
+  .content:has(.clone){
+    display: flex;
+    gap: 15mm;
+  }
+
+  .clone{
+    display: block;
+  }
+
   .main-column {
-    width: 98%;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
     page-break-after: always;
     page-break-before: always;
     page-break-inside: avoid;
   }
+
+  .content:has(.clone) .main-column {
+    width: 202.5mm;
+  }
+  
   #drogas-form,
   .attribution,
   button,
   textarea,
   .icon-options,
+  .right-column,
   .group-by-route img.unchecked,
+  .nav,
   .instructions-for-doctors {
     display: none;
   }
