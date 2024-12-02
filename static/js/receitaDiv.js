@@ -22,7 +22,13 @@ export default class ReceitaDiv {
     this.drugCustomText = {};
     this.drugSupportIconSelectors = {};
     this.drugInstructions = {};
+    this.createPrintEvents();
   }
+
+  createPrintEvents = function () {
+    window.addEventListener('beforeprint', () => this.handleBeforePrint());
+    window.addEventListener('afterprint', () => this.handleAfterPrint());
+  } 
 
   handleIconClick = function (e) {
     this.handleClick(e);
@@ -56,6 +62,17 @@ export default class ReceitaDiv {
       this.prescriptionDiv = document.querySelector('#receita-simples');
       show(simplePrescription);
       hide(specialPrescription);
+    }
+    this.handlePrintButtonOnPrescriptionModeChange(enableSpecialPrescription);
+  }
+    handlePrintButtonOnPrescriptionModeChange = function (enableSpecialPrescription) {
+    const duplicatePrescriptionToggle = document.getElementById('duplicatePrescriptionToggle');
+    if(duplicatePrescriptionToggle==null)return;
+    
+    if(enableSpecialPrescription){
+      duplicatePrescriptionToggle.checked = true;
+    }else{
+      duplicatePrescriptionToggle.checked = false;
     }
   }
 
@@ -258,6 +275,41 @@ export default class ReceitaDiv {
         }
       }
     }
+  }
+
+  handleBeforePrint = function () {
+    const duplicatePrescriptionToggle = document.getElementById('duplicatePrescriptionToggle');
+    if(duplicatePrescriptionToggle.checked){
+      const cloned = document.getElementsByClassName('main-column')[0].cloneNode(true);
+      cloned.classList.add('clone');
+      cloned.id = 'clone'
+      const parent = document.getElementsByClassName('content')[0];
+      parent.appendChild(cloned);
+
+      this.setPrintStyles('A4 landscape');
+    }else{
+      this.setPrintStyles('A4 portrait');
+    }
+  }
+
+  handleAfterPrint = function () {
+    var clone = document.querySelector('#clone');
+
+    if (clone) {
+      clone.remove();
+    }
+  }
+  
+  setPrintStyles= function (size) {
+    let printStyles = document.querySelector('#print-styles');
+
+    if (!printStyles) {
+      printStyles = document.createElement('style');
+      printStyles.id = 'print-styles';
+      document.head.appendChild(printStyles);
+    }
+
+    printStyles.textContent = `@page { size: ${size}; }`;
   }
 }
 
