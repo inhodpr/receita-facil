@@ -14,7 +14,8 @@
     "babel-jest": "^29.7.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "jsdom": "^25.0.1"
+    "jsdom": "^25.0.1",
+    "text-encoding": "^0.7.0"
   },
   "babel": {
     "presets": [
@@ -25,6 +26,9 @@
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },
-    "testEnvironment": "jest-environment-jsdom"
+    "testEnvironment": "jest-environment-jsdom",
+    "setupFiles": [
+      "./jest.setup.js"
+    ]
   }
 }
