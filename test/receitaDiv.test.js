@@ -1,4 +1,6 @@
 import ReceitaDiv from '../static/js/receitaDiv';
+import { JSDOM } from 'jsdom';
+
 
 describe('Print Events', () => {
   let receitaDiv;
@@ -125,4 +127,114 @@ describe('Print Events', () => {
 
     expect(toggle.checked).toBe(false);
   });
+});
+
+describe('Prescription Action Buttons', () => {
+  let receitaDiv;
+  let mockApp;
+  let mockListener= jest.fn();
+
+  beforeEach(() => {
+    const dom = new JSDOM(`<!DOCTYPE html><html><body>
+      <div class="content">
+        <div class="main-column" id="main-column">
+        </div>
+      </div>
+      <form id="drogas-form"></form>
+    </body></html>`);
+    global.document = dom.window.document;
+    global.window = dom.window;
+
+    mockApp = {
+      drugsHandler: {
+        drugPosition: {
+          '10': 1,
+          '11': 2,
+          '12': 3
+        }
+      },
+      generatePrescription: jest.fn()
+    };
+
+    const checkbox10 = document.createElement('input');
+    checkbox10.type = 'checkbox';
+    checkbox10.id = 'drug_check_10';
+    checkbox10.checked = true;
+    document.body.appendChild(checkbox10);
+
+    const checkbox11 = document.createElement('input');
+    checkbox11.type = 'checkbox';
+    checkbox11.id = 'drug_check_11';
+    checkbox11.checked = true;
+    document.body.appendChild(checkbox11);
+    checkbox11.addEventListener('change', mockListener);
+
+    const checkbox12 = document.createElement('input');
+    checkbox12.type = 'checkbox';
+    checkbox12.id = 'drug_check_12';
+    checkbox12.checked = true;
+    document.body.appendChild(checkbox12);
+
+    receitaDiv = new ReceitaDiv(mockApp);
+
+    const prescriptionDiv = document.createElement('div');
+    prescriptionDiv.id = 'receita-simples';
+    document.body.appendChild(prescriptionDiv);
+    receitaDiv.prescriptionDiv = prescriptionDiv;
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('moveItemUp should swap positions correctly', () => {
+    receitaDiv.moveItemUp('11');
+    expect(mockApp.drugsHandler.drugPosition).toEqual({
+      '10': 2,
+      '11': 1,
+      '12': 3
+    });
+    expect(mockApp.generatePrescription).toHaveBeenCalled();
+  });
+
+  test('moveItemUp does nothing if the item is already at the top', () => {
+    receitaDiv.moveItemUp('10');
+    expect(mockApp.drugsHandler.drugPosition).toEqual({
+      '10': 1,
+      '11': 2,
+      '12': 3
+    });
+    expect(mockApp.generatePrescription).not.toHaveBeenCalled();
+  });
+
+  test('moveItemDown should swap positions correctly', () => {
+    receitaDiv.moveItemDown('11');
+    expect(mockApp.drugsHandler.drugPosition).toEqual({
+      '10': 1,
+      '11': 3,
+      '12': 2
+    });
+    expect(mockApp.generatePrescription).toHaveBeenCalled();
+  });
+
+  test('moveItemDown does nothing if the item is already at the bottom', () => {
+    receitaDiv.moveItemDown('12');
+
+    expect(mockApp.drugsHandler.drugPosition).toEqual({
+      '10': 1,
+      '11': 2,
+      '12': 3
+    });
+    expect(mockApp.generatePrescription).not.toHaveBeenCalled();
+  });
+
+  test('removeItem unchecks the checkbox, removes the drug, and calls generatePrescription', () => {
+    expect(document.getElementById('drug_check_11').checked).toBe(true);
+
+    receitaDiv.removeItem('11');
+
+    expect(document.getElementById('drug_check_11').checked).toBe(false);
+    expect(mockListener).toHaveBeenCalled();
+  });
+
 });

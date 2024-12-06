@@ -2,22 +2,23 @@ import IconSelect from './iconSelect.js';
 import { InstructionsForDoctors } from './instructions_for_doctors.js';
 
 class CustomizedTextHandler {
-  constructor(receitaDiv, drugPosition, printableTextDiv, drugTextArea) {
+  constructor(receitaDiv, drugIdx, printableTextDiv, drugTextArea) {
     this.receitaDiv = receitaDiv;
-    this.drugPosition = drugPosition;
+    this.drugPosition = drugIdx;
     this.printableTextDiv = printableTextDiv;
     this.drugTextArea = drugTextArea;
   }
   handleCustomizedText = function (e) {
     var newText = this.drugTextArea.value;
     this.printableTextDiv.innerText = newText;
-    this.receitaDiv.drugCustomText[this.drugPosition] = newText;
+    this.receitaDiv.drugCustomText[this.drugIdx] = newText;
   };
 }
 
 
 export default class ReceitaDiv {
   constructor(_app) {
+    this.app = _app
     this.prescriptionDiv = null;
     this.drugCustomText = {};
     this.drugSupportIconSelectors = {};
@@ -107,24 +108,100 @@ export default class ReceitaDiv {
     }
     return tmpl;
   }
+  
+  moveItemUp = function (drugIdx) {
+    const currentPosition = this.app.drugsHandler.drugPosition[drugIdx];
+
+    if (currentPosition <= 1) return; 
+    const targetDrugId = Object.keys(this.app.drugsHandler.drugPosition).find(id => this.app.drugsHandler.drugPosition[id] === currentPosition - 1);
+    if (targetDrugId) {
+        this.app.drugsHandler.drugPosition[drugIdx] = currentPosition - 1;
+        this.app.drugsHandler.drugPosition[targetDrugId] = currentPosition;
+        this.app.generatePrescription();
+    }
+  };
+
+  moveItemDown = function (drugIdx) {
+    const currentPosition = this.app.drugsHandler.drugPosition[drugIdx];
+    const maxPosition = Math.max(...Object.values(this.app.drugsHandler.drugPosition));
+    if (currentPosition >= maxPosition) return; 
+    const targetDrugId = Object.keys(this.app.drugsHandler.drugPosition).find(id => this.app.drugsHandler.drugPosition[id] === currentPosition + 1);
+    if (targetDrugId) {
+        this.app.drugsHandler.drugPosition[drugIdx] = currentPosition + 1;
+        this.app.drugsHandler.drugPosition[targetDrugId] = currentPosition;
+        this.app.generatePrescription();
+    }
+  };
+
+  removeItem = function (drugIdx) {
+    const checkbox = document.querySelector("#drug_check_"+drugIdx)
+    if (checkbox) {
+        checkbox.checked = false;
+        const event = new Event('change');
+        checkbox.dispatchEvent(event);
+    }
+  };
+
+  createActionsButtonsContainers = function (drugIdx){
+    const buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('drug-buttons');
+
+    const moveUpButton = document.createElement('button');
+    moveUpButton.innerText = '↑';
+    moveUpButton.title = 'Mover para Cima';
+    moveUpButton.classList.add('button');
+    moveUpButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        this.moveItemUp(drugIdx);
+    }.bind(this));
+
+    const moveDownButton = document.createElement('button');
+    moveDownButton.innerText = '↓';
+    moveDownButton.title = 'Mover para Baixo';
+    moveDownButton.classList.add('button');
+    moveDownButton.addEventListener('click', function(e){
+        e.preventDefault();
+        this.moveItemDown(drugIdx);
+    }.bind(this));
+
+    const removeButton = document.createElement('button');
+    removeButton.innerText = 'x';
+    removeButton.title = 'Remover';
+    removeButton.classList.add('button');
+    removeButton.addEventListener('click', function(e){
+        e.preventDefault();
+        this.removeItem(drugIdx);
+    }.bind(this));
+
+    buttonContainer.appendChild(moveUpButton);
+    buttonContainer.appendChild(moveDownButton);
+    buttonContainer.appendChild(removeButton);
+    return buttonContainer;
+  }
 
   addDrug = function (drugData, drugListNumber) {
     var position = drugData['position'];
     var drugId = drugData['id'];
-    if (!(position in this.drugCustomText)) {
-      this.drugCustomText[position] = this.getTextForDrug(drugData);
+    const drugIdx = drugData['idx']
+    if (!(drugIdx in this.drugCustomText)) {
+      this.drugCustomText[drugIdx] = this.getTextForDrug(drugData);
     }
-    var drugText = this.drugCustomText[position];
-    if (!(position in this.drugSupportIconSelectors)) {
+    var drugText = this.drugCustomText[drugIdx];
+    if (!(drugIdx in this.drugSupportIconSelectors)) {
       var newIconSelector = new IconSelect();
       if (drugData['support_icons'] && drugData['support_icons'] != '') {
         var iconUrls = drugData['support_icons'].split(',');
         newIconSelector.selectedUrls = iconUrls;
         newIconSelector.buildOptions();
       }
-      this.drugSupportIconSelectors[position] = newIconSelector;
+      this.drugSupportIconSelectors[drugIdx] = newIconSelector;
     }
-    var iconSelector = this.drugSupportIconSelectors[position];
+    var iconSelector = this.drugSupportIconSelectors[drugIdx];
+
+    var groupDiv = document.createElement('div');
+    groupDiv.classList.add('routeHeader');
+    groupDiv.innerText = drugData['route'] || 'Uso Oral';
+
     var listItem = document.createElement('li');
     var posSpan = document.createElement('span');
     var drugTextWrapper = document.createElement('div');
@@ -139,7 +216,7 @@ export default class ReceitaDiv {
     
     textarea.value = drugText;
     printableText.innerText = drugText;
-    var customTextHandler = new CustomizedTextHandler(this, position, printableText, textarea);
+    var customTextHandler = new CustomizedTextHandler(this, drugIdx, printableText, textarea);
     
     textarea.addEventListener('keyup', this.handleCustomizedText.bind(customTextHandler));
     drugTextWrapper.appendChild(textarea);
@@ -149,8 +226,10 @@ export default class ReceitaDiv {
     divFirstRow.appendChild(posSpan);
     divFirstRow.appendChild(drugTextWrapper);
     divFirstRow.appendChild(iconSelector.root);
+    listItem.appendChild(groupDiv);
     listItem.appendChild(divFirstRow);
-    
+
+    divFirstRow.appendChild(this.createActionsButtonsContainers(drugIdx))
     // Add image, if available.
     if ('image_url' in drugData && drugData['image_url'].length > 0) {
       var imgForPatient = document.createElement('img');
@@ -178,11 +257,11 @@ export default class ReceitaDiv {
     // Add instructions for doctors, if available.
     if ('instructions_for_doctors' in drugData) {
       var instructionsForDoctors = null;
-      if (drugId in this.drugInstructions) {
-        instructionsForDoctors = this.drugInstructions[drugId];
+      if (drugIdx in this.drugInstructions) {
+        instructionsForDoctors = this.drugInstructions[drugIdx];
       } else {
         instructionsForDoctors = new InstructionsForDoctors(drugData);
-        this.drugInstructions[drugId] = instructionsForDoctors;
+        this.drugInstructions[drugIdx] = instructionsForDoctors;
       }
       if (!instructionsForDoctors.isClosed()) {
         instructionsForDoctors.render(listItem);
@@ -211,6 +290,7 @@ export default class ReceitaDiv {
     listItem.appendChild(titleSpan);
     qrCode.src = url;
     listItem.appendChild(qrCode);
+    listItem.appendChild(this.createActionsButtonsContainers(drugData['idx']))
     this.prescriptionDiv.appendChild(listItem);
     return listItem;
   }
@@ -231,6 +311,7 @@ export default class ReceitaDiv {
       outerDiv.appendChild(titleSpan);
     }
     outerDiv.appendChild(qrCode);
+    outerDiv.appendChild(this.createActionsButtonsContainers(drugData['idx']))
     listItem.appendChild(outerDiv);
     this.prescriptionDiv.appendChild(listItem);
     return listItem;
@@ -238,42 +319,16 @@ export default class ReceitaDiv {
 
   renderDrugs = function (selectedDrugs) {
     this.prescriptionDiv.innerHTML = "";
-    this.prescriptionDiv.classList = "group-by-route";
-    var groupKey = function (drug) {
-      return [drug['route']];
-    };
-    var drugSets = {};
-    for (var idx in selectedDrugs) {
-      var selectedDrug = selectedDrugs[idx];
-      groupKey(selectedDrug).forEach(function (group) {
-        if (!(group in drugSets)) {
-          drugSets[group] = [];
-        }
-        drugSets[group].push(selectedDrug);
-      });
-    }
-    var sortedDrugSets = {};
-    for (var group in drugSets) {
-      sortedDrugSets[group] = drugSets[group].sort(function (a, b) { return a['position'] - b['position']; });
-    }
     var listNumber = 1;
-    for (var group in sortedDrugSets) {
-      var drugsInGroup = sortedDrugSets[group];
-      var groupDiv = document.createElement('div');
-      groupDiv.classList.add('routeHeader');
-      groupDiv.innerText = group;
-      this.prescriptionDiv.appendChild(groupDiv);
-      for (var idx in drugsInGroup) {
-        var drugData = drugsInGroup[idx];
-        if (drugData.is_link) {
-          this.addLink(drugData);
-        } else if (drugData.is_image) {
-          this.addImage(drugData);
+    for (const drug of selectedDrugs) {    
+        if (drug.is_link) {
+          this.addLink(drug);
+        } else if (drug.is_image) {
+          this.addImage(drug);
         } else {
-          this.addDrug(drugData, listNumber);
+          this.addDrug(drug, listNumber);
           listNumber = listNumber + 1;
         }
-      }
     }
   }
 
