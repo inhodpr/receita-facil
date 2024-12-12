@@ -7,15 +7,22 @@ class DrugSelectionHandler {
     var currentRoute = this.drugsForm.routeSelector.value;
     if (e.currentTarget.checked) {
       this.drugsForm.routeMap[this.drugId] = currentRoute;
-      this.drugsForm.drugPosition[this.drugId] = this.drugsForm.counter;
-      this.drugsForm.counter += 1;
+        this.drugsForm.drugPosition[this.drugId] = Object.keys(this.drugsForm.drugPosition).length + 1;
     }
     else {
-      this.drugsForm.routeMap[this.drugId] = null;
-      this.drugsForm.drugPosition[this.drugId] = null;
+        delete this.drugsForm.routeMap[this.drugId];
+        delete this.drugsForm.drugPosition[this.drugId];
+        this.reassignDrugPositions();
     }
     this.drugsForm.app.generatePrescription();
   }
+  reassignDrugPositions = function () {
+    let position = 1;
+    const sortedDrugIds = Object.keys(this.drugsForm.drugPosition).sort((a, b) => this.drugsForm.drugPosition[a] - this.drugsForm.drugPosition[b]);
+    sortedDrugIds.forEach(drugId => {
+        this.drugsForm.drugPosition[drugId] = position++;
+    });
+}
 }
 
 export default class DrugsForm {
@@ -27,7 +34,6 @@ export default class DrugsForm {
     this.categoryDivs = {};
     this.routeMap = {};
     this.routeSelector = null;
-    this.counter = 1;
     this.drugPosition = {};
   }
   createHandler = function (method, captures) {
@@ -41,17 +47,22 @@ export default class DrugsForm {
     this.handleDrugSelection(e);
   }
 
-  buildDrugField = function (idx, drugData, drugDiv) {
+  buildDrugField = function (drugData, drugDiv) {
     var drugDiv = document.createElement('div');
     var input_id = document.createElement('input');
+    const drugIdx = drugData['idx'];
     input_id.type = 'hidden';
     input_id.name = 'drug_id';
-    input_id.value = idx;
+    input_id.value =drugIdx;
     var input_check = document.createElement('input');
     input_check.type = 'checkbox';
+    input_check.id = `drug_check_${drugIdx}`;
+    input_check.value = drugIdx;
+    input_check.classList.add('drug-checkbox');
+
     this.drugSelections.push(input_check);
 
-    var drugSelectionHandler = new DrugSelectionHandler(this, idx);
+    var drugSelectionHandler = new DrugSelectionHandler(this, drugIdx);
     input_check.addEventListener('change', this.handleDrugSelection.bind(drugSelectionHandler));
     var span_drugname = document.createElement('span');
     span_drugname.innerText = drugData['name'];
@@ -211,42 +222,38 @@ export default class DrugsForm {
     this.buildPrintToggle();
     this.buildRouteSelector();
     this.buildCategoryDivs();
-    for (var i in this.drugsList) {
-      var drug = this.drugsList[i];
-      var drugDiv = this.buildDrugField(i, drug);
+    this.drugsList.forEach((drug, index) => {
+      drug.idx = index; 
+      var drugDiv = this.buildDrugField(drug);
       var category = drug['category'];
       var categoryDiv = this.categoryDivs[category];
       categoryDiv.childNodes[1].appendChild(drugDiv);
-    }
+    });
   }
   getDrugDataForCheckbox = function (checkbox) {
-    var parent = checkbox.parentElement;
-    var hiddenField = parent.firstElementChild;
-    var drugId = parseInt(hiddenField.value);
+    const drugId= checkbox.value
     var drugData = this.drugsList[drugId];
     // For some drugs, route is already set in the database. For others, we
     // will read from routeMap.
-    if (!('route' in drugData) &&
-      drugId in this.routeMap &&
-      this.routeMap[drugId] != null &&
-      this.routeMap[drugId] != "") {
-      drugData['route'] = this.routeMap[drugId];
+    if (!drugData.route && this.routeMap[drugId]) {
+      const route = this.routeMap[drugId];
+      if (route) drugData.route = route; 
     }
-    if (drugId in this.drugPosition &&
-      this.drugPosition[drugId] != null &&
-      this.drugPosition[drugId] > 0) {
-      drugData['position'] = this.drugPosition[drugId];
+    const position = this.drugPosition[drugId];
+    if (position > 0) {
+      drugData.position = position;
     }
+
     return drugData;
   }
-  getSelectedDrugs = function () {
+  getSelectedDrugs = function () {  
+    const checkboxList = document.querySelectorAll('.drug-checkbox:checked');
     var selectedDrugs = [];
-    for (var idx in this.drugSelections) {
-      var checkbox = this.drugSelections[idx];
-      if (checkbox.checked) {
-        selectedDrugs.push(this.getDrugDataForCheckbox(checkbox));
-      }
-    }
+    
+    checkboxList.forEach(checkbox => {
+      selectedDrugs.push(this.getDrugDataForCheckbox(checkbox));  
+    });
+
     selectedDrugs = selectedDrugs.sort(function (a, b) {
       return a['position'] - b['position'];
     });

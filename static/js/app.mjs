@@ -9,10 +9,10 @@ export default class ReceitaApp {
     }
 
     finishStart = function (drugsList) {
-        this.prescriptionHandler = new ReceitaDiv(this);
-        this.prescriptionHandler.switchPrescriptionMode(false);
         this.drugsHandler = new DrugsForm(this, drugsList);
         this.drugsHandler.buildForm();
+        this.prescriptionHandler = new ReceitaDiv(this);
+        this.prescriptionHandler.switchPrescriptionMode(false);
     }
 
     loadDrugsList = async function (callback) {

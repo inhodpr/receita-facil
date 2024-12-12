@@ -66,11 +66,38 @@ div.specialPrescriptionToggle {
 .receitaItem > * {
   margin: 0.5em 1em;
 }
+.receitaItem:not(:first-child) {
+  padding-top:5px;
+}
 .receitaItem .drug-info {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  position: relative;
 }
+
+.drug-buttons {
+  position: absolute;
+  top:-20px;
+  right: 0;
+  display: none;
+}
+
+.prescribed-image .drug-buttons {
+  top: 10px;
+}
+.externalLink .drug-buttons{
+  top: 5px;
+}
+.button {
+  cursor: pointer;
+}
+
+.receitaItem:hover .drug-buttons{
+  display: flex;
+  gap:5px;
+}
+
 .receitaItem:not(:first-of-type):not(.prescribed-image):before {
   content : "";
   position: absolute;
@@ -126,7 +153,6 @@ div.collapsed {
 .clone{
   display: none;
 }
-
 
 @media print {
 
