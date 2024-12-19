@@ -4,7 +4,7 @@ import { InstructionsForDoctors } from './instructions_for_doctors.js';
 class CustomizedTextHandler {
   constructor(receitaDiv, drugIdx, printableTextDiv, drugTextArea) {
     this.receitaDiv = receitaDiv;
-    this.drugPosition = drugIdx;
+    this.drugIdx = drugIdx;
     this.printableTextDiv = printableTextDiv;
     this.drugTextArea = drugTextArea;
   }
