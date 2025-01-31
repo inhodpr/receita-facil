@@ -1,0 +1,21 @@
+{
+    "collection_name": "indigena",
+    "input_folder": "images/indigena",
+    "output_folder": "output",
+    "images_max_heigh": 100,
+    "spacing": 10,
+    "images": {
+        "cafe_manha": "cafe_manha.png",
+        "almoco": "almoco.png",
+        "janta": "jantar.png",
+        "capsula": "capsula.png",
+        "capsula_2": "capsula_2.png",
+        "comprimido": "comprimido.png",
+        "comprimido_2": "comprimido_2.png",
+        "30min_tempo": "30min_tempo.png",
+        "homem_dormindo": "homem_dormindo.png",
+        "homem_acordando": "homem_acordando.png",
+        "mulher_dormindo": "mulher_dormindo.png",
+        "mulher_acordando": "mulher_acordando.png"
+    }
+}
