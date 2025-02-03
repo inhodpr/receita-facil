@@ -12,4 +12,4 @@ This is not an officially supported Google product.
    npm install
 3. Run the tests:
    ```bash
-   npm install
+   npm run test

@@ -13,6 +13,7 @@ class DrugSelectionHandler {
         delete this.drugsForm.routeMap[this.drugId];
         delete this.drugsForm.drugPosition[this.drugId];
         this.reassignDrugPositions();
+        this.drugsForm.app.handleDrugRemove(this.drugId)
     }
     this.drugsForm.app.generatePrescription();
   }
@@ -143,7 +144,8 @@ export default class DrugsForm {
     // Unselect all drugs.
     for (var idx in this.drugSelections) {
       this.drugSelections[idx].checked = false;
-    } 
+    }
+    this.app.resetPrescription(); 
     this.app.generatePrescription();
   }
 
