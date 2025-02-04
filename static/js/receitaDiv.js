@@ -44,7 +44,7 @@ export default class ReceitaDiv {
   }
 
   resetPrescription = function () {
-    this.drugCustomText= {};
+    this.drugCustomText = {};
     this.drugSupportIconSelectors= {};
   }
 

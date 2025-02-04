@@ -13,7 +13,7 @@ class DrugSelectionHandler {
         delete this.drugsForm.routeMap[this.drugId];
         delete this.drugsForm.drugPosition[this.drugId];
         this.reassignDrugPositions();
-        this.drugsForm.app.handleDrugRemove(this.drugId)
+        this.drugsForm.app.handleDrugRemove(this.drugId);
     }
     this.drugsForm.app.generatePrescription();
   }

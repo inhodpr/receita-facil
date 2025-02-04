@@ -69,7 +69,7 @@ export default class ReceitaApp {
     }
 
     handleDrugRemove = function (drugId) {
-        this.prescriptionHandler.handleDrugRemove(drugId)
+        this.prescriptionHandler.handleDrugRemove(drugId);
     }
 
     generatePrescription = function () {
