@@ -64,6 +64,14 @@ export default class ReceitaApp {
         }
     }
 
+    resetPrescription = function () {
+        this.prescriptionHandler.resetPrescription();
+    }
+
+    handleDrugRemove = function (drugId) {
+        this.prescriptionHandler.handleDrugRemove(drugId);
+    }
+
     generatePrescription = function () {
         var selectedDrugs = this.drugsHandler.getSelectedDrugs();
         this.prescriptionHandler.renderDrugs(selectedDrugs);

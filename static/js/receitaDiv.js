@@ -38,6 +38,16 @@ export default class ReceitaDiv {
     this.handleCustomizedText(e);
   }
 
+  handleDrugRemove = function (drugId) {
+    delete this.drugCustomText[drugId];
+    delete this.drugSupportIconSelectors[drugId];
+  }
+
+  resetPrescription = function () {
+    this.drugCustomText = {};
+    this.drugSupportIconSelectors= {};
+  }
+
   switchPrescriptionMode = function (enableSpecialPrescription) {
     if (this.prescriptionDiv) {
       this.prescriptionDiv.innerHTML = "";
