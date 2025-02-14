@@ -7,6 +7,7 @@ var removeAllChildren = function (parent) {
 var SUPPORT_ICON_DEFS = null;
 var INCLUDED_CATEGORIES = new Set([
   'Combinados',
+  'Combinados Povos Indígenas',
   'Via de uso',
   'Motivo do uso',
   'Horários',
