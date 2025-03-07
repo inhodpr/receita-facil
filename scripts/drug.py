@@ -74,7 +74,7 @@ def from_entity(entity: Entity) -> Drug:
         drug.brand = entity['brand']
     if 'category' in entity:
         drug.category = entity['category']
-    if 'categories_v2' in entity:
+    if 'categories_v2' in entity and entity['categories_v2']:
         drug.categories_v2 = [
             Category(c['top_level_group'], c['subgroup'])
             for c in entity['categories_v2']
