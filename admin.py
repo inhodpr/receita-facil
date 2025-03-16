@@ -167,6 +167,8 @@ def edit_drug(drug_id):
         )
     elif request.method == 'POST':
         new_drug, err = _parse_form_contents(request)
+        print(f"new_drug: {new_drug}")
+        print(f"err: {err}")
         if new_drug:
             app_storage.drugs().update_drug(new_drug)
             return redirect('/admin')

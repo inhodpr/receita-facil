@@ -5,23 +5,31 @@ export default class CategoriesV2Editor {
     }
 
     render = function(parent) {
-        this.current_categories.array.forEach(element => {
-            renderSingleCategory(element, parent);
+        this.current_categories.forEach(element => {
+            this.renderSingleCategory(element, parent);
         });
+        this.renderAddButton(parent);
     }
 
     renderSingleCategory = function(element, parent) {
         var idx = parent.childElementCount;
         var root = document.createElement('div');
-        var topLevelSelect = document.createElement('input');
+        var topLevelSelect = document.createElement('select');
         var subcategory = document.createElement('input');
         var labelTopLevelSelect = document.createElement('label');
         var labelSubcategory = document.createElement('label');
         topLevelSelect.id = "top-level-category-" + idx;
-        topLevelSelect.type = "select";
+        if ('top_level_group' in  element) {
+            topLevelSelect.value = element['top_level_group'];
+        }
+        labelTopLevelSelect.innerText = "Categoria principal"
         labelTopLevelSelect.for = topLevelSelect.id;
         subcategory.id = "subcategory-" + idx;
         subcategory.type = "text";
+        if ('subgroup' in element) {
+            subcategory.value = element['subgroup'];
+        }
+        labelSubcategory.innerText = "Subcategoria";
         labelSubcategory.for = subcategory.id;
 
         var options = [
@@ -48,9 +56,16 @@ export default class CategoriesV2Editor {
         options.forEach(option => {
             var optNode = document.createElement("option");
             optNode.innerText = option;
-            topLevelSelect.appendChild(option);
+            topLevelSelect.appendChild(optNode);
         });
         
+        var deleteButton = document.createElement('button');
+        deleteButton.innerText = "X";
+        deleteButton.addEventListener('click', (function (e) {
+            e.preventDefault();
+            root.remove();
+        }).bind(this));
+
         root.classList.add("single-categories-v2-container");
         var topLevelDiv = document.createElement('div');
         var subcategoryDiv = document.createElement('div');
@@ -60,6 +75,19 @@ export default class CategoriesV2Editor {
         subcategoryDiv.appendChild(subcategory);
         root.appendChild(topLevelDiv);
         root.appendChild(subcategoryDiv);
+        root.appendChild(deleteButton);
+        parent.appendChild(root);
         return root;
     }
+
+    renderAddButton = function(parent) {
+        var addButton = document.createElement('button');
+        addButton.addEventListener('click', (function (e) {
+            e.preventDefault();
+            this.renderSingleCategory({}, parent);
+        }).bind(this));
+        addButton.innerText = "+ Nova categoria";
+        parent.appendChild(addButton);
+    }
+
 }
