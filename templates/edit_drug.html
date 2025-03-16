@@ -21,8 +21,13 @@
   <link type="text/css" rel="stylesheet" href="/admin/static/css/admin.css">
   <link type="text/css" rel="stylesheet" href="/admin/static/css/icon_select.css">
   <script type="module">
+    import CategoriesV2Editor from '/admin/static/js/categoriesV2Editor.js';
     import IconSelect from '/admin/static/js/iconSelect.js';
+
+    var current_categories = JSON.parse('{{ categories_v2_json|safe }}');
+
     window.addEventListener('load', function() {
+      // Initialize support icons selector.
       var iconSelector = new IconSelect();
       var currentIconsStr = '{{ form.support_icons.data or "" }}';
       iconSelector.iconDefsUrl = '/admin/supportIconDefs';
@@ -31,6 +36,12 @@
       }
       iconSelector.start();
       document.getElementById('support-icons-div').appendChild(iconSelector.root);
+
+      // Initialize categories_v2 selector.
+      categoriesV2Editor = new CategoriesV2Editor(current_categories);
+      categoriesV2Editor.render(document.getElementById("categories-v2-root"));
+
+      // Set up form onsubmit events.
       document.getElementById('drug-form').addEventListener('submit', function () {
         var supportIconsField = document.getElementById('support_icons');
         supportIconsField.value = iconSelector.selectedUrls;
@@ -59,6 +70,7 @@
             {{ render_field(form.brand) }}
             {{ render_field(form.category) }}
             {{ render_field(form.subcategory) }}
+            <div id="categories-v2-root"></div>
             {{ render_field(form.instructions) }}
             {{ render_field(form.instructions_for_doctors) }}
             {{ render_field(form.route) }}

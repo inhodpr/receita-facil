@@ -5,6 +5,12 @@ from google.cloud.datastore.entity import Entity
 from google.appengine.api import datastore_types
 
 
+@dataclasses.dataclass(init=True, frozen=True)
+class Category:
+    top_level_group: str | None = None
+    subgroup: str | None = None
+
+
 @dataclasses.dataclass(init=False, frozen=False)
 class Drug:
     id: int
@@ -35,6 +41,9 @@ class Drug:
     qr_code_url: str = None
     qr_code_subtitle: str = None
 
+    # New categories for new layout.
+    categories_v2: list[Category] = dataclasses.field(default_factory=list)
+
 
 def to_entity(drug: Drug, client: datastore.Client) -> Entity:
     entity = Entity(key=client.key('drug', drug.id))
@@ -44,17 +53,16 @@ def to_entity(drug: Drug, client: datastore.Client) -> Entity:
     # better for long text and is never indexed.
     curr_instructions_for_doctors = entity['instructions_for_doctors']
     entity['instructions_for_doctors'] = datastore_types.Text(curr_instructions_for_doctors)
+    
     entity.exclude_from_indexes.add('instructions_for_doctors')
+    entity.exclude_from_indexes.add('categories_v2')
+    
     return entity
 
 
 def from_entity(entity: Entity) -> Drug:
     drug = Drug()
-    if 'id' in entity:
-        drug.id = entity['id']
-    else:
-        drug.id = entity.key.id
-
+    drug.id = entity.key.id
     drug.name = entity['name']
     if 'quantity' in entity:
         drug.quantity = entity['quantity']
@@ -66,6 +74,13 @@ def from_entity(entity: Entity) -> Drug:
         drug.brand = entity['brand']
     if 'category' in entity:
         drug.category = entity['category']
+    if 'categories_v2' in entity and entity['categories_v2']:
+        drug.categories_v2 = [
+            Category(c['top_level_group'], c['subgroup'])
+            for c in entity['categories_v2']
+        ]
+    else:
+        drug.categories_v2 = []
     if 'subcategory' in entity:
         drug.subcategory = entity['subcategory']
     if 'support_icons' in entity:
@@ -97,6 +112,10 @@ def from_json(obj: Any) -> Drug:
         drug.brand = obj['brand']
     if 'category' in obj:
         drug.category = obj['category']
+    if 'categories_v2' in obj:
+        drug.categories_v2 = obj['categories_v2']
+    else:
+        drug.categories_v2 = []
     if 'subcategory' in obj:
         drug.subcategory = obj['subcategory']
     if 'support_icons' in obj:
