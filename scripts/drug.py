@@ -7,8 +7,8 @@ from google.appengine.api import datastore_types
 
 @dataclasses.dataclass(init=True, frozen=True)
 class Category:
-    top_level_group: str | None = None
-    subgroup: str | None = None
+    top_level_group: str = None
+    subgroup: str = None
 
 
 @dataclasses.dataclass(init=False, frozen=False)
