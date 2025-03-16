@@ -154,12 +154,16 @@ def edit_drug(drug_id):
         return redirect('/admin')
     old_drug = app_storage.drugs().find_drug_by_id(drug_id)
     form = DrugForm(data=dataclasses.asdict(old_drug))
+    categories_v2 = json.dumps([
+        dataclasses.asdict(c) for c in old_drug.categories_v2
+    ])
     if request.method == 'GET':
         return render_template(
             "edit_drug.html",
             user_data=claims,
             error_message=error_message,
-            form=form
+            form=form,
+            categories_v2_json=categories_v2,
         )
     elif request.method == 'POST':
         new_drug, err = _parse_form_contents(request)
@@ -219,4 +223,5 @@ def supportIcons():
 
 
 if __name__ == "__main__":
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/home/inhodpr/receita-facil/hellodpiresworld-df31830236b5.json'
     app.run(host="127.0.0.1", port=8080, debug=True)
