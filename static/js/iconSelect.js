@@ -15,15 +15,17 @@ var INCLUDED_CATEGORIES = new Set([
 ]);
 
 export default class IconSelect {
-  constructor() {
+  constructor(iconsUrl = '/supportIcons') {
     this.root = null;
     this.selectedUrls = [];
     this.selectedDiv = null;
     this.btnShowOptions = null;
     this.divOptions = null;
-    this.iconDefsUrl = '/supportIcons';
-    this.build();
-    this.start();
+    this.iconDefsUrl = iconsUrl;
+    if (this.iconDefsUrl != null) {
+      this.build();
+      this.start();
+    }
   }
 
   start = function() {

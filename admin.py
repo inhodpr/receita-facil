@@ -31,6 +31,7 @@ class DrugForm(Form):
     quantity = StringField('Quantity')
     category = StringField('Category')
     subcategory = StringField('Subcategory')
+    categories_v2 = HiddenField('Categories V2')
     instructions = TextAreaField('Instructions')
     instructions_for_doctors = TextAreaField('Instructions for doctors')
     support_icons = HiddenField('Support icons')
@@ -141,6 +142,11 @@ def _parse_form_contents(request) -> (drug.Drug, str):
     new_drug.qr_code_subtitle = form.qr_code_subtitle.data
     new_drug.is_image = form.is_image.data
     new_drug.is_link = form.is_link.data
+    parsed_categories_v2 = json.loads(form.categories_v2.data)
+    new_drug.categories_v2 = [
+        drug.Category(c['top_level_group'], c['subgroup'])
+        for c in parsed_categories_v2
+    ]
     return new_drug, None
 
 
@@ -171,12 +177,12 @@ def edit_drug(drug_id):
             app_storage.drugs().update_drug(new_drug)
             return redirect('/admin')
         else:
-            print(f'error msg: {err}')
             return render_template(
                 "edit_drug.html",
                 user_data=claims,
+                form=form,
+                categories_v2_json=categories_v2,
                 error_message=error_message + err,
-                form=form
             )
 
 @app.route("/admin/drug/add", methods=['GET', 'POST'])
@@ -197,12 +203,11 @@ def add_drug():
             "edit_drug.html",
             user_data=claims,
             error_message=error_message,
-            form=form
+            form=form,
+            categories_v2_json='[]',
         )
     elif request.method == 'POST':
         new_drug, err = _parse_form_contents(request)
-        print(f"new_drug: {new_drug}")
-        print(f"err: {err}")
         if new_drug:
             app_storage.drugs().update_drug(new_drug)
             return redirect('/admin')
@@ -211,8 +216,9 @@ def add_drug():
             return render_template(
                 "edit_drug.html",
                 user_data=claims,
+                form=form,
+                categories_v2_json='[]',
                 error_message=error_message,
-                form=form
             )
 
 
@@ -223,5 +229,4 @@ def supportIcons():
 
 
 if __name__ == "__main__":
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/home/inhodpr/receita-facil/hellodpiresworld-df31830236b5.json'
     app.run(host="127.0.0.1", port=8080, debug=True)

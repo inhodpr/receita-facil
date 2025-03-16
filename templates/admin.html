@@ -29,37 +29,51 @@
       Logado como <strong>{{ user_data }}</strong>
       <a href="/admin/logout">Sign Out</a>
     </div>
-    <div>
-      <a href="/admin/drug/add">Adicionar novo tratamento</a>
-    </div>
     {% endif %}
   </div>
   <div id="content">
     {% if not user_data %}
     {% from "macros.html" import render_field %}
     <form method="POST" action="/admin">
-        <fieldset>
-            {{ render_field(form.email) }}
-            {{ render_field(form.password) }}
-            {% if error_message %}
-            <p class="login-errors">{{ error_message }}</p>
-            {% endif %}
-            
-            <input type="submit" value="Sign in" />
-          </fieldset>
+      <fieldset>
+        {{ render_field(form.email) }}
+        {{ render_field(form.password) }}
+        {% if error_message %}
+        <p class="login-errors">{{ error_message }}</p>
+        {% endif %}
+        
+        <input type="submit" value="Sign in" />
+      </fieldset>
     </form>
     {% endif %}
-
-
+    
+    
     {% if user_data and drugs %}
-    <ul>
+    <div id="add-drug-div">
+      <a href="/admin/drug/add">
+        <button>Adicionar novo tratamento</button>
+      </a>
+    </div>
+    <ul id="drug-list">
+      <li class="drug-header">
+        <div class="drug-property name">Nome</div>
+        <div class="drug-property quantity">Quantidade</div>
+        <div class="drug-property category">Categoria</div>
+      </li>
       {% for drug in drugs %}
       <li class="drug">
-        <a href="/admin/drug/edit/{{ drug['id'] }}">
-          <div>
-            <span class="name">{{ drug.name }}</span>
-            <span class="quantity">{{ drug.quantity }}</span>
-            <span class="category">{{ drug.category }}</span>
+        <a class="row-link" href="/admin/drug/edit/{{ drug['id'] }}">
+          <div class="drug-property name">{{ drug.name }}</div>
+          <div class="drug-property quantity">{{ drug.quantity }}</div>
+          <div class="drug-property category">
+            {% for category_v2 in drug.categories_v2 %}
+              <div>
+                {{ category_v2.top_level_group }}
+                {% if category_v2.subgroup %}
+                  > {{ category_v2.subgroup }}
+                {% endif %}
+              </div>            
+            {% endfor %}
           </div>
         </a>
       </li>

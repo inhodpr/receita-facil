@@ -21,30 +21,37 @@
   <link type="text/css" rel="stylesheet" href="/admin/static/css/admin.css">
   <link type="text/css" rel="stylesheet" href="/admin/static/css/icon_select.css">
   <script type="module">
-    import CategoriesV2Editor from '/admin/static/js/categoriesV2Editor.js';
     import IconSelect from '/admin/static/js/iconSelect.js';
+    import CategoriesV2Editor from '/admin/static/js/categoriesV2Editor.js';
 
     var current_categories = JSON.parse('{{ categories_v2_json|safe }}');
 
     window.addEventListener('load', function() {
       // Initialize support icons selector.
-      var iconSelector = new IconSelect();
+      var iconSelector = new IconSelect('/admin/supportIconDefs');
       var currentIconsStr = '{{ form.support_icons.data or "" }}';
-      iconSelector.iconDefsUrl = '/admin/supportIconDefs';
       if (currentIconsStr != '') {
         iconSelector.selectedUrls = currentIconsStr.split(',');
       }
+      iconSelector.build();
       iconSelector.start();
       document.getElementById('support-icons-div').appendChild(iconSelector.root);
 
       // Initialize categories_v2 selector.
-      categoriesV2Editor = new CategoriesV2Editor(current_categories);
-      categoriesV2Editor.render(document.getElementById("categories-v2-root"));
+      var categories_v2_root = document.getElementById("categories-v2-root");
+      var categoriesV2Editor = new CategoriesV2Editor(
+        current_categories,
+        categories_v2_root
+      );
+      categoriesV2Editor.render();
 
       // Set up form onsubmit events.
       document.getElementById('drug-form').addEventListener('submit', function () {
         var supportIconsField = document.getElementById('support_icons');
         supportIconsField.value = iconSelector.selectedUrls;
+
+        var categoriesV2Field = document.getElementById('categories_v2');
+        categoriesV2Field.value = categoriesV2Editor.value();
       });
     });
   </script>
@@ -63,26 +70,43 @@
   <div id="content">
     {% from "macros.html" import render_field %}
     <form id='drug-form' method="POST">
+      <fieldset>
+        {{ render_field(form.name) }}
+        {{ render_field(form.quantity) }}
+        {{ render_field(form.brand) }}
+        
         <fieldset>
-            {{ render_field(form.id) }}
-            {{ render_field(form.name) }}
-            {{ render_field(form.quantity) }}
-            {{ render_field(form.brand) }}
-            {{ render_field(form.category) }}
-            {{ render_field(form.subcategory) }}
-            <div id="categories-v2-root"></div>
-            {{ render_field(form.instructions) }}
-            {{ render_field(form.instructions_for_doctors) }}
-            {{ render_field(form.route) }}
-            {{ render_field(form.image_url) }}
-            {{ render_field(form.qr_code_url) }}
-            {{ render_field(form.qr_code_subtitle) }}
-            {{ render_field(form.is_image) }}
-            {{ render_field(form.is_link) }}
-            {{ render_field(form.support_icons) }}
-            <div id="support-icons-div"></div>
-            <input type="submit" value="Update" />
-          </fieldset>
+          <legend>Categorias V2</legend>
+          <div id="categories-v2-root"></div>
+        </fieldset>
+
+        {{ render_field(form.instructions) }}
+        {{ render_field(form.instructions_for_doctors) }}
+        {{ render_field(form.route) }}
+        {{ render_field(form.image_url) }}
+        {{ render_field(form.qr_code_url) }}
+        {{ render_field(form.qr_code_subtitle) }}
+        {{ render_field(form.is_image) }}
+        {{ render_field(form.is_link) }}
+        
+        {# Parent node for support icons selector: #}
+        <fieldset>
+          <legend>Icones de Suporte</legend>
+          <div id="support-icons-div"></div>
+        </fieldset>
+        
+        <fieldset>
+          <legend>Categorias V1 [Não utilizar]</legend>
+          {{ render_field(form.category) }}
+          {{ render_field(form.subcategory) }}
+        </fieldset>
+
+        {# hidden fields: #}
+        {{ render_field(form.id) }}
+        <input type="hidden" id="support_icons" name="support_icons" value="">
+        <input type="hidden" id="categories_v2" name="categories_v2" value="">
+        <input type="submit" value="Update" />
+      </fieldset>
     </form>
   </div>
 </body>

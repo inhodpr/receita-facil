@@ -1,4 +1,99 @@
-#drug-form textarea {
-    width: 500px;
-    height: 60px;
+#header {
+    background-color: rgb(234, 234, 234);
+    padding: 10px;
 }
+#content {
+    margin: 1em auto;
+    padding: 10px;
+    width: 80%;
+}
+
+/*
+ * Grid style for drug list.
+ */
+#drug-list {
+    display: grid;
+    grid-template-columns: 1fr; /* One column for the rows */
+    padding: 0;
+    margin: 0;
+}
+#drug-list .drug {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: white;
+}
+#drug-list .drug-header,
+#drug-list .drug .row-link {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 5px;
+    text-decoration: none;
+    color: inherit;
+}
+#drug-list .drug-header {
+    font-weight: bold;
+}
+.drug-property {
+  padding: 10px;
+}
+
+/*
+ * Drug form, for adding/editing drugs.
+ */
+#drug-form {
+    width: 80%;
+    margin: 1em auto;
+}
+#drug-form {
+    .field {
+        margin: 1em;
+        padding: 0.5em;  
+    }
+    .field:hover {
+        background-color: beige;
+    }
+    .field label {
+        min-width: 300px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .single-categories-v2-container {
+        display: flex;
+        flex-direction: row;
+    }
+    textarea {
+        width: 500px;
+        height: 60px;
+    }
+    input[type="text"] {
+        width: 500px;
+    }
+}
+/*
+ * Colors
+ */
+body { background-color: #89FBDC; }  /* aquamarine */
+#header {
+    background-color: #344966;  /* Indigo Dye */
+    color: white;
+} 
+#content, #drug-form {
+    background-color: white;
+}
+#drug-list {
+    .drug-header {
+        background-color: #344966;  /* Indigo Dye */
+        color: white;
+    }
+    .drug:nth-child(odd) {
+        background-color: white;
+    }
+    .drug:nth-child(even) {
+        background-color: #89FBDC;
+    }
+    .drug:hover {
+        background-color: #FED8DD; /* Hover effect for the entire row */
+    }
+}
+  
