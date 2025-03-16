@@ -29,29 +29,31 @@
       Logado como <strong>{{ user_data }}</strong>
       <a href="/admin/logout">Sign Out</a>
     </div>
-    <div>
-      <a href="/admin/drug/add">Adicionar novo tratamento</a>
-    </div>
     {% endif %}
   </div>
   <div id="content">
     {% if not user_data %}
     {% from "macros.html" import render_field %}
     <form method="POST" action="/admin">
-        <fieldset>
-            {{ render_field(form.email) }}
-            {{ render_field(form.password) }}
-            {% if error_message %}
-            <p class="login-errors">{{ error_message }}</p>
-            {% endif %}
-            
-            <input type="submit" value="Sign in" />
-          </fieldset>
+      <fieldset>
+        {{ render_field(form.email) }}
+        {{ render_field(form.password) }}
+        {% if error_message %}
+        <p class="login-errors">{{ error_message }}</p>
+        {% endif %}
+        
+        <input type="submit" value="Sign in" />
+      </fieldset>
     </form>
     {% endif %}
-
-
+    
+    
     {% if user_data and drugs %}
+    <div id="add-drug-div">
+      <a href="/admin/drug/add">
+        <button>Adicionar novo tratamento</button>
+      </a>
+    </div>
     <ul>
       {% for drug in drugs %}
       <li class="drug">

@@ -1,4 +1,34 @@
+#header {
+    background-color: rgb(234, 234, 234);
+    padding: 10px;
+}
+#content {
+    margin: 1em auto;
+    width: 80%;
+}
+#drug-form {
+    width: 80%;
+    margin: 1em auto;
+}
 #drug-form textarea {
     width: 500px;
     height: 60px;
+}
+#drug-form {
+    .field {
+        margin: 1em;
+        padding: 0.5em;  
+    }
+    .field:hover {
+        background-color: beige;
+    }
+    .field label {
+        min-width: 300px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .single-categories-v2-container {
+        display: flex;
+        flex-direction: row;
+    }
 }
