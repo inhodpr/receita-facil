@@ -4,3 +4,5 @@ Flask-WTF
 google-cloud-datastore
 google-cloud-storage
 gunicorn
+pillow>=10.0.1 # not directly required, pinned by Snyk to avoid a vulnerability
+werkzeug>=2.3.8 # not directly required, pinned by Snyk to avoid a vulnerability
