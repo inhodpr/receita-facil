@@ -1,0 +1,43 @@
+{
+    "combinations": [
+        {"images": ["cafe_manha", "capsula"], "output_name": "cafe_manha_01_capsula_antes"},
+        {"images": ["capsula", "cafe_manha"], "output_name": "cafe_manha_01_capsula_depois"},
+        {"images": ["cafe_manha", "30min_tempo", "capsula"], "output_name": "cafe_manha_01_capsula_30min_antes"},
+        {"images": ["capsula", "30min_tempo", "cafe_manha"], "output_name": "cafe_manha_01_capsula_30min_depois"},
+
+        {"images": ["cafe_manha", "capsula_2"], "output_name": "cafe_manha_02_capsula_antes"},
+        {"images": ["capsula_2", "cafe_manha"], "output_name": "cafe_manha_02_capsula_depois"},
+        {"images": ["cafe_manha", "30min_tempo", "capsula_2"], "output_name": "cafe_manha_02_capsula_30min_antes"},
+        {"images": ["capsula_2", "30min_tempo", "cafe_manha"], "output_name": "cafe_manha_02_capsula_30min_depois"},
+
+        {"images": ["cafe_manha", "comprimido"], "output_name": "cafe_manha_01_comprimido_antes"},
+        {"images": ["comprimido", "cafe_manha"], "output_name": "cafe_manha_01_comprimido_depois"},
+        {"images": ["cafe_manha", "30min_tempo", "comprimido"], "output_name": "cafe_manha_01_comprimido_30min_antes"},
+        {"images": ["comprimido", "30min_tempo", "cafe_manha"], "output_name": "cafe_manha_01_comprimido_30min_depois"},
+
+        {"images": ["cafe_manha", "comprimido_2"], "output_name": "cafe_manha_02_comprimido_antes"},
+        {"images": ["comprimido_2", "cafe_manha"], "output_name": "cafe_manha_02_comprimido_depois"},
+        {"images": ["cafe_manha", "30min_tempo", "comprimido_2"], "output_name": "cafe_manha_02_comprimido_30min_antes"},
+        {"images": ["comprimido_2", "30min_tempo", "cafe_manha"], "output_name": "cafe_manha_02_comprimido_30min_depois"},
+
+        {"images": ["homem_dormindo", "capsula"], "output_name": "homem_dormindo_capsula"},
+        {"images": ["homem_dormindo", "capsula_2"], "output_name": "homem_dormindo_capsula_2"},
+        {"images": ["homem_dormindo", "comprimido"], "output_name": "homem_dormindo_comprimido"},
+        {"images": ["homem_dormindo", "comprimido_2"], "output_name": "homem_dormindo_comprimido_2"},
+
+        {"images": ["homem_acordando", "capsula"], "output_name": "homem_acordando_capsula"},
+        {"images": ["homem_acordando", "capsula_2"], "output_name": "homem_acordando_capsula_2"},
+        {"images": ["homem_acordando", "comprimido"], "output_name": "homem_acordando_comprimido"},
+        {"images": ["homem_acordando", "comprimido_2"], "output_name": "homem_acordando_comprimido_2"},
+
+        {"images": ["mulher_dormindo", "capsula"], "output_name": "mulher_dormindo_capsula"},
+        {"images": ["mulher_dormindo", "capsula_2"], "output_name": "mulher_dormindo_capsula_2"},
+        {"images": ["mulher_dormindo", "comprimido"], "output_name": "mulher_dormindo_comprimido"},
+        {"images": ["mulher_dormindo", "comprimido_2"], "output_name": "mulher_dormindo_comprimido_2"},
+
+        {"images": ["mulher_acordando", "capsula"], "output_name": "mulher_acordando_capsula"},
+        {"images": ["mulher_acordando", "capsula_2"], "output_name": "mulher_acordando_capsula_2"},
+        {"images": ["mulher_acordando", "comprimido"], "output_name": "mulher_acordando_comprimido"},
+        {"images": ["mulher_acordando", "comprimido_2"], "output_name": "mulher_acordando_comprimido_2"}
+    ]
+}
