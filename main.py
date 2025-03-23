@@ -21,10 +21,12 @@ from scripts import knowledge_base, process_drugs
 
 from collections import namedtuple
 from flask import Flask, render_template, request, redirect, Response
+from flask_cors import CORS
 
 
 app = Flask(__name__)
 app_storage = storage_defs.Storage()
+CORS(app)
 
 
 ALLOWED_EXTENSIONS = ['txt']
