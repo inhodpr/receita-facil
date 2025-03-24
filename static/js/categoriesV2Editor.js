@@ -47,6 +47,8 @@ class SingleCategoryEditor {
             "Saúde mental",
             "Sintomáticos",
             "Sintomáticos injetáveis",
+            "Imagens",
+            "Videos",
         ];
         options.forEach(option => {
             var optNode = document.createElement("option");
