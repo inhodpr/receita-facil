@@ -1,7 +1,9 @@
+import enum
+
 from scripts.drug import Drug
 from scripts.user import User
 
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 class DrugsStorage:
     def fetch_drugs(self) -> List[Drug]:
@@ -29,7 +31,13 @@ class FootnotesStorage:
 
 
 class SupportIconsStorage:
-    def fetch_support_icons_definitions(self) -> Dict[str, List[str]]:
+    class Version(enum.IntEnum):
+        V1 = 1
+        V2 = 2
+    
+    def fetch_support_icons_definitions(
+        self,
+        version: Optional[Version] = None) -> Dict[str, List[str]]:
         raise NotImplementedError()
 
 

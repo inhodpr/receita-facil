@@ -165,7 +165,15 @@ def fetch_bottoms():
 
 @app.route('/supportIcons')
 def support_icons_defs():
-    support_icons_defs = app_storage.support_icons().fetch_support_icons_definitions()
+    icon_storage = app_storage.support_icons()
+    requested_version = request.args.get('version', None)
+    if requested_version and requested_version in icon_storage.Version.__members__:
+        version = icon_storage.Version[requested_version]
+    else:
+        version = icon_storage.Version.V1
+    support_icons_defs = icon_storage.fetch_support_icons_definitions(
+        version=version
+    )
     contents = json.dumps(support_icons_defs)
     return Response(contents, mimetype='application/json')
 
