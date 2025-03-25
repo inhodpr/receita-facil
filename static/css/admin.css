@@ -66,6 +66,14 @@
         width: 500px;
         height: 60px;
     }
+    details {
+        margin: 1em 0;
+    }
+    pre {
+        display: inline;
+        padding: 0 3px;
+        background: lightgray;
+    }
     input[type="text"] {
         width: 500px;
     }
