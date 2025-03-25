@@ -99,22 +99,17 @@ def _process_upload_contents(file):
     parsed_drugs = parser.process_drugs(file)
     app_storage.drugs().update_drug_definitions(parsed_drugs)
 
-
 @app.route('/drugs')
 def fetch_drugs():
-    class EnhancedJSONEncoder(json.JSONEncoder):
-        def default(self, o):
-            if dataclasses.is_dataclass(o):
-                asdict = dataclasses.asdict(o)
-                # clean up drug data empty fields before json-fying
-                empty_fields = [k for k, v in asdict.items() if not v]
-                for k in empty_fields:
-                    del asdict[k]
-                return asdict
-            return super().default(o)
+    try:
+        with open('mock/drugs.json', 'r') as file:
+            drugs = json.load(file)
+    except FileNotFoundError:
+        return Response('Mock file not found', status=404, mimetype='application/json')
+    except json.JSONDecodeError:
+        return Response('Invalid JSON in mock file', status=500, mimetype='application/json')
     
-    drugs = app_storage.drugs().fetch_drugs()
-    contents = json.dumps(drugs, cls=EnhancedJSONEncoder)
+    contents = json.dumps(drugs)
     return Response(contents, mimetype='application/json')
 
 
